@@ -122,16 +122,15 @@ public abstract class Equipment {
         if (!(o instanceof Equipment)) return false;
         else {
             Equipment e = (Equipment) o;
-            if (!e.getReference().equals(this.getReference())) return false;
-            if (!e.getBrand().equals(this.getBrand())) return false;
-            if (!e.getName().equals(this.getName())) return false;
-            if (!e.getPurchaseDate().equals(this.getPurchaseDate())) return false;
-            if (e.getPurchasePrice() != this.getPurchasePrice()) return false;
-            if (!e.getCondition().equals(this.getCondition())) return false;
-            if (e.isBorrowed() != this.isBorrowed()) return false;
-            if (!e.getInventory().equals(this.getInventory())) return false;
 
-            return true;
+            return e.reference.equals(this.reference) &&
+                    e.brand.equals(this.brand) &&
+                    e.name.equals(this.name) &&
+                    e.purchaseDate.equals(this.purchaseDate) &&
+                    e.purchasePrice == this.purchasePrice &&
+                    e.condition == this.condition &&
+                    e.isBorrowed == this.isBorrowed &&
+                    e.inventory.equals(this.inventory);
         }
     }
 }
