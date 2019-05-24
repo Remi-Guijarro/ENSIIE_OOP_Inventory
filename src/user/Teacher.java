@@ -21,7 +21,7 @@ public class Teacher extends People implements Borrower {
 
     }
 
-    public void borrow(Stock<Equipement> equipements, Date borrowDate, Date returnDate, String reason) {
+    public void borrow(AbstractStock<Equipement> equipements, Date borrowDate, Date returnDate, String reason) {
 
     }
     */

@@ -1,46 +1,44 @@
-package inventory;
+package inventory.Stocks;
 
-import java.util.Collections;
+import inventory.Equipment;
+
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-public class Stock {
+public abstract class AbstractStock {
     private ArrayList<Equipment> equipments;
 
-    public Stock() {
+    public AbstractStock() {
         equipments = new ArrayList<>();
     }
 
-    public Stock(ArrayList<Equipment> equipments) { this.equipments = equipments; }
-
     public ArrayList<Equipment> getEquipments() { return equipments; }
 
-    public void addDevice(Equipment device) {
-        equipments.add(device);
+    public void addEquipment(Equipment equipment) {
+        equipments.add(equipment);
     }
 
-    public void addDevices(ArrayList<Equipment> devices) {
-        this.equipments.addAll(devices);
+    public void addEquipments(ArrayList<Equipment> equipments) {
+        this.equipments.addAll(equipments);
     }
 
-    public int countDevices() {
+    public int countEquipments() {
         return equipments.size();
     }
 
-    public int countDevices(Class<? extends Equipment> deviceClass) {
+    public int countEquipments(Class<? extends Equipment> equipmentClass) {
         int count = 0;
         for(Equipment e : equipments) {
-            if(deviceClass == e.getClass()) {
+            if(equipmentClass == e.getClass()) {
                 count++;
             }
         }
         return count;
     }
 
-    public Equipment pop(Class<? extends Equipment> deviceClass) throws IllegalArgumentException {
+    public Equipment pop(Class<? extends Equipment> equipmentClass) throws IllegalArgumentException {
         int index = 0;
         for(Equipment e : equipments) {
-            if(deviceClass == e.getClass()) {
+            if(equipmentClass == e.getClass()) {
                 return equipments.remove(index);
             }
             index++;
@@ -59,15 +57,9 @@ public class Stock {
         throw new IllegalArgumentException("No equipment with this reference in stock.");
     }
 
-    public Stock getSubStock(Class<? extends Equipment> deviceClass) {
-        return new Stock(
-                (ArrayList<Equipment>) equipments.stream().filter(deviceClass::isInstance).collect(Collectors.toList())
-        );
-    }
-
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Stock{");
+        final StringBuilder sb = new StringBuilder("AbstractStock{");
         sb.append("equipments=").append(equipments);
         sb.append('}');
         return sb.toString();

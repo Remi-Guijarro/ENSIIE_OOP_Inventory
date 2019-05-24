@@ -1,5 +1,6 @@
 package inventory;
 
+import inventory.Stocks.AbstractStock;
 import user.Borrower;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ public abstract class Equipment {
     private Condition condition = Condition.GOOD;
     private Borrower borrower = null;
     private boolean isBorrowed = false;
-    private Stock inventory;
+    private AbstractStock inventory;
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice)
             throws IllegalArgumentException {
@@ -103,7 +104,7 @@ public abstract class Equipment {
         return purchasePrice;
     }
 
-    public Stock getInventory() {
+    public AbstractStock getInventory() {
         return inventory;
     }
 
