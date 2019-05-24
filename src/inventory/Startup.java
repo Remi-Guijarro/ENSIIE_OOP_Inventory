@@ -1,6 +1,11 @@
 package inventory;
 
-public class Startup /*implements Borrower*/ {
+import user.Borrower;
+
+import java.util.Date;
+import java.util.List;
+
+public class Startup implements Borrower {
     private final String id;
     private String name;
     private final Incubator incubator;
@@ -25,5 +30,21 @@ public class Startup /*implements Borrower*/ {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void borrow(Equipment equipment, Date borrowDate, Date returnDate, String reason) {
+        //TODO
+    }
+
+    @Override
+    public List<Equipment> getBorrowedEquipement() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public void returnEquipement(Equipment equipment) {
+        //TODO
     }
 }
