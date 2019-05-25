@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class InventoryManager {
-    private static InventoryManager ourInstance = new InventoryManager();
-    private Inventory inventory;
+public final class InventoryManager {
+    private final static InventoryManager ourInstance = new InventoryManager();
+    private final Inventory inventory;
 
     public static InventoryManager getInstance() {
         return ourInstance;
