@@ -9,12 +9,14 @@ import java.util.Date;
 public class Tablet extends Equipment {
     public enum OS { WINDOWS, MAC_OS, LINUX }
 
+    private OS os;
     private int[] resolution;
 
     public Tablet(String name, String brand, Institute owner,
-                  Date purchaseDate, double purchasePrice,
+                  Date purchaseDate, double purchasePrice, OS os,
                   int[] screenResolution) throws IllegalArgumentException {
         super(name, brand, owner, purchaseDate, purchasePrice);
+        this.os = os;
         setResolution(screenResolution);
     }
 
@@ -48,7 +50,8 @@ public class Tablet extends Equipment {
         else {
             Tablet t = (Tablet) o;
             return t.equals(this) &&
-                    t.resolution.equals(this.resolution);
+                    t.resolution.equals(this.resolution) &&
+                    t.os == this.os;
         }
     }
 }

@@ -1,6 +1,7 @@
 package inventory;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Equipment implements Borrowable {
@@ -14,12 +15,13 @@ public abstract class Equipment implements Borrowable {
     private Institute owner;
 
     private final String reference;
-    private Map<String, Integer> lastId;
+    private static Map<String, Integer> lastId = new HashMap<>();
     private String name;
     private String brand;
     private Date purchaseDate;
     private double purchasePrice;
     private Condition condition = Condition.GOOD;
+
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice)
             throws IllegalArgumentException {
