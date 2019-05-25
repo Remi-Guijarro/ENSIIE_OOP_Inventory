@@ -73,7 +73,10 @@ public class InventoryManager {
         ArrayList<Equipment> equipements = new ArrayList<>();
         ArrayList<Borrowing> list = BorrowingsList.getInstance().getBorrowings();
         for (Borrowing b : list) {
-            equipements.add(b.getEquipment());
+            Borrowable borrowable = b.getBorrowable();
+            if (borrowable instanceof Equipment) {
+                equipements.add((Equipment) borrowable);
+            }
         }
         return equipements;
     }
