@@ -2,8 +2,10 @@ package inventory;
 
 import inventory.stocks.Inventory;
 
+import javax.swing.text.html.HTMLEditorKit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class BorrowingsList {
@@ -37,18 +39,13 @@ public class BorrowingsList {
     }
 
     public void addBorrowedItem(Borrowable item, Date borrowDate, String reason, Borrower borrower) {
-
-        Borrowing b = new Borrowing(item, borrowDate, reason, borrower);
+        borrowings.add(new Borrowing(item, borrowDate, reason, borrower));
     }
 
     public void removeBorrowedItem(Borrowable item) throws NoSuchElementException {
         if (!isBorrowed(item)) throw new NoSuchElementException("The item is not borrowed.");
 
-        for (Borrowing b : borrowings) {
-            if (b.getBorrowable().equals(item)) {
-                borrowings.remove(b);
-            }
-        }
+        borrowings.removeIf(i -> i.getBorrowable().equals(item));
     }
 
     public ArrayList<Borrowing> getBorrowings() {
