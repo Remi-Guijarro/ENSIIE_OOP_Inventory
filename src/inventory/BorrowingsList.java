@@ -1,7 +1,10 @@
 package inventory;
 
+import inventory.stocks.Inventory;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.NoSuchElementException;
 
 public class BorrowingsList {
     private ArrayList<Borrowing> borrowings = new ArrayList<>();
@@ -25,16 +28,27 @@ public class BorrowingsList {
     }
 
     public boolean isBorrowed(Borrowable item) {
-        //TODO
+        for (Borrowing b : borrowings) {
+            if (b.getBorrowable().equals(item)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public void addBorrowedItem(Borrowable item) {
-        //TODO
+    public void addBorrowedItem(Borrowable item, Date borrowDate, String reason, Borrower borrower) {
+
+        Borrowing b = new Borrowing(item, borrowDate, reason, borrower);
     }
 
-    public void removeBorrowedItem(Borrowable item) {
-        //TODO
+    public void removeBorrowedItem(Borrowable item) throws NoSuchElementException {
+        if (!isBorrowed(item)) throw new NoSuchElementException("The item is not borrowed.");
+
+        for (Borrowing b : borrowings) {
+            if (b.getBorrowable().equals(item)) {
+                borrowings.remove(b);
+            }
+        }
     }
 
     public ArrayList<Borrowing> getBorrowings() {
@@ -47,12 +61,22 @@ public class BorrowingsList {
     }
 
     public ArrayList<Borrowing> getBorrowings(Borrower borrower) {
-        //TODO
-        return null;
+        ArrayList<Borrowing> borrowings = new ArrayList<>();
+        for (Borrowing b : this.borrowings) {
+            if (b.getBorrower().equals(borrower)) {
+                borrowings.add(b);
+            }
+        }
+        return borrowings;
     }
 
     public ArrayList<Borrowing> getLateBorrowings() {
-        //TODO
-        return null;
+        ArrayList<Borrowing> borrowings = new ArrayList<>();
+        for (Borrowing b : this.borrowings) {
+            if (b.isLate()) {
+                borrowings.add(b);
+            }
+        }
+        return borrowings;
     }
 }

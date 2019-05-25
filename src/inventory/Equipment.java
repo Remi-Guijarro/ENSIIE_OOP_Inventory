@@ -90,8 +90,13 @@ public abstract class Equipment implements Borrowable {
     }
 
     @Override
-    public void setBorrowed(boolean borrowed) {
-        //TODO
+    public void setBorrowed(Date borrowDate, String reason, Borrower borrower) {
+        BorrowingsList.getInstance().addBorrowedItem(this, borrowDate, reason, borrower);
+    }
+
+    @Override
+    public void setReturned() {
+        BorrowingsList.getInstance().removeBorrowedItem(this);
     }
 
     @Override

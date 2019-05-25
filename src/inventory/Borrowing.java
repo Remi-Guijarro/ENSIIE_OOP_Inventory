@@ -1,22 +1,19 @@
 package inventory;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Borrowing {
     private Borrowable borrowable;
     private Date borrowDate;
-    private Date returnDate;
     private String borrowReason;
+    private Borrower borrower;
 
-    public Borrowing(Borrowable borrowable, Date borrowDate, Date returnDate, String borrowReason)
-            throws IllegalArgumentException {
-        if(borrowDate.compareTo(returnDate) > 0)
-            throw new IllegalArgumentException("The return date cannot be before the borrow date");
-
+    public Borrowing(Borrowable borrowable, Date borrowDate, String borrowReason, Borrower borrower) {
         this.borrowable = borrowable;
         this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
         this.borrowReason = borrowReason;
+        this.borrower = borrower;
     }
 
     public Borrowable getBorrowable() {
@@ -36,11 +33,15 @@ public class Borrowing {
     }
 
     public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(borrowDate);
+        cal.add(Calendar.DAY_OF_WEEK, 14);
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            cal.add(Calendar.DAY_OF_WEEK, 2);
+        } else if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            cal.add(Calendar.DAY_OF_WEEK, 1);
+        }
+        return cal.getTime();
     }
 
     public String getBorrowReason() {
@@ -49,5 +50,13 @@ public class Borrowing {
 
     public void setBorrowReason(String borrowReason) {
         this.borrowReason = borrowReason;
+    }
+
+    public Borrower getBorrower() {
+        return borrower;
+    }
+
+    public boolean isLate() {
+        return Calendar.getInstance().getTime().after(getReturnDate());
     }
 }

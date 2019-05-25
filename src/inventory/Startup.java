@@ -31,30 +31,4 @@ public class Startup implements Borrower {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
-    public void borrow(Equipment equipment, Date borrowDate, String reason) throws NoSuchElementException {
-        //TODO
-    }
-
-    @Override
-    public void borrow(ArrayList<Equipment> equipment, Date borrowDate, String reason) throws NoSuchElementException {
-        //TODO
-    }
-
-    @Override
-    public ArrayList<Equipment> getBorrowedEquipment() {
-        //TODO
-        return null;
-    }
-
-    @Override
-    public void returnEquipment(Equipment equipment) throws NoSuchElementException {
-        //TODO
-    }
-
-    @Override
-    public void returnEquipments(ArrayList<Equipment> equipments) throws NoSuchElementException {
-        //TODO
-    }
 }
