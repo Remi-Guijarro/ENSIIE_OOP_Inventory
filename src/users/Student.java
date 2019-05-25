@@ -1,29 +1,55 @@
 package users;
 
+import inventory.Borrower;
+import inventory.Equipment;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.NoSuchElementException;
+
 public class Student extends People implements Borrower {
 
-    public enum Grade {_1A, _2A, JIN};
+    public enum Grade {_1A, _2A, JIN;}
 
     private Grade grade;
-
-    public Student(String socialSecurityNumber,String firstName, String surName, String address, String phoneNumber, String email,Grade grade){
-        super(socialSecurityNumber,firstName,surName,address,phoneNumber,email);
+    public Student(String socialSecurityNumber,String firstName, String surname,
+                   String address, String phoneNumber, String email,
+                   Grade grade) {
+        super(socialSecurityNumber,firstName,surname,address,phoneNumber,email);
         this.grade = grade;
     }
 
-    /*public void borrow(Equipement equipement, Date borrowDate, Date returnDate, String reason) {
-
+    public Grade getGrade() {
+        return grade;
     }
 
-    public List<Equipement> getBorrowedEquipement() {
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public void borrow(Equipment equipment, Date borrowDate, String reason) throws NoSuchElementException {
+        //TODO
+    }
+
+    @Override
+    public void borrow(ArrayList<Equipment> equipment, Date borrowDate, String reason) throws NoSuchElementException {
+        //TODO
+    }
+
+    @Override
+    public ArrayList<Equipment> getBorrowedEquipment() {
+        //TODO
         return null;
     }
 
-    public void returnEquipement(Equipement equipement) {
-
+    @Override
+    public void returnEquipment(Equipment equipment) throws NoSuchElementException {
+        //TODO
     }
 
-    public void borrow(AbstractStock<Equipement> equipements, Date borrowDate, Date returnDate, String reason) {
-
-    }*/
+    @Override
+    public void returnEquipments(ArrayList<Equipment> equipments) throws NoSuchElementException {
+        //TODO
+    }
 }
