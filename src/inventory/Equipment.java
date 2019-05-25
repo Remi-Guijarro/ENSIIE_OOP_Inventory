@@ -1,17 +1,15 @@
 package inventory;
 
-import inventory.stocks.Inventory;
-
 import java.util.Date;
 import java.util.Map;
 
-public abstract class Equipment {
-
+public abstract class Equipment implements Borrowable {
 
     public enum Condition {
         GOOD,
         USED,
         BROKEN;
+
     }
     private Institute owner;
 
@@ -22,7 +20,6 @@ public abstract class Equipment {
     private Date purchaseDate;
     private double purchasePrice;
     private Condition condition = Condition.GOOD;
-    private Inventory inventory;
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice)
             throws IllegalArgumentException {
@@ -48,7 +45,6 @@ public abstract class Equipment {
         reference = getClass().getSimpleName() + "_" + String.format("%02d", lastIDNumber);
         lastId.put(getClass().getSimpleName(), ++lastIDNumber);
     }
-
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice,
                      Condition condition)
@@ -93,8 +89,9 @@ public abstract class Equipment {
         return purchasePrice;
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    @Override
+    public void setBorrowed(boolean borrowed) {
+        //TODO
     }
 
     @Override
@@ -110,8 +107,7 @@ public abstract class Equipment {
                     e.name.equals(this.name) &&
                     e.purchaseDate.equals(this.purchaseDate) &&
                     e.purchasePrice == this.purchasePrice &&
-                    e.condition == this.condition &&
-                    e.inventory.equals(this.inventory);
+                    e.condition == this.condition;
         }
     }
 }

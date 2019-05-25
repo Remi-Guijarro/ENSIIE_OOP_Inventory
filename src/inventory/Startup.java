@@ -1,7 +1,9 @@
 package inventory;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Startup implements Borrower {
     private final String id;
@@ -31,18 +33,28 @@ public class Startup implements Borrower {
     }
 
     @Override
-    public void borrow(Equipment equipment, Date borrowDate, Date returnDate, String reason) {
+    public void borrow(Equipment equipment, Date borrowDate, String reason) throws NoSuchElementException {
         //TODO
     }
 
     @Override
-    public List<Equipment> getBorrowedEquipement() {
+    public void borrow(ArrayList<Equipment> equipment, Date borrowDate, String reason) throws NoSuchElementException {
+        //TODO
+    }
+
+    @Override
+    public ArrayList<Equipment> getBorrowedEquipment() {
         //TODO
         return null;
     }
 
     @Override
-    public void returnEquipement(Equipment equipment) {
+    public void returnEquipment(Equipment equipment) throws NoSuchElementException {
+        //TODO
+    }
+
+    @Override
+    public void returnEquipments(ArrayList<Equipment> equipments) throws NoSuchElementException {
         //TODO
     }
 }
