@@ -1,4 +1,4 @@
-package user;
+package inventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ public class BorrowingsList {
     public static BorrowingsList getInstance() {
         return ourInstance;
     }
+    //////////////////////////////////////////////////////////////////
 
     /*private BorrowingsList() {
         this.borrowedItems = new ArrayList<Borrowable>();
@@ -23,7 +24,7 @@ public class BorrowingsList {
 
     //public void removeBorrowedItel(Borrowable item){}
 
-    public List<Borrowing> getBorrowings(){return null;}
+    public ArrayList<Borrowing> getBorrowings(){return null;}
 
     public List<Borrowing> getBorrowings(String reason){return null;}
 

@@ -1,8 +1,9 @@
-package inventory.Stocks;
+package inventory.stocks;
 
 import inventory.Equipment;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public abstract class AbstractStock {
     private ArrayList<Equipment> equipments;
@@ -35,7 +36,7 @@ public abstract class AbstractStock {
         return count;
     }
 
-    public Equipment pop(Class<? extends Equipment> equipmentClass) throws IllegalArgumentException {
+    public Equipment pop(Class<? extends Equipment> equipmentClass) throws NoSuchElementException {
         int index = 0;
         for(Equipment e : equipments) {
             if(equipmentClass == e.getClass()) {
@@ -43,10 +44,10 @@ public abstract class AbstractStock {
             }
             index++;
         }
-        throw new IllegalArgumentException("No equipment of this type in stock.");
+        throw new NoSuchElementException("No equipment of this type in stock.");
     }
 
-    public Equipment pop(String reference) {
+    public Equipment pop(String reference) throws NoSuchElementException {
         int index = 0;
         for(Equipment e : equipments) {
             if(reference.equals(e.getReference())) {
@@ -54,7 +55,7 @@ public abstract class AbstractStock {
             }
             index++;
         }
-        throw new IllegalArgumentException("No equipment with this reference in stock.");
+        throw new NoSuchElementException("No equipment with this reference in stock.");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package inventory.Stocks;
+package inventory.stocks;
 
 public class SubStock extends AbstractStock {
     private String emplacement;
@@ -7,4 +7,5 @@ public class SubStock extends AbstractStock {
         super();
         this.emplacement = emplacement;
     }
+
 }

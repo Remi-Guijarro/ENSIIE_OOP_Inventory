@@ -1,4 +1,4 @@
-package inventory.Stocks;
+package inventory.stocks;
 
 import inventory.Equipment;
 
@@ -16,5 +16,9 @@ public class Inventory extends AbstractStock {
         SubStock s = new SubStock(emplacement);
         s.addEquipments(equipments);
         subStocks.add(s);
+    }
+
+    public ArrayList<SubStock> getSubStocks() {
+        return subStocks;
     }
 }

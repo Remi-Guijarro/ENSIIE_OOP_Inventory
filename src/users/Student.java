@@ -1,9 +1,6 @@
-package user;
+package users;
 
-import java.util.Date;
-import java.util.List;
-
-public class Student extends People implements Borrower{
+public class Student extends People implements Borrower {
 
     public enum Grade {_1A, _2A, JIN};
 

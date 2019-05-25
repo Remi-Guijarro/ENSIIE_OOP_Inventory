@@ -1,7 +1,4 @@
-package user;
-
-import java.util.Date;
-import java.util.List;
+package users;
 
 public class Teacher extends People implements Borrower {
 

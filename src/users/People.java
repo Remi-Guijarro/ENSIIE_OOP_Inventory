@@ -1,4 +1,4 @@
-package user;
+package users;
 
 public abstract class People {
     private final String id;

@@ -1,7 +1,6 @@
 package inventory;
 
-import inventory.Stocks.AbstractStock;
-import user.Borrower;
+import inventory.stocks.Inventory;
 
 import java.util.Date;
 import java.util.Map;
@@ -23,9 +22,7 @@ public abstract class Equipment {
     private Date purchaseDate;
     private double purchasePrice;
     private Condition condition = Condition.GOOD;
-    private Borrower borrower = null;
-    private boolean isBorrowed = false;
-    private AbstractStock inventory;
+    private Inventory inventory;
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice)
             throws IllegalArgumentException {
@@ -76,14 +73,6 @@ public abstract class Equipment {
         this.condition = condition;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        isBorrowed = borrowed;
-    }
-
     public String getReference() {
         return reference;
     }
@@ -104,16 +93,8 @@ public abstract class Equipment {
         return purchasePrice;
     }
 
-    public AbstractStock getInventory() {
+    public Inventory getInventory() {
         return inventory;
-    }
-
-    public Borrower getBorrower() {
-        return borrower;
-    }
-
-    public void setBorrower(Borrower borrower) {
-        this.borrower = borrower;
     }
 
     @Override
@@ -130,7 +111,6 @@ public abstract class Equipment {
                     e.purchaseDate.equals(this.purchaseDate) &&
                     e.purchasePrice == this.purchasePrice &&
                     e.condition == this.condition &&
-                    e.isBorrowed == this.isBorrowed &&
                     e.inventory.equals(this.inventory);
         }
     }
