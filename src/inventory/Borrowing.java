@@ -3,24 +3,28 @@ package inventory;
 import java.util.Date;
 
 public class Borrowing {
-    private Equipment equipment;
+    private Borrowable borrowable;
     private Date borrowDate;
     private Date returnDate;
     private String borrowReason;
 
-    public Borrowing(Equipment equipment, Date borrowDate, Date returnDate, String borrowReason) {
-        this.equipment = equipment;
+    public Borrowing(Borrowable borrowable, Date borrowDate, Date returnDate, String borrowReason)
+            throws IllegalArgumentException {
+        if(borrowDate.compareTo(returnDate) > 0)
+            throw new IllegalArgumentException("The return date cannot be before the borrow date");
+
+        this.borrowable = borrowable;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
         this.borrowReason = borrowReason;
     }
 
-    public Equipment getEquipment() {
-        return equipment;
+    public Borrowable getBorrowable() {
+        return borrowable;
     }
 
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public void setBorrowable(Borrowable borrowable) {
+        this.borrowable = borrowable;
     }
 
     public Date getBorrowDate() {
