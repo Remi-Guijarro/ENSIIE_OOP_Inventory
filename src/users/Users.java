@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Users {
-    private ArrayList<People> users;
+    private ArrayList<People> users = new ArrayList<>();
 
     public void addUser(People user) {
         users.add(user);
@@ -17,11 +17,12 @@ public class Users {
     }
 
     public boolean exists(People user) {
-        for (People p : users) {
-            if (users.contains(p)) {
-                return true;
-            }
-        }
+        if (users.contains(user))
+            return true;
         return false;
+    }
+
+    public ArrayList<People> get() {
+        return users;
     }
 }
