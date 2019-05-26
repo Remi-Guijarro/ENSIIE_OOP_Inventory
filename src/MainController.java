@@ -9,4 +9,19 @@ import javafx.scene.control.RadioButton;
 import java.io.IOException;
 
 public class MainController {
+    public void exit(){
+        Main.mainPrimaryStage.close();
+    }
+
+    public void minimize(){
+        Main.mainPrimaryStage.setIconified(true);
+    }
+
+    public void maximize(){
+        if(Main.mainPrimaryStage.isMaximized()){
+            Main.mainPrimaryStage.setMaximized(false);
+        }else{
+            Main.mainPrimaryStage.setMaximized(true);
+        }
+    }
 }

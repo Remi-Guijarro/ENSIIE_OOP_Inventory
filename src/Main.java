@@ -12,7 +12,6 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application{
     public static Stage mainPrimaryStage;
-    public static BorderlessScene mainScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -21,7 +20,6 @@ public class Main extends Application{
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Inventory");
         BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root, 1000, 800);
-        mainScene = bordelessScene;
         primaryStage.setScene(bordelessScene);
         bordelessScene.setMoveControl(root.lookup("#header"));
         bordelessScene.setSnapEnabled(true);
