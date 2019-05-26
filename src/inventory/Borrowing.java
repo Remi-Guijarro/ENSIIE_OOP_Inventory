@@ -1,9 +1,10 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Borrowing {
+public class Borrowing implements Serializable {
     private Borrowable borrowable;
     private Date borrowDate;
     private String borrowReason;

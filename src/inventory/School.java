@@ -1,6 +1,8 @@
 package inventory;
 
-public class School extends Institute {
+import java.io.Serializable;
+
+public class School extends Institute implements Serializable {
     public School(String name) {
         super(name);
     }

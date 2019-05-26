@@ -3,9 +3,10 @@ package inventory.equipments;
 import inventory.Equipment;
 import inventory.Institute;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VRHeadset extends Equipment {
+public class VRHeadset extends Equipment implements Serializable {
     private VRControllerPair controllers;
 
     public VRHeadset(String name, String brand, Institute owner,

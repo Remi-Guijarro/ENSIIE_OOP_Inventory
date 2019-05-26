@@ -1,9 +1,10 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Institute {
+public abstract class Institute implements Serializable {
     private final String id;
     private String name;
     private static int lastId = 0;

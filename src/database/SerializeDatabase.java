@@ -2,16 +2,25 @@ package database;
 
 import inventory.ContextContainer;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class SerializeDatabase implements Savable, Loadable{
 
     @Override
-    public void load(ContextContainer contextContainer) {
-
+    public ContextContainer load() {
+        try
+        {
+            FileInputStream file = new FileInputStream("resources/saves/save.ser");
+            ObjectInputStream in = new ObjectInputStream(file);
+            ContextContainer save = (ContextContainer)in.readObject();
+            in.close();
+            file.close();
+            return save;
+        } catch(IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            System.err.println(ex.getMessage());
+            return null;
+        }
     }
 
     @Override

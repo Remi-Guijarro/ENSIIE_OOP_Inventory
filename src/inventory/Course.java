@@ -3,9 +3,10 @@ package inventory;
 import users.Student;
 import users.Teacher;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Course {
+public class Course implements Serializable {
     private final String id;
     private String name;
     private ArrayList<Equipment> equipments;

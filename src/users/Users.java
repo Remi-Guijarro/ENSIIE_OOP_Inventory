@@ -1,9 +1,10 @@
 package users;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class Users {
+public class Users implements Serializable {
     private ArrayList<People> users = new ArrayList<>();
 
     public void addUser(People user) {

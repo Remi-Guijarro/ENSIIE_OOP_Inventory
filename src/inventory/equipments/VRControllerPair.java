@@ -1,6 +1,8 @@
 package inventory.equipments;
 
-public class VRControllerPair {
+import java.io.Serializable;
+
+public class VRControllerPair implements Serializable {
     private String idLeftController;
     private String idRightController;
     private static int lastId = 0;

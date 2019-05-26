@@ -4,9 +4,10 @@ import inventory.Borrower;
 import inventory.Course;
 import inventory.Equipment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Teacher extends People implements Borrower {
+public class Teacher extends People implements Borrower,Serializable {
     private ArrayList<Course> classes;
 
     public Teacher(String socialSecurityNumber,

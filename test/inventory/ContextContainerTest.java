@@ -1,5 +1,6 @@
 package inventory;
 
+import database.SerializeDatabase;
 import inventory.equipments.Tablet;
 import org.junit.jupiter.api.Test;
 import users.Student;
@@ -10,6 +11,8 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContextContainerTest {
+
+    private ContextContainer contextContainer;
 
     @Test
     public void createContext(){
@@ -32,12 +35,39 @@ class ContextContainerTest {
         b3.addBorrowedItem(tab,Calendar.getInstance().getTime(),"Why not",studentA);
 
 
-        ContextContainer contextContainer = new ContextContainer();
+        this.contextContainer = new ContextContainer();
 
         assertNotEquals(null,contextContainer);
         assertEquals(2,contextContainer.getBorrowersList().gerBorrowers().size());
         assertEquals(2,contextContainer.getBorrowablesList().getBorrowables().size());
         assertEquals(1,contextContainer.getBorrowingsList().getBorrowings().size());
+    }
+
+
+    @Test
+    public void saveContext(){
+        try{
+            SerializeDatabase serializeDatabase =  new SerializeDatabase();
+            serializeDatabase.save(this.contextContainer);
+        }catch(Exception e){
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void loadContext(){
+        try{
+            SerializeDatabase serializeDatabase =  new SerializeDatabase();
+            this.contextContainer = serializeDatabase.load();
+            assertNotEquals(null,contextContainer);
+            assertEquals(2,contextContainer.getBorrowersList().gerBorrowers().size());
+            assertEquals(2,contextContainer.getBorrowablesList().getBorrowables().size());
+            assertEquals(1,contextContainer.getBorrowingsList().getBorrowings().size());
+        }catch (Exception e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
 }

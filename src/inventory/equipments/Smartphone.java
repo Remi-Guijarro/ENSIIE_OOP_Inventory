@@ -3,6 +3,7 @@ package inventory.equipments;
 import inventory.Equipment;
 import inventory.Institute;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Geoffrey Delval
  */
 
-public class Smartphone extends Equipment {
+public class Smartphone extends Equipment implements Serializable {
     /**
      * Existing operating systems
      */

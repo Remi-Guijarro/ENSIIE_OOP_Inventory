@@ -1,11 +1,12 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class Startup implements Borrower {
+public class Startup implements Borrower,Serializable {
     private final String id;
     private String name;
     private final Incubator incubator;

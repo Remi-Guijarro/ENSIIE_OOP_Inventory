@@ -1,11 +1,12 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class Incubator extends Institute {
+public class Incubator extends Institute implements Serializable {
     private List<Startup> startups;
 
     public Incubator(String incubatorName, String startupName, String startupSIREN) {

@@ -3,11 +3,12 @@ package inventory;
 import inventory.stocks.Inventory;
 import inventory.stocks.SubStock;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public final class InventoryManager {
+public final class InventoryManager implements Serializable {
     private final static InventoryManager ourInstance = new InventoryManager();
     private final Inventory inventory;
 

@@ -1,10 +1,11 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
 
-public interface Borrower {
+public interface Borrower extends Serializable {
     default void borrow(Equipment equipment, String reason) throws NoSuchElementException {
         if (!InventoryManager.getInstance().getAll().contains(equipment))
             throw new NoSuchElementException("The equipment to borrow does not exist.");

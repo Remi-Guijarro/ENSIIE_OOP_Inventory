@@ -3,10 +3,11 @@ package inventory.equipments;
 import inventory.Equipment;
 import inventory.Institute;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
-public class Tablet extends Equipment {
+public class Tablet extends Equipment implements Serializable {
     public enum OS { WINDOWS, MAC_OS, LINUX }
 
     private OS os;

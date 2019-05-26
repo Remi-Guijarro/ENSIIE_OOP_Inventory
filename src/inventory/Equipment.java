@@ -1,10 +1,11 @@
 package inventory;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Equipment implements Borrowable {
+public abstract class Equipment implements Borrowable,Serializable {
 
     public enum Condition {
         GOOD,
