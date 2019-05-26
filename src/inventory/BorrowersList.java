@@ -19,4 +19,8 @@ public class BorrowersList implements Serializable {
     public ArrayList<Borrower> gerBorrowers(){
         return this.borrowers;
     }
+
+    public void addBorrower(Borrower b){
+        this.borrowers.add(b);
+    }
 }

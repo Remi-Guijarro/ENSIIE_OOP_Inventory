@@ -19,4 +19,8 @@ public class BorrowablesList implements Serializable {
     public ArrayList<Borrowable> getBorrowables(){
         return this.borrowables;
     }
+
+    public void addBorrowable(Borrowable b){
+        this.borrowables.add(b);
+    }
 }
