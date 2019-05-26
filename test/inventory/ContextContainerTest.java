@@ -41,10 +41,10 @@ class ContextContainerTest {
         assertEquals(2,contextContainer.getBorrowersList().gerBorrowers().size());
         assertEquals(2,contextContainer.getBorrowablesList().getBorrowables().size());
         assertEquals(1,contextContainer.getBorrowingsList().getBorrowings().size());
+        saveContext();
     }
 
 
-    @Test
     public void saveContext(){
         try{
             SerializeDatabase serializeDatabase =  new SerializeDatabase();
