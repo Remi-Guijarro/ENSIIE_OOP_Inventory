@@ -1,3 +1,5 @@
+import database.SerializeDatabase;
+import inventory.ContextContainer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +12,8 @@ public class Main extends Application{
         Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("gui/main.fxml"));
         primaryStage.setTitle("Inventory");
         primaryStage.setScene(new Scene(root, 800, 500));
+        SerializeDatabase ser = new SerializeDatabase();
+        ser.save(new ContextContainer());
         primaryStage.show();
     }
 }

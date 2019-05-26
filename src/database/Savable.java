@@ -1,5 +1,7 @@
 package database;
 
+import inventory.ContextContainer;
+
 public interface Savable {
-    void save();
+    void save(ContextContainer contextContainer);
 }

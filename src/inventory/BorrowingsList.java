@@ -2,11 +2,12 @@ package inventory;
 
 import inventory.stocks.Inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
-public class BorrowingsList {
+public class BorrowingsList implements Serializable {
     private ArrayList<Borrowing> borrowings = new ArrayList<>();
 
     private static BorrowingsList ourInstance = new BorrowingsList();
