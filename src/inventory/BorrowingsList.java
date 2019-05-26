@@ -2,10 +2,8 @@ package inventory;
 
 import inventory.stocks.Inventory;
 
-import javax.swing.text.html.HTMLEditorKit;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class BorrowingsList {

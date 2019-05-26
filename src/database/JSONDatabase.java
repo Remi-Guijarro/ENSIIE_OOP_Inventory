@@ -8,6 +8,6 @@ public class JSONDatabase implements Savable, Loadable{
 
     @Override
     public void save() {
-        //TODO
+
     }
 }
