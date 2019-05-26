@@ -1,3 +1,5 @@
+package users;
+
 import inventory.Incubator;
 import inventory.Startup;
 import org.junit.jupiter.api.Test;

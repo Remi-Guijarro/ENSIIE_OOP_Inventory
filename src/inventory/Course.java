@@ -11,7 +11,7 @@ public class Course {
     private ArrayList<Equipment> equipments;
     private ArrayList<Student> students;
     private Teacher teacher;
-    private static ArrayList<String> knownIds;
+    private static ArrayList<String> knownIds = new ArrayList<>();
 
     public Course(String id, String name,
                   ArrayList<Student> students, Teacher teacher,

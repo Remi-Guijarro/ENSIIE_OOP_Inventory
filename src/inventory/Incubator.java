@@ -11,9 +11,8 @@ public class Incubator extends Institute {
     public Incubator(String incubatorName, String startupName, String startupSIREN) {
         super(incubatorName);
         Startup s = new Startup(startupName,startupSIREN, this);
-        startups = new ArrayList<>(
-                List.of(s)
-        );
+        startups = new ArrayList<>();
+        startups.add(s);
     }
 
     public void addStartup(String name, String SIREN) {
