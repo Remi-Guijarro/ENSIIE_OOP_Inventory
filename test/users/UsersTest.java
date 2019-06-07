@@ -1,5 +1,6 @@
 package users;
 
+import inventory.Borrower;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,12 +9,12 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UsersTest {
-    private static People p1 = new Teacher("269054958880", "Nathalie", "Durand",
+    private static Teacher p1 = new Teacher("269054958880", "Nathalie", "Durand",
             "123, rue Victor Hugo, 37000 TOURS", "0701020304", "nath.durant@email.com");
-    private static People p2 = new Student("177023523800522", "Henry", "Smith",
+    private static Student p2 = new Student("177023523800522", "Henry", "Smith",
             "456, Place de la Victoire, 91000 EVRY", "0321998877", "smithh@email.com",
             Student.Grade._2A);
-    private static People p3 = new Teacher ("123456789011", "John", "Lock",
+    private static Teacher p3 = new Teacher ("123456789011", "John", "Lock",
             "666 Lost Island, 00000 NOWHERE", "0700000000", "noname@none.no");
 
 
@@ -22,10 +23,10 @@ class UsersTest {
         Users users = new Users();
         users.addUser(p1);
         users.addUser(p2);
-        ArrayList<People> list = users.get();
+        ArrayList<Borrower> list = users.get();
         assertEquals(2, list.size());
-        assertEquals("269054958880", list.get(0).getId());
-        assertEquals("smithh@email.com", list.get(1).getEmail());
+        assertEquals("269054958880", ((People)list.get(0)).getId());
+        assertEquals("smithh@email.com", ((People)list.get(1)).getEmail());
     }
 
     @Test
@@ -33,7 +34,7 @@ class UsersTest {
         Users users = new Users();
         users.addUser(p1);
         users.addUser(p2);
-        ArrayList<People> list = users.get();
+        ArrayList<Borrower> list = users.get();
         assertEquals(2, list.size());
         users.removeUser(p1);
         list = users.get();

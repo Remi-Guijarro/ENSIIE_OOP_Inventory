@@ -1,13 +1,18 @@
 package inventory.stocks;
 
 import inventory.Equipment;
+import inventory.InventoryManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Inventory extends AbstractStock {
+public class Inventory extends AbstractStock implements Serializable {
     private ArrayList<SubStock> subStocks;
-
-    public Inventory() {
+    private final static Inventory ourInstance = new Inventory();
+    public static Inventory getInstance() {
+        return ourInstance;
+    }
+    private Inventory() {
         super();
         subStocks = new ArrayList<>();
     }

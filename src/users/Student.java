@@ -1,16 +1,15 @@
 package users;
 
 import inventory.Borrower;
-import inventory.Equipment;
-import inventory.InventoryManager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.NoSuchElementException;
 
 public class Student extends People implements Borrower,Serializable {
+
+    @Override
+    public String getName() {
+        return this.getFirstName();
+    }
 
     public enum Grade {_1A, _2A, JIN;}
 

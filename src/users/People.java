@@ -1,5 +1,7 @@
 package users;
 
+import inventory.Borrower;
+
 import java.io.Serializable;
 
 public abstract class People implements Serializable {

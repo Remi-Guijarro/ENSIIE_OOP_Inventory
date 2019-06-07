@@ -10,14 +10,17 @@ import java.util.NoSuchElementException;
 
 public final class InventoryManager implements Serializable {
     private final static InventoryManager ourInstance = new InventoryManager();
-    private final Inventory inventory;
+    private Inventory inventory;
 
     public static InventoryManager getInstance() {
         return ourInstance;
     }
 
     private InventoryManager() {
-        inventory = new Inventory();
+    }
+
+    public void setInventory(Inventory inventory){
+        this.inventory = inventory;
     }
     ////////////////////////////////////////////////////////////////
 

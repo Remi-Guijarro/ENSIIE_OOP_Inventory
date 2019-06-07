@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 public interface Borrower extends Serializable {
+
+    String getName();
+
     default void borrow(Equipment equipment, String reason) throws NoSuchElementException {
         if (!InventoryManager.getInstance().getAll().contains(equipment))
             throw new NoSuchElementException("The equipment to borrow does not exist.");

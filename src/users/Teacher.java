@@ -2,7 +2,6 @@ package users;
 
 import inventory.Borrower;
 import inventory.Course;
-import inventory.Equipment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,5 +17,10 @@ public class Teacher extends People implements Borrower,Serializable {
 
     public void addCourse(Course course) {
         classes.add(course);
+    }
+
+    @Override
+    public String getName() {
+        return this.getFirstName();
     }
 }

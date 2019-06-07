@@ -1,6 +1,8 @@
 package inventory.stocks;
 
-public class SubStock extends AbstractStock {
+import java.io.Serializable;
+
+public class SubStock extends AbstractStock implements Serializable {
     private String emplacement;
 
     public SubStock(String emplacement) {

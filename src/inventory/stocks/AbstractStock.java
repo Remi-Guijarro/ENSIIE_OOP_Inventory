@@ -2,10 +2,11 @@ package inventory.stocks;
 
 import inventory.Equipment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public abstract class AbstractStock {
+public abstract class AbstractStock implements Serializable {
     private ArrayList<Equipment> equipments;
 
     public AbstractStock() {

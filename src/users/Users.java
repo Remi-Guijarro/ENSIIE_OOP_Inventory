@@ -1,29 +1,31 @@
 package users;
 
+import inventory.Borrower;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Users implements Serializable {
-    private ArrayList<People> users = new ArrayList<>();
+    private ArrayList<Borrower> users = new ArrayList<>();
 
-    public void addUser(People user) {
+    public void addUser(Borrower user) {
         users.add(user);
     }
 
-    public void removeUser(People user) throws NoSuchElementException {
+    public void removeUser(Borrower user) throws NoSuchElementException {
         if (!exists(user)) throw new NoSuchElementException("The user does not exist.");
 
         users.remove(user);
     }
 
-    public boolean exists(People user) {
+    public boolean exists(Borrower user) {
         if (users.contains(user))
             return true;
         return false;
     }
 
-    public ArrayList<People> get() {
+    public ArrayList<Borrower> get() {
         return users;
     }
 }
