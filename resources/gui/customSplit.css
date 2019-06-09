@@ -1,0 +1,7 @@
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color:#5F646E;
+}
+
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color:#5F646E;
+}
