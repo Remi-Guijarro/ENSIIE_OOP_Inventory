@@ -1,8 +1,8 @@
 package model.inventory;
 
-import model.inventory.equipments.Smartphone;
-import model.user.Student;
-import model.user.Teacher;
+import model.inventory.equipements.Smartphone;
+import model.users.Student;
+import model.users.Teacher;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

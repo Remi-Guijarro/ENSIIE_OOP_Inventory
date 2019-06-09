@@ -1,4 +1,4 @@
-package model.inventory.equipments;
+package model.inventory.equipements;
 
 import java.io.Serializable;
 

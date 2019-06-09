@@ -1,10 +1,10 @@
 package model;
 
 import model.inventory.Borrower;
-import model.user.People;
-import model.user.Student;
-import model.user.Teacher;
-import model.user.Users;
+import model.users.People;
+import model.users.Student;
+import model.users.Teacher;
+import model.users.Users;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

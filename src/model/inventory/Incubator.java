@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class Incubator extends Institute implements Serializable {
-    private List<Startup> startups;
+public class Incubator extends model.inventory.Institute implements Serializable {
+    private List<model.inventory.Startup> startups;
 
     public Incubator(String incubatorName, String startupName, String startupSIREN) {
         super(incubatorName);

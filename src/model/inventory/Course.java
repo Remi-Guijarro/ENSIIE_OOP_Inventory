@@ -1,7 +1,7 @@
 package model.inventory;
 
-import model.user.Student;
-import model.user.Teacher;
+import model.users.Student;
+import model.users.Teacher;
 
 import java.io.Serializable;
 import java.util.ArrayList;

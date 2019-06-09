@@ -1,7 +1,7 @@
 package model.inventory;
 
-import model.inventory.equipments.DepthSensor;
-import model.user.Student;
+import model.inventory.equipements.DepthSensor;
+import model.users.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;

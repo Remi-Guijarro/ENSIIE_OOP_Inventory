@@ -1,6 +1,6 @@
 package model.inventory;
 
-import model.user.Users;
+import model.users.Users;
 
 import java.io.Serializable;
 

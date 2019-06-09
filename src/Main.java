@@ -5,15 +5,15 @@ import model.inventory.Incubator;
 import model.inventory.InventoryManager;
 import model.inventory.School;
 import model.inventory.Startup;
-import model.inventory.equipments.Tablet;
+import model.inventory.equipements.Tablet;
 import model.inventory.stocks.Inventory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.user.Student;
-import model.user.Users;
+import model.users.Student;
+import model.users.Users;
 
 import java.util.Calendar;
 

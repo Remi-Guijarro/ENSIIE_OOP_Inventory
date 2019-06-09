@@ -1,10 +1,10 @@
 package model.inventory;
 
-import model.inventory.stocks.Inventory;
 import model.database.SerializeDatabase;
-import model.inventory.equipments.Tablet;
-import model.user.Student;
-import model.user.Users;
+import model.inventory.equipements.Tablet;
+import model.inventory.stocks.Inventory;
+import model.users.Student;
+import model.users.Users;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -18,7 +18,7 @@ class ContextContainerTest {
     @Test
     public void createContext(){
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
-        model.inventory.Incubator incubator = new model.inventory.Incubator("C20","DebutHaut","123");
+        model.inventory.Incubator incubator = new Incubator("C20","DebutHaut","123");
         model.inventory.Startup startup = new model.inventory.Startup("Tarbernak","345",incubator);
         model.inventory.School school = new model.inventory.School("Ensiie");
         Users b = new Users();
