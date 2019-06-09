@@ -1,18 +1,19 @@
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-import database.SerializeDatabase;
-import inventory.*;
-import inventory.equipments.Tablet;
-import inventory.stocks.Inventory;
+import model.inventory.BorrowingsList;
+import model.inventory.ContextContainer;
+import model.inventory.Incubator;
+import model.inventory.InventoryManager;
+import model.inventory.School;
+import model.inventory.Startup;
+import model.inventory.equipments.Tablet;
+import model.inventory.stocks.Inventory;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import users.Student;
-import users.Users;
+import model.user.Student;
+import model.user.Users;
 
 import java.util.Calendar;
 
@@ -32,7 +33,7 @@ public class Main extends Application{
         Tablet tab =  new Tablet("Oxygen6","Apple",school,Calendar.getInstance().getTime(),399.0,Tablet.OS.LINUX,new int[]{1920,1080});
         Tablet tab2 =  new Tablet("Oxygen7","Apple",school,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
 
-        InventoryManager inventoryManager = InventoryManager.getInstance();
+        model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
         inventoryManager.setInventory(inventory);
         inventoryManager.addEquipment(tab);
@@ -48,12 +49,14 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainPrimaryStage = primaryStage;
-        Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("gui/main.fxml"));
+        Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("view/main.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Inventory");
-        BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root, 1000, 800);
+        BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root);
         primaryStage.setScene(bordelessScene);
-        bordelessScene.setMoveControl(root.lookup("#root"));
+        primaryStage.minHeightProperty().setValue(600);
+        primaryStage.minWidthProperty().setValue(1000);
+        bordelessScene.setMoveControl(root.lookup("#header"));
         bordelessScene.setSnapEnabled(true);
         bordelessScene.removeDefaultCSS();
         //SerializeDatabase ser = new SerializeDatabase();

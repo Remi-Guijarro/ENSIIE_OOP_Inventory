@@ -1,16 +1,8 @@
-import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-import inventory.Borrower;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import model.inventory.Borrower;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainController {

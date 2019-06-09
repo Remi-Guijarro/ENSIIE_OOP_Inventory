@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5F646E;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+   <top>
+      <HBox fx:id="header" alignment="TOP_RIGHT" style="-fx-background-color: #5F646E;" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+         <children>
+            <Button fx:id="min" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: none;" text="🔴" textFill="#3dc2fc">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="max" mnemonicParsing="false" onAction="#maximize" style="-fx-background-color: none;" text="🔴" textFill="#33e14d">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="close" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: none;" text="🔴" textFill="#e15a5a">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.34448160535117056" prefHeight="365.0" prefWidth="600.0" style="-fx-background-color: #5F646E;" stylesheets="@customSplit.css" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox layoutX="53.0" layoutY="9.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #5F646E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="385.0" style="-fx-background-color: #484C54;" />
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>
