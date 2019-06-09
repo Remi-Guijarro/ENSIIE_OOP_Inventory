@@ -7,18 +7,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainController {
-
     @FXML
-    private ListView<String> listUsers;
+    private TableColumn tColUserName;
+
     public void exit(){
         Main.mainPrimaryStage.close();
     }
@@ -36,12 +34,12 @@ public class MainController {
     }
 
     public void displayUsers(){
-        ArrayList<Borrower> borrower = Main.contextContainer.getUsers().get();
-        ArrayList<String> borrowersName =new ArrayList<>();
-        borrower.forEach(item -> borrowersName.add(item.getName()));
-        ObservableList<String> fruitList = FXCollections.<String>observableArrayList(borrowersName);
-        listUsers.setItems(fruitList);
-        listUsers.setOrientation(Orientation.VERTICAL);
-        System.out.println(listUsers.isVisible());
+        if(tColUserName.isVisible()){
+            tColUserName.setVisible(false);
+        }else {
+            tColUserName.setVisible(true);
+            ArrayList<Borrower> borrower = Main.contextContainer.getUsers().get();
+            borrower.forEach(item -> tColUserName.setCellFactory(new PropertyValueFactory<>(item.getName())));
+        }
     }
 }

@@ -53,12 +53,12 @@ public class Main extends Application{
         primaryStage.setTitle("Inventory");
         BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root, 1000, 800);
         primaryStage.setScene(bordelessScene);
-        bordelessScene.setMoveControl(root.lookup("#header"));
+        bordelessScene.setMoveControl(root.lookup("#root"));
         bordelessScene.setSnapEnabled(true);
         bordelessScene.removeDefaultCSS();
         //SerializeDatabase ser = new SerializeDatabase();
         //ser.save(new ContextContainer());
-        startContext();
+        //startContext();
         primaryStage.show();
     }
 }
