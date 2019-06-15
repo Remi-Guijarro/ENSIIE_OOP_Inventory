@@ -23,6 +23,7 @@ import java.util.Calendar;
 public class Main extends Application{
     public static Stage mainPrimaryStage;
     public static ContextContainer contextContainer;
+    private static SerializeDatabase database;
 
     private void startContext(){
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
@@ -62,13 +63,14 @@ public class Main extends Application{
         bordelessScene.setMoveControl(root.lookup("#header"));
         bordelessScene.setSnapEnabled(true);
         bordelessScene.removeDefaultCSS();
-        SerializeDatabase ser = new SerializeDatabase();
-        ser.save(contextContainer);
-        startContext();
         primaryStage.show();
     }
 
     public static void main(String[] args){
+        database = new SerializeDatabase();
+        contextContainer =  database.load();
+        System.out.println(contextContainer);
         launch();
+        database.save(contextContainer);
     }
 }
