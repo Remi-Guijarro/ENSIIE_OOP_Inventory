@@ -69,7 +69,6 @@ public class Main extends Application{
     public static void main(String[] args){
         database = new SerializeDatabase();
         contextContainer =  database.load();
-        System.out.println(contextContainer);
         launch();
         database.save(contextContainer);
     }

@@ -2,13 +2,18 @@ package inventory_app.view;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
+import inventory_app.model.users.People;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +26,9 @@ public class UserViewController implements Initializable {
 
     @FXML
     private TableView usersTab;
+
+    @FXML
+    private BorderPane detailedInfo;
 
     public TableColumn getNameUser(){
         return nameUser;
@@ -36,7 +44,17 @@ public class UserViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
-        usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
+        try {
+            nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
+            usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("peopleTableView.fxml"));
+            Parent root =  loader.load();
+            AnchorPane rootAnchorPane = (AnchorPane) root;
+            detailedInfo.setCenter(rootAnchorPane);
+            usersTab.getSelectionModel().selectedItemProperty().addListener(
+                    (observable, oldValue, newValue) -> ((PeopleTableViewController)loader.getController()).setDetailedInfo((Borrower) newValue));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
