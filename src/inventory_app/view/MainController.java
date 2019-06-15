@@ -39,19 +39,17 @@ public class MainController {
     }
 
     public void openUserView() {
-        try {
-            if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
-                Parent root = FXMLLoader.load(this.getClass().getResource("userTab.fxml"));
-                TableView table = (TableView) root.lookup("#usersTab");
-                /*TableColumn<Borrower,String> column = (TableColumn<Borrower,String>) root.lookup("nameUser");*/
-                table.getItems().addAll(Main.contextContainer.getUsers().get());
+        if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
+            try {
                 Tab tab = new Tab();
-                tab.setContent(root.lookup("#userAnchor"));
+                FXMLLoader loader = new FXMLLoader();
+                Parent root = loader.load(this.getClass().getResource("userTab.fxml"));
+                tab.setContent(root);
                 tab.setText("USERS");
                 tabs.getTabs().add(tab);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
