@@ -1,6 +1,7 @@
 package inventory_app;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
+import inventory_app.model.database.SerializeDatabase;
 import inventory_app.model.inventory.BorrowingsList;
 import inventory_app.model.inventory.ContextContainer;
 import inventory_app.model.inventory.Incubator;
@@ -61,8 +62,8 @@ public class Main extends Application{
         bordelessScene.setMoveControl(root.lookup("#header"));
         bordelessScene.setSnapEnabled(true);
         bordelessScene.removeDefaultCSS();
-        //SerializeDatabase ser = new SerializeDatabase();
-        //ser.save(new ContextContainer());
+        SerializeDatabase ser = new SerializeDatabase();
+        ser.save(contextContainer);
         startContext();
         primaryStage.show();
     }

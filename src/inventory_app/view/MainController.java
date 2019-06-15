@@ -4,10 +4,16 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.users.Student;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainController {
@@ -33,19 +39,19 @@ public class MainController {
     }
 
     public void openUserView() {
-      /*  Tab userTab = new Tab();
-        AnchorPane userTabRootNode = new AnchorPane();
-        userTab.setContent(userTabRootNode);
-        TableView userTableView = new TableView();
-        TableColumn name = new TableColumn();
-        name.setText("Name");
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        userTableView.getColumns().add(name);
-        userTableView.prefWidthProperty().bind(userTabRootNode.prefWidthProperty());
-        userTableView.prefHeightProperty().bind(userTabRootNode.prefHeightProperty());
-        Main.contextContainer.getUsers().get().forEach(item -> userTableView.getItems().add(item));
-        userTabRootNode.getChildren().add(userTableView);
-        tabs.getTabs().add(userTab);
-        */
+        try {
+            if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
+                Parent root = FXMLLoader.load(this.getClass().getResource("userTab.fxml"));
+                TableView table = (TableView) root.lookup("#usersTab");
+                /*TableColumn<Borrower,String> column = (TableColumn<Borrower,String>) root.lookup("nameUser");*/
+                table.getItems().addAll(Main.contextContainer.getUsers().get());
+                Tab tab = new Tab();
+                tab.setContent(root.lookup("#userAnchor"));
+                tab.setText("USERS");
+                tabs.getTabs().add(tab);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
