@@ -7,7 +7,9 @@ import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -18,33 +20,59 @@ public class PeopleTableViewDetailController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
 
+    private boolean modifyingStatus;
+
+    private People selectedPeople;
+
+    private People modifyPeopleContext;
+
+
     @FXML
     private Label peopleConcreteType;
 
     @FXML
-    private Label firstNameLabel;
+    private TextField firstNameLabel;
 
     @FXML
-    private Label surnameLabel;
+    private TextField surnameLabel;
 
     @FXML
-    private Label addressLabel;
+    private TextField addressLabel;
 
     @FXML
-    private Label phoneNumberLabel;
+    private TextField phoneNumberLabel;
 
     @FXML
-    private Label emailLabel;
+    private TextField emailLabel;
 
     @FXML
-    private Label gradeLabel;
+    private TextField gradeLabel;
+
+    @FXML
+    private Button validateButton;
+
+    @FXML
+    private Button modifyButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialise when FXML is loaded
+        setEditableStatus(false);
+        modifyingStatus = false;
+        validateButton.setVisible(false);
+    }
+
+    private void setEditableStatus(boolean editableStatus){
+        firstNameLabel.setEditable(editableStatus);
+        surnameLabel.setEditable(editableStatus);
+        addressLabel.setEditable(editableStatus);
+        phoneNumberLabel.setEditable(editableStatus);
+        emailLabel.setEditable(editableStatus);
+        gradeLabel.setEditable(editableStatus);
     }
 
     public void setDetailedInfo(Borrower user){
+        this.selectedPeople = (People) user;
         if(user instanceof Teacher){
             // handle Teacher
             Teacher teacher = (Teacher) user;
@@ -73,6 +101,62 @@ public class PeopleTableViewDetailController implements Initializable {
             phoneNumberLabel.setText(nullStr);
             emailLabel.setText(nullStr);
             gradeLabel.setText(nullStr);
+        }
+    }
+
+    public void modifyFirstName(){
+    }
+
+    public void modifySurname(){
+        this.modifyPeopleContext.setSurname(this.firstNameLabel.getText());
+    }
+
+    public void modifiyAddress(){
+        this.modifyPeopleContext.setAddress(this.addressLabel.getText());
+    }
+
+    public void modifyPhoneNumber(){
+        this.modifyPeopleContext.setPhoneNumber(this.phoneNumberLabel.getText());
+    }
+
+    public void modifyEmail(){
+        this.modifyPeopleContext.setEmail(this.emailLabel.getText());
+    }
+
+    public void modifyGrade(){
+
+    }
+
+    private  <E extends People> People  instanciatePeopleModifyingContext(E selectedPeople){
+        if(Teacher.class.isInstance(selectedPeople)){
+            return new Teacher((Teacher) selectedPeople);
+        }else if(Student.class.isInstance(selectedPeople)){
+            return new Student((Student)selectedPeople);
+        }
+        return null;
+    }
+
+    public void modify(){
+        if(!modifyingStatus){
+            validateButton.setVisible(true);
+            modifyingStatus = true;
+            setEditableStatus(true);
+            modifyPeopleContext = instanciatePeopleModifyingContext(selectedPeople);
+        } else {
+            validateButton.setVisible(false);
+            modifyingStatus = false;
+            setEditableStatus(false);
+            modifyPeopleContext = null;
+        }
+    }
+
+    public void validate(){
+        if(modifyPeopleContext != null){
+            selectedPeople.setEmail(modifyPeopleContext.getEmail());
+            selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
+            selectedPeople.setAddress(modifyPeopleContext.getAddress());
+            selectedPeople.setSurname(modifyPeopleContext.getSurname());
+            validateButton.setVisible(false);
         }
     }
 }

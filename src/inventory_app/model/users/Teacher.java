@@ -9,6 +9,10 @@ import java.util.ArrayList;
 public class Teacher extends People implements Borrower,Serializable {
     private ArrayList<Course> classes;
 
+    public Teacher(Teacher teacher){
+        super(teacher.getId(),teacher.getFirstName(),teacher.getSurname(),teacher.getAddress(),teacher.getPhoneNumber(),teacher.getEmail());
+    }
+
     public Teacher(String socialSecurityNumber,
                    String firstName, String surname,
                    String address, String phoneNumber, String email) {
