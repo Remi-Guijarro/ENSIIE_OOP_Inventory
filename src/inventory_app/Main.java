@@ -39,6 +39,9 @@ public class Main extends Application{
         b.addUser(studentB);
         b.addUser(startup);
         b.addUser(teacher);
+        for(int i = 0 ; i < 250 ; i++){
+            b.addUser(new Student("01234567"+i,"firstName" +i,"surname" + i, "adresse" + i,"12345578" + i,"email2@email2.email" + i,Student.Grade._1A));
+        }
 
         Tablet tab =  new Tablet("Oxygen6","Apple",school,Calendar.getInstance().getTime(),399.0,Tablet.OS.LINUX,new int[]{1920,1080});
         Tablet tab2 =  new Tablet("Oxygen7","Apple",school,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
