@@ -68,6 +68,7 @@ public class Main extends Application{
         bordelessScene.setMoveControl(root.lookup("#header"));
         bordelessScene.setSnapEnabled(true);
         bordelessScene.removeDefaultCSS();
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

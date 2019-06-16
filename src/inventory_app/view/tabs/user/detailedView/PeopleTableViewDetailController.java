@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,9 +17,6 @@ import java.util.ResourceBundle;
 public class PeopleTableViewDetailController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
-
-    @FXML
-    private AnchorPane root;
 
     @FXML
     private Label peopleConcreteType;

@@ -10,9 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -33,6 +37,15 @@ public class UserViewController implements Initializable {
     @FXML
     private BorderPane detailedInfo;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private TextField searchText;
+
+    @FXML
+    private Button searchButton;
+
     public TableColumn getNameUser(){
         return nameUser;
     }
@@ -47,6 +60,8 @@ public class UserViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //searchButton.setText("");
+        searchButton.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../../icons/search.png").toExternalForm())));
         nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
         usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
         usersTab.getSelectionModel().selectedItemProperty().addListener(
@@ -74,8 +89,8 @@ public class UserViewController implements Initializable {
     private FXMLLoader loadDetailsView(String location) throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
         Parent root =  loader.load();
-        AnchorPane rootAnchorPane = (AnchorPane) root;
-        detailedInfo.setCenter(rootAnchorPane);
+        AnchorPane rootBorderPane = (AnchorPane) root;
+        detailedInfo.setCenter(rootBorderPane);
         return loader;
     }
 }
