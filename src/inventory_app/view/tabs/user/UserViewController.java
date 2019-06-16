@@ -2,6 +2,9 @@ package inventory_app.view.tabs.user;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
+import inventory_app.model.inventory.Startup;
+import inventory_app.model.users.People;
+import inventory_app.view.tabs.user.detailedView.CompanyTableViewDetailController;
 import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,17 +47,35 @@ public class UserViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
-            usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("detailedView/peopleTableViewDetail.fxml"));
-            Parent root =  loader.load();
-            AnchorPane rootAnchorPane = (AnchorPane) root;
-            detailedInfo.setCenter(rootAnchorPane);
-            usersTab.getSelectionModel().selectedItemProperty().addListener(
-                    (observable, oldValue, newValue) -> ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
+        usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
+        usersTab.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if(newValue instanceof Startup){
+                        FXMLLoader loader = null;
+                        try {
+                            loader = loadDetailsView("detailedView/companyTableViewDetail.fxml");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((CompanyTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                    } else if (newValue instanceof People){
+                        FXMLLoader loader = null;
+                        try {
+                            loader = loadDetailsView("detailedView/peopleTableViewDetail.fxml");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                    }
+                });
+    }
+
+    private FXMLLoader loadDetailsView(String location) throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
+        Parent root =  loader.load();
+        AnchorPane rootAnchorPane = (AnchorPane) root;
+        detailedInfo.setCenter(rootAnchorPane);
+        return loader;
     }
 }

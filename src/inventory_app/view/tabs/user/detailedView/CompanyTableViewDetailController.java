@@ -1,6 +1,7 @@
 package inventory_app.view.tabs.user.detailedView;
 
 import inventory_app.model.inventory.Borrower;
+import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
 import javafx.fxml.FXML;
@@ -15,29 +16,15 @@ public class CompanyTableViewDetailController implements Initializable {
 
     private String nullStr =  "UnHandled User Type";
 
-    @FXML
-    private AnchorPane root;
 
     @FXML
-    private Label peopleConcreteType;
+    private Label sirenLabel;
 
     @FXML
-    private Label firstNameLabel;
+    private Label incubatorNameLabel;
 
     @FXML
-    private Label surnameLabel;
-
-    @FXML
-    private Label addressLabel;
-
-    @FXML
-    private Label phoneNumberLabel;
-
-    @FXML
-    private Label emailLabel;
-
-    @FXML
-    private Label gradeLabel;
+    private Label companyConcreteType;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,34 +32,16 @@ public class CompanyTableViewDetailController implements Initializable {
     }
 
     public void setDetailedInfo(Borrower user){
-        if(user instanceof Teacher){
+        if(user instanceof Startup){
             // handle Teacher
-            Teacher teacher = (Teacher) user;
-            peopleConcreteType.setText("Teacher");
-            firstNameLabel.setText(teacher.getFirstName());
-            surnameLabel.setText(teacher.getSurname());
-            addressLabel.setText(teacher.getAddress());
-            phoneNumberLabel.setText(teacher.getPhoneNumber());
-            emailLabel.setText(teacher.getEmail());
-            gradeLabel.setText("N/ A");
-        } else if (user instanceof Student){
-            // handle Student
-            Student student = (Student) user;
-            peopleConcreteType.setText("Student");
-            firstNameLabel.setText(student.getFirstName());
-            surnameLabel.setText(student.getSurname());
-            addressLabel.setText(student.getAddress());
-            phoneNumberLabel.setText(student.getPhoneNumber());
-            emailLabel.setText(student.getEmail());
-            gradeLabel.setText(student.getGrade().toString());
+            Startup company = (Startup) user;
+            sirenLabel.setText(company.getSIREN());
+            companyConcreteType.setText("Startup");
+            incubatorNameLabel.setText(company.getIncubatorName());
         } else {
-            peopleConcreteType.setText("Unhandled type");
-            firstNameLabel.setText(nullStr);
-            surnameLabel.setText(nullStr);
-            addressLabel.setText(nullStr);
-            phoneNumberLabel.setText(nullStr);
-            emailLabel.setText(nullStr);
-            gradeLabel.setText(nullStr);
+            sirenLabel.setText(nullStr);
+            companyConcreteType.setText(nullStr);
+            incubatorNameLabel.setText(nullStr);
         }
     }
 }

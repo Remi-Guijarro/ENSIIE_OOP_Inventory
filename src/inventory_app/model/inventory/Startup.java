@@ -28,4 +28,6 @@ public class Startup implements Borrower,Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getIncubatorName(){return this.incubator.getName();}
 }

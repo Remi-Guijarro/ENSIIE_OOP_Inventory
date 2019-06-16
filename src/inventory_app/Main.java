@@ -14,6 +14,7 @@ import inventory_app.model.users.Teacher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import inventory_app.model.users.Student;
@@ -60,6 +61,7 @@ public class Main extends Application{
         mainPrimaryStage = primaryStage;
         Parent root = FXMLLoader.load(this.getClass().getResource("view/main/main.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
         primaryStage.setTitle("Inventory");
         BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root);
         primaryStage.setScene(bordelessScene);
