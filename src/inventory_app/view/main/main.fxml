@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5F646E;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5F646E;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.main.MainController">
    <top>
       <HBox fx:id="header" alignment="TOP_RIGHT" style="-fx-background-color: #5F646E;" BorderPane.alignment="CENTER">
          <padding>
@@ -45,11 +45,11 @@
       </HBox>
    </top>
    <center>
-      <SplitPane dividerPositions="0.34448160535117056" prefHeight="365.0" prefWidth="600.0" style="-fx-background-color: #5F646E;" stylesheets="@customSplit.css" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.34448160535117056" prefHeight="365.0" prefWidth="600.0" style="-fx-background-color: #5F646E;" stylesheets="@../customSplit.css" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane maxWidth="400.0" minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox alignment="TOP_CENTER" layoutX="53.0" layoutY="9.0" prefHeight="363.0" prefWidth="203.0" style="-fx-background-color: #5F646E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" layoutX="53.0" layoutY="9.0" maxWidth="400.0" minWidth="200.0" prefHeight="363.0" prefWidth="203.0" style="-fx-background-color: #5F646E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button id="USER" fx:id="btnUser" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openUserView" style="-fx-background-color: #05D39B;" text="Users" textFill="WHITE">
                            <padding>
@@ -100,7 +100,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="385.0" style="-fx-background-color: #484C54;">
                <children>
-                  <TabPane fx:id="tabs" layoutX="42.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #484C54;" stylesheets="@tabPane.css" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TabPane fx:id="tabs" layoutX="42.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #484C54;" stylesheets="@../tabs/tabPane.css" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
         </items>
       </SplitPane>

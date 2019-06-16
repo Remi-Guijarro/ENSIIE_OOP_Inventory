@@ -1,8 +1,8 @@
-package inventory_app.view;
+package inventory_app.view.tabs.user;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
-import inventory_app.model.users.People;
+import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,12 +47,12 @@ public class UserViewController implements Initializable {
         try {
             nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
             usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("peopleTableView.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("detailedView/peopleTableViewDetail.fxml"));
             Parent root =  loader.load();
             AnchorPane rootAnchorPane = (AnchorPane) root;
             detailedInfo.setCenter(rootAnchorPane);
             usersTab.getSelectionModel().selectedItemProperty().addListener(
-                    (observable, oldValue, newValue) -> ((PeopleTableViewController)loader.getController()).setDetailedInfo((Borrower) newValue));
+                    (observable, oldValue, newValue) -> ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package inventory_app.view;
+package inventory_app.view.main;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
@@ -43,7 +43,7 @@ public class MainController {
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
-                Parent root = loader.load(this.getClass().getResource("userTab.fxml"));
+                Parent root = loader.load(this.getClass().getResource("../tabs/user/userTab.fxml"));
                 tab.setContent(root);
                 tab.setText("USERS");
                 tabs.getTabs().add(tab);

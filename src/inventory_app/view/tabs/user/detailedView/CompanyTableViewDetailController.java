@@ -1,8 +1,6 @@
-package inventory_app.view;
+package inventory_app.view.tabs.user.detailedView;
 
 import inventory_app.model.inventory.Borrower;
-import inventory_app.model.inventory.Startup;
-import inventory_app.model.users.People;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
 import javafx.fxml.FXML;
@@ -13,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PeopleTableViewController implements Initializable {
+public class CompanyTableViewDetailController implements Initializable {
 
     private String nullStr =  "UnHandled User Type";
 
@@ -51,6 +49,12 @@ public class PeopleTableViewController implements Initializable {
             // handle Teacher
             Teacher teacher = (Teacher) user;
             peopleConcreteType.setText("Teacher");
+            firstNameLabel.setText(teacher.getFirstName());
+            surnameLabel.setText(teacher.getSurname());
+            addressLabel.setText(teacher.getAddress());
+            phoneNumberLabel.setText(teacher.getPhoneNumber());
+            emailLabel.setText(teacher.getEmail());
+            gradeLabel.setText("N/ A");
         } else if (user instanceof Student){
             // handle Student
             Student student = (Student) user;
