@@ -108,19 +108,24 @@ public class PeopleTableViewDetailController implements Initializable {
     }
 
     public void modifySurname(){
-        this.modifyPeopleContext.setSurname(this.firstNameLabel.getText());
+        if(surnameLabel.isEditable())
+            this.modifyPeopleContext.setSurname(this.firstNameLabel.getText());
     }
 
     public void modifiyAddress(){
-        this.modifyPeopleContext.setAddress(this.addressLabel.getText());
+        if(addressLabel.isEditable())
+            this.modifyPeopleContext.setAddress(this.addressLabel.getText());
     }
 
     public void modifyPhoneNumber(){
-        this.modifyPeopleContext.setPhoneNumber(this.phoneNumberLabel.getText());
+        if(phoneNumberLabel.isEditable())
+            this.modifyPeopleContext.setPhoneNumber(this.phoneNumberLabel.getText());
     }
 
     public void modifyEmail(){
-        this.modifyPeopleContext.setEmail(this.emailLabel.getText());
+        if(this.emailLabel.isEditable()){
+            this.modifyPeopleContext.setEmail(this.emailLabel.getText());
+        }
     }
 
     public void modifyGrade(){

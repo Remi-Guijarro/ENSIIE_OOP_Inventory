@@ -97,10 +97,10 @@
                      </GridPane.margin>
                   </Label>
                   <TextField fx:id="firstNameLabel" GridPane.columnIndex="1" />
-                  <TextField fx:id="surnameLabel" onKeyPressed="#modifySurname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="addressLabel" onKeyPressed="#modifiyAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="phoneNumberLabel" onKeyPressed="#modifyPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="emailLabel" onKeyPressed="#modifyEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="surnameLabel" onKeyReleased="#modifySurname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="addressLabel" onKeyReleased="#modifiyAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="phoneNumberLabel" onKeyReleased="#modifyPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="emailLabel" onKeyReleased="#modifyEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="gradeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
                <VBox.margin>
