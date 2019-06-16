@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class PeopleTableViewDetailController implements Initializable {
 
-    private String nullStr =  "UnHandled User Type";
+    private final String nullStr =  "UnHandled User Type";
 
     @FXML
     private AnchorPane root;
