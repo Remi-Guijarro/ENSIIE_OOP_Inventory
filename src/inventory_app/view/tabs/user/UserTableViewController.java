@@ -4,8 +4,8 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
-import inventory_app.view.tabs.user.detailedView.CompanyTableViewDetailController;
-import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailController;
+import inventory_app.view.tabs.user.detailedView.CompanyTableViewDetailedController;
+import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailedController;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UserViewController implements Initializable {
+public class UserTableViewController implements Initializable {
     @FXML
     private AnchorPane userAnchor;
 
@@ -76,16 +76,16 @@ public class UserViewController implements Initializable {
                     if(newValue instanceof Startup){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/companyTableViewDetail.fxml");
-                            ((CompanyTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                            loader = loadDetailsView("detailedView/companyTableViewDetailed.fxml");
+                            ((CompanyTableViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else if (newValue instanceof People){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/peopleTableViewDetail.fxml");
-                            ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                            loader = loadDetailsView("detailedView/peopleTableViewDetailed.fxml");
+                            ((PeopleTableViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

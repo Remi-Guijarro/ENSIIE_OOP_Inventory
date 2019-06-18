@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PeopleTableViewDetailController implements Initializable {
+public class PeopleTableViewDetailedController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
 

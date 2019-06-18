@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CompanyTableViewDetailController implements Initializable {
+public class CompanyTableViewDetailedController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
 

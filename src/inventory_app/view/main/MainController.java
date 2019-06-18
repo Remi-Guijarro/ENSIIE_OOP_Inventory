@@ -43,7 +43,7 @@ public class MainController {
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
-                Parent root = loader.load(this.getClass().getResource("../tabs/user/userTab.fxml"));
+                Parent root = loader.load(this.getClass().getResource("../tabs/user/userTableView.fxml"));
                 tab.setContent(root);
                 tab.setText("USERS");
                 tabs.getTabs().add(tab);
