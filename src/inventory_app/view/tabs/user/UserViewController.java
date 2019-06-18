@@ -32,7 +32,7 @@ public class UserViewController implements Initializable {
     private AnchorPane userAnchor;
 
     @FXML
-    private TableColumn nameColumn;
+    private TableColumn<Borrower, String> nameColumn;
 
     @FXML
     private TableView<Borrower> borrowerTable;
