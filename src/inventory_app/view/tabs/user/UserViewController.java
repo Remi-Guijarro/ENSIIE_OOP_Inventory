@@ -6,6 +6,9 @@ import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
 import inventory_app.view.tabs.user.detailedView.CompanyTableViewDetailController;
 import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailController;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,10 +32,10 @@ public class UserViewController implements Initializable {
     private AnchorPane userAnchor;
 
     @FXML
-    private TableColumn nameUser;
+    private TableColumn nameColumn;
 
     @FXML
-    private TableView usersTab;
+    private TableView<Borrower> borrowerTable;
 
     @FXML
     private BorderPane detailedInfo;
@@ -41,17 +44,17 @@ public class UserViewController implements Initializable {
     private Button addButton;
 
     @FXML
-    private TextField searchText;
+    private TextField searchField;
 
     @FXML
     private Button searchButton;
 
-    public TableColumn getNameUser(){
-        return nameUser;
+    public TableColumn getNameColumn(){
+        return nameColumn;
     }
 
-    public TableView getUsersTab(){
-        return usersTab;
+    public TableView getBorrowerTable(){
+        return borrowerTable;
     }
 
     public AnchorPane getUserAnchor(){
@@ -62,9 +65,9 @@ public class UserViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //searchButton.setText("");
         searchButton.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../../icons/search.png").toExternalForm())));
-        nameUser.setCellValueFactory(new PropertyValueFactory<>("name"));
-        usersTab.getItems().addAll(Main.contextContainer.getUsers().get());
-        usersTab.getSelectionModel().selectedItemProperty().addListener(
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        borrowerTable.getItems().addAll(Main.contextContainer.getUsers().get());
+        borrowerTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     if(newValue instanceof Startup){
                         FXMLLoader loader = null;
@@ -83,7 +86,35 @@ public class UserViewController implements Initializable {
                         }
                         ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
                     }
-                });
+                }
+        );
+
+        setSearchFilter();
+    }
+
+    private void setSearchFilter() {
+        ObservableList<Borrower> allData = borrowerTable.getItems();
+        FilteredList<Borrower> filteredData = new FilteredList<>(allData, p -> true);
+        searchField.textProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( borrower -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (borrower.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<Borrower> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(borrowerTable.comparatorProperty());
+
+        borrowerTable.setItems(sortedData);
     }
 
     private FXMLLoader loadDetailsView(String location) throws IOException {
