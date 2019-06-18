@@ -138,4 +138,9 @@ public class UserTableViewController implements Initializable {
         detailedInfo.setCenter(rootBorderPane);
         return loader;
     }
+
+    public void openAddBorrowerView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowerView.fxml"));
+        loader.load();
+    }
 }
