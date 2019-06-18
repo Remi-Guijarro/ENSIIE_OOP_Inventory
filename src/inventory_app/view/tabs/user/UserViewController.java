@@ -63,33 +63,47 @@ public class UserViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //searchButton.setText("");
-        searchButton.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../../icons/search.png").toExternalForm())));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        borrowerTable.getItems().addAll(Main.contextContainer.getUsers().get());
+        setIcons();
+        populateTable();
+        setColumnName();
+        setListenerOnTableItems();
+        setSearchFilter();
+    }
+
+    private void setListenerOnTableItems() {
         borrowerTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     if(newValue instanceof Startup){
                         FXMLLoader loader = null;
                         try {
                             loader = loadDetailsView("detailedView/companyTableViewDetail.fxml");
+                            ((CompanyTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        ((CompanyTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
                     } else if (newValue instanceof People){
                         FXMLLoader loader = null;
                         try {
                             loader = loadDetailsView("detailedView/peopleTableViewDetail.fxml");
+                            ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        ((PeopleTableViewDetailController)loader.getController()).setDetailedInfo((Borrower) newValue);
                     }
                 }
         );
+    }
 
-        setSearchFilter();
+    private void setColumnName() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    }
+
+    private void populateTable() {
+        borrowerTable.getItems().addAll(Main.contextContainer.getUsers().get());
+    }
+
+    private void setIcons() {
+        searchButton.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../../icons/search.png").toExternalForm())));
     }
 
     private void setSearchFilter() {
