@@ -90,7 +90,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="firstNameLabel" GridPane.columnIndex="1" />
+            <TextField fx:id="firstNameLabel" onKeyReleased="#modifyFirstName" GridPane.columnIndex="1" />
             <TextField fx:id="surnameLabel" onKeyReleased="#modifySurname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="addressLabel" onKeyReleased="#modifiyAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="phoneNumberLabel" onKeyReleased="#modifyPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />

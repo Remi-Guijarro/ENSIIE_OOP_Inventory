@@ -29,7 +29,7 @@ public class UserListViewController implements Initializable {
     private AnchorPane userAnchor;
 
     @FXML
-    private TableColumn<Borrower, String> nameColumn;
+    private  TableColumn<Borrower, String> nameColumn;
 
     @FXML
     private ListView<Borrower> borrowerList;
@@ -82,7 +82,7 @@ public class UserListViewController implements Initializable {
                         FXMLLoader loader = null;
                         try {
                             loader = loadDetailsView("detailedView/peopleListViewDetailed.fxml");
-                            ((PeopleListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                            ((PeopleListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue,borrowerList);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

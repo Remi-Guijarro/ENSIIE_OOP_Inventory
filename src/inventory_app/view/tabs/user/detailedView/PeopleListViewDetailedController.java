@@ -5,15 +5,18 @@ import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
+import inventory_app.view.tabs.user.UserListViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class PeopleListViewDetailedController implements Initializable {
@@ -53,6 +56,7 @@ public class PeopleListViewDetailedController implements Initializable {
 
     @FXML
     private Button modifyButton;
+    private ListView<Borrower> borrowerListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,7 +75,8 @@ public class PeopleListViewDetailedController implements Initializable {
         gradeLabel.setEditable(editableStatus);
     }
 
-    public void setDetailedInfo(Borrower user){
+    public void setDetailedInfo(Borrower user, ListView<Borrower> borrowerListView){
+        this.borrowerListView = borrowerListView;
         this.selectedPeople = (People) user;
         if(user instanceof Teacher){
             // handle Teacher
@@ -105,11 +110,14 @@ public class PeopleListViewDetailedController implements Initializable {
     }
 
     public void modifyFirstName(){
+        if(firstNameLabel.isEditable())
+            System.out.println(this.firstNameLabel.getText());
+            this.modifyPeopleContext.setFirstName(this.firstNameLabel.getText());
     }
 
     public void modifySurname(){
         if(surnameLabel.isEditable())
-            this.modifyPeopleContext.setSurname(this.firstNameLabel.getText());
+            this.modifyPeopleContext.setSurname(this.surnameLabel.getText());
     }
 
     public void modifiyAddress(){
@@ -155,13 +163,20 @@ public class PeopleListViewDetailedController implements Initializable {
         }
     }
 
+    private ArrayList<String> CheckInput(People people){
+        return new ArrayList<>();
+    }
+
     public void validate(){
         if(modifyPeopleContext != null){
+            System.out.println(modifyPeopleContext.getFirstName());
+            selectedPeople.setFirstName(modifyPeopleContext.getFirstName());
             selectedPeople.setEmail(modifyPeopleContext.getEmail());
             selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
             selectedPeople.setAddress(modifyPeopleContext.getAddress());
             selectedPeople.setSurname(modifyPeopleContext.getSurname());
             validateButton.setVisible(false);
+            borrowerListView.refresh();
         }
     }
 }
