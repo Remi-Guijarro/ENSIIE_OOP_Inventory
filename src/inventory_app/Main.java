@@ -14,6 +14,7 @@ import inventory_app.model.users.Teacher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -63,14 +64,15 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         mainPrimaryStage = primaryStage;
         Parent root = FXMLLoader.load(this.getClass().getResource("view/main/main.fxml"));
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
         primaryStage.setTitle("Inventory");
-        BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root);
+        //BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root);
+        Scene bordelessScene = new Scene(root);
         primaryStage.setScene(bordelessScene);
-        bordelessScene.setMoveControl(root.lookup("#header"));
-        bordelessScene.setSnapEnabled(true);
-        bordelessScene.removeDefaultCSS();
+        //bordelessScene.setMoveControl(root.lookup("#header"));
+        //bordelessScene.setSnapEnabled(true);
+        //bordelessScene.removeDefaultCSS();
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

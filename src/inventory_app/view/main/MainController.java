@@ -23,31 +23,6 @@ public class MainController implements Initializable {
     @FXML
     private TabPane tabs;
 
-    @FXML
-    private Button min;
-
-    @FXML
-    private Button max;
-
-    @FXML
-    private Button close;
-
-    public void exit(){
-        Main.mainPrimaryStage.close();
-    }
-
-    public void minimize(){
-        Main.mainPrimaryStage.setIconified(true);
-    }
-
-    public void maximize(){
-        if(Main.mainPrimaryStage.isMaximized()){
-            Main.mainPrimaryStage.setMaximized(false);
-        }else{
-            Main.mainPrimaryStage.setMaximized(true);
-        }
-    }
-
     public void openUserView() {
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
             try {
@@ -66,8 +41,5 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        min.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../icons/minimize.png").toExternalForm())));
-        max.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../icons/maximize.png").toExternalForm())));
-        close.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../icons/close.png").toExternalForm())));
     }
 }

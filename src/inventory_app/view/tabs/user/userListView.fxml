@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.3022922636103152" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.UserListViewController">
+<SplitPane dividerPositions="0.3022922636103152" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.UserListViewController">
    <items>
       <VBox minWidth="150.0">
          <children>
             <HBox spacing="5.0">
                <children>
-                  <TextField fx:id="searchField" promptText="Search" />
+                  <TextField fx:id="searchField" prefHeight="41.0" prefWidth="165.0" promptText="Search" HBox.hgrow="ALWAYS" />
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="addButton" mnemonicParsing="false" style="-fx-background-color: #05D39B;" text="+" textFill="WHITE">
                      <font>
@@ -27,7 +27,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <ListView fx:id="borrowerList" prefWidth="300.0" />
+            <ListView fx:id="borrowerList" prefWidth="300.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <VBox fx:id="detailedInfo" prefHeight="200.0" prefWidth="100.0" />
