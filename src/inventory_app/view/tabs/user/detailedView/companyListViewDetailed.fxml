@@ -9,12 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.detailedView.CompanyListViewDetailedController">
+<VBox prefWidth="500.0" style="-fx-background-color: #484C54;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.detailedView.CompanyListViewDetailedController">
    <children>
       <AnchorPane>
          <children>
-            <Label fx:id="companyConcreteType" alignment="CENTER" text="Type" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Label fx:id="companyConcreteType" alignment="CENTER" text="Type" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -37,7 +36,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="SIREN">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="SIREN" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -48,12 +47,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="sirenLabel" alignment="CENTER" text="Label" GridPane.columnIndex="1">
+            <Label fx:id="sirenLabel" alignment="CENTER" text="Label" textFill="WHITE" GridPane.columnIndex="1">
                <padding>
                   <Insets left="30.0" />
                </padding>
             </Label>
-            <Label text="Incubator" GridPane.rowIndex="1">
+            <Label text="Incubator" textFill="WHITE" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -61,7 +60,7 @@
                   <Insets left="30.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="incubatorNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="incubatorNameLabel" text="Label" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <padding>
                   <Insets left="30.0" />
                </padding>
