@@ -4,9 +4,12 @@ import inventory_app.model.inventory.Borrower;
 import inventory_app.model.users.People;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,13 +51,25 @@ public class PeopleListViewDetailedController implements Initializable {
 
     @FXML
     private Button editButton;
+
+    @FXML
+    private Label editResultLabel;
+
+    private ArrayList<TextField> fieldProxy;
+
     private ListView<Borrower> borrowerListView;
+
+    private final String NAME_REGEX = "^([A-Za-z\\-\\ ]+)$";
+    private final String EMAIL_REGEX = "^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$";
+    private final String PHONE_NUMBER_REGEX = "^0([0-9]{9})$";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFieldsEditable(false);
         isUpdating = false;
         confirmButton.setVisible(false);
+        editResultLabel.setVisible(false);
+        fieldProxy = new ArrayList<>();
     }
 
     private void setFieldsEditable(boolean editableStatus){
@@ -100,6 +115,36 @@ public class PeopleListViewDetailedController implements Initializable {
         }
     }
 
+    private boolean validateField(TextField field, final String regex) {
+        if (field.getText().matches(regex)) {
+            field.setStyle("-fx-background-color: #a5ff93");
+            return true;
+        } else {
+            field.setStyle("-fx-background-color: #ff998c");
+            return false;
+        }
+    }
+
+    public boolean validateFirstName() {
+        return validateField(firstNameField, NAME_REGEX);
+    }
+
+    public boolean validateSurname() {
+        return validateField(surnameField, NAME_REGEX);
+    }
+
+    public boolean validatePhoneNumber() {
+        return validateField(phoneNumberField, PHONE_NUMBER_REGEX);
+    }
+
+    public boolean validateEmail() {
+        return validateField(emailField, EMAIL_REGEX);
+    }
+
+    public boolean validateAddress() {
+        return validateField(addressField, ".*");    //any string is okay
+    }
+
     public void updateFirstName(){
         if(firstNameField.isEditable())
             this.modifyPeopleContext.setFirstName(this.firstNameField.getText());
@@ -139,17 +184,28 @@ public class PeopleListViewDetailedController implements Initializable {
         return null;
     }
 
-    public void update(){
+    public void editClicked(){
         if(!isUpdating){
+
+            validateFirstName();
+            validateSurname();
+            validatePhoneNumber();
+            validateAddress();
+            validateEmail();
+
             confirmButton.setVisible(true);
             isUpdating = true;
             setFieldsEditable(true);
             modifyPeopleContext = instantiatePeopleModifyingContext(selectedPeople);
+
+            //fieldProxy.addAll(firstNameField, surnameField, addressField, phoneNumberField, emailField, gradeField);
+            editButton.setText("Cancel");
         } else {
             confirmButton.setVisible(false);
             isUpdating = false;
             setFieldsEditable(false);
             modifyPeopleContext = null;
+            editButton.setText("Edit...");
         }
     }
 
@@ -159,14 +215,52 @@ public class PeopleListViewDetailedController implements Initializable {
 
     public void confirm(){
         if(modifyPeopleContext != null){
-            System.out.println(modifyPeopleContext.getFirstName());
-            selectedPeople.setFirstName(modifyPeopleContext.getFirstName());
-            selectedPeople.setEmail(modifyPeopleContext.getEmail());
-            selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
-            selectedPeople.setAddress(modifyPeopleContext.getAddress());
-            selectedPeople.setSurname(modifyPeopleContext.getSurname());
-            confirmButton.setVisible(false);
-            borrowerListView.refresh();
+            if (validateAllField()) {
+                selectedPeople.setFirstName(modifyPeopleContext.getFirstName());
+                selectedPeople.setEmail(modifyPeopleContext.getEmail());
+                selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
+                selectedPeople.setAddress(modifyPeopleContext.getAddress());
+                selectedPeople.setSurname(modifyPeopleContext.getSurname());
+                confirmButton.setVisible(false);
+                borrowerListView.refresh();
+                displayDatabaseUpdated(3000);
+            } else {
+                displayEditError(3000);
+            }
         }
+    }
+
+    private void displayDatabaseUpdated(int ms) {
+        editResultLabel.setText("Database updated");
+        editResultLabel.setTextFill(Color.GREEN);
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(ms/1000)
+        );
+        visiblePause.setOnFinished(
+                event -> editResultLabel.setVisible(false)
+        );
+        editResultLabel.setVisible(true);
+        visiblePause.play();
+    }
+
+    private void displayEditError(int ms) {
+        editResultLabel.setText("Incorrect field(s)");
+        editResultLabel.setTextFill(Color.RED);
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(ms/1000)
+        );
+        visiblePause.setOnFinished(
+                event -> editResultLabel.setVisible(false)
+        );
+        editResultLabel.setVisible(true);
+        visiblePause.play();
+    }
+
+    private boolean validateAllField() {
+        return (validateFirstName() &&
+                validateSurname() &&
+                validateAddress() &&
+                validateEmail() &&
+                validatePhoneNumber());
     }
 }
