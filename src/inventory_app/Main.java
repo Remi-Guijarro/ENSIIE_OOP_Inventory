@@ -1,6 +1,5 @@
 package inventory_app;
 
-import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 import inventory_app.model.database.SerializeDatabase;
 import inventory_app.model.inventory.BorrowingsList;
 import inventory_app.model.inventory.ContextContainer;
@@ -24,7 +23,6 @@ import inventory_app.model.users.Users;
 import java.util.Calendar;
 
 public class Main extends Application{
-    public static Stage mainPrimaryStage;
     public static ContextContainer contextContainer;
     private static SerializeDatabase database;
 
@@ -62,17 +60,12 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        mainPrimaryStage = primaryStage;
         Parent root = FXMLLoader.load(this.getClass().getResource("view/main/main.fxml"));
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
         primaryStage.setTitle("Inventory");
-        //BorderlessScene bordelessScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, root);
         Scene bordelessScene = new Scene(root);
         primaryStage.setScene(bordelessScene);
-        //bordelessScene.setMoveControl(root.lookup("#header"));
-        //bordelessScene.setSnapEnabled(true);
-        //bordelessScene.removeDefaultCSS();
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

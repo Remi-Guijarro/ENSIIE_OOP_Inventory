@@ -1,6 +1,5 @@
 package inventory_app.view.tabs.user.addView;
 
-import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,12 +31,8 @@ public class AddBorroweViewrController implements Initializable {
         addBorrowerStage = new Stage();
         addBorrowerStage.initStyle(StageStyle.UNDECORATED);
         addBorrowerStage.setTitle("Add Borrower");
-        BorderlessScene bordelessScene = new BorderlessScene(addBorrowerStage, StageStyle.UNDECORATED, root);
+        Scene bordelessScene = new Scene(root);
         addBorrowerStage.setScene(bordelessScene);
-        bordelessScene.setMoveControl(root);
-        bordelessScene.setSnapEnabled(false);
-        bordelessScene.setResizable(false);
-        bordelessScene.removeDefaultCSS();
         addBorrowerStage.setAlwaysOnTop(true);
         addBorrowerStage.show();
     }
