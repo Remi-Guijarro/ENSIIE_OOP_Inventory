@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CompanyTableViewDetailedController implements Initializable {
+public class CompanyListViewDetailedController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
 
@@ -29,6 +29,7 @@ public class CompanyTableViewDetailedController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialise when FXML is loaded
+
     }
 
     public void setDetailedInfo(Borrower user){

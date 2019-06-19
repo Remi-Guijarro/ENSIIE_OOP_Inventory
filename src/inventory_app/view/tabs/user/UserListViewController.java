@@ -4,8 +4,8 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
-import inventory_app.view.tabs.user.detailedView.CompanyTableViewDetailedController;
-import inventory_app.view.tabs.user.detailedView.PeopleTableViewDetailedController;
+import inventory_app.view.tabs.user.detailedView.CompanyListViewDetailedController;
+import inventory_app.view.tabs.user.detailedView.PeopleListViewDetailedController;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -13,21 +13,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UserTableViewController implements Initializable {
+public class UserListViewController implements Initializable {
     @FXML
     private AnchorPane userAnchor;
 
@@ -35,10 +32,10 @@ public class UserTableViewController implements Initializable {
     private TableColumn<Borrower, String> nameColumn;
 
     @FXML
-    private TableView<Borrower> borrowerTable;
+    private ListView<Borrower> borrowerList;
 
     @FXML
-    private BorderPane detailedInfo;
+    private VBox detailedInfo;
 
     @FXML
     private Button addButton;
@@ -53,8 +50,8 @@ public class UserTableViewController implements Initializable {
         return nameColumn;
     }
 
-    public TableView getBorrowerTable(){
-        return borrowerTable;
+    public ListView getBorrowerList(){
+        return borrowerList;
     }
 
     public AnchorPane getUserAnchor(){
@@ -63,29 +60,29 @@ public class UserTableViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setIcons();
+        //setIcons();
         populateTable();
-        setColumnName();
+        //setColumnName();
         setListenerOnTableItems();
         setSearchFilter();
     }
 
     private void setListenerOnTableItems() {
-        borrowerTable.getSelectionModel().selectedItemProperty().addListener(
+        borrowerList.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     if(newValue instanceof Startup){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/companyTableViewDetailed.fxml");
-                            ((CompanyTableViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                            loader = loadDetailsView("detailedView/companyListViewDetailed.fxml");
+                            ((CompanyListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else if (newValue instanceof People){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/peopleTableViewDetailed.fxml");
-                            ((PeopleTableViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
+                            loader = loadDetailsView("detailedView/peopleListViewDetailed.fxml");
+                            ((PeopleListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -99,7 +96,19 @@ public class UserTableViewController implements Initializable {
     }
 
     private void populateTable() {
-        borrowerTable.getItems().addAll(Main.contextContainer.getUsers().get());
+        borrowerList.getItems().addAll(Main.contextContainer.getUsers().get());
+        borrowerList.setCellFactory( param -> new ListCell<Borrower>() {
+            @Override
+            protected void updateItem(Borrower borrower, boolean empty) {
+                super.updateItem(borrower, empty);
+
+                if (empty || borrower == null || borrower.getName() == null) {
+                    setText(null);
+                } else {
+                    setText(borrower.getName());
+                }
+            }
+        });
     }
 
     private void setIcons() {
@@ -107,7 +116,7 @@ public class UserTableViewController implements Initializable {
     }
 
     private void setSearchFilter() {
-        ObservableList<Borrower> allData = borrowerTable.getItems();
+        ObservableList<Borrower> allData = borrowerList.getItems();
         FilteredList<Borrower> filteredData = new FilteredList<>(allData, p -> true);
         searchField.textProperty().addListener( (observable, oldValue, newValue) -> {
             filteredData.setPredicate( borrower -> {
@@ -126,16 +135,22 @@ public class UserTableViewController implements Initializable {
 
         SortedList<Borrower> sortedData = new SortedList<>(filteredData);
 
-        sortedData.comparatorProperty().bind(borrowerTable.comparatorProperty());
+        //sortedData.comparatorProperty().bind(borrowerList.comparatorProperty());
 
-        borrowerTable.setItems(sortedData);
+        borrowerList.setItems(sortedData);
+    }
+
+    private void emptyDetailInfo() {
+        if (!detailedInfo.getChildren().isEmpty())
+            detailedInfo.getChildren().remove(0);
     }
 
     private FXMLLoader loadDetailsView(String location) throws IOException {
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
         Parent root =  loader.load();
-        AnchorPane rootBorderPane = (AnchorPane) root;
-        detailedInfo.setCenter(rootBorderPane);
+        detailedInfo.getChildren().add(root);
+
         return loader;
     }
 }
