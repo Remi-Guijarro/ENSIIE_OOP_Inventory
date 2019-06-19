@@ -25,6 +25,7 @@ import java.util.Calendar;
 public class Main extends Application{
     public static ContextContainer contextContainer;
     private static SerializeDatabase database;
+    private Stage window;
 
     private static void startContext(){
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
@@ -60,14 +61,21 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
         Parent root = FXMLLoader.load(this.getClass().getResource("view/main/main.fxml"));
-        primaryStage.initStyle(StageStyle.DECORATED);
-        primaryStage.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
-        primaryStage.setTitle("Inventory");
+        window.initStyle(StageStyle.DECORATED);
+        window.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
+        window.setTitle("Inventory");
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+        setWindowMinSize();
+        window.setScene(scene);
+        window.setMaximized(false);
+        window.show();
+    }
+
+    private void setWindowMinSize() {
+        window.setMinWidth(500);
+        window.setMinHeight(400);
     }
 
     public static void main(String[] args){
