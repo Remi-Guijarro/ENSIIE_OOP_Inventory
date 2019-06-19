@@ -14,19 +14,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 public class UserListViewController implements Initializable {
 
@@ -44,9 +38,6 @@ public class UserListViewController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Button searchButton;
 
     public ListView getBorrowerList(){
         return borrowerList;
@@ -66,7 +57,7 @@ public class UserListViewController implements Initializable {
                     if(newValue instanceof Startup){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/companyListViewDetailed.fxml");
+                            loader = loadDetailedView("detailedView/companyListViewDetailed.fxml");
                             ((CompanyListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -74,7 +65,7 @@ public class UserListViewController implements Initializable {
                     } else if (newValue instanceof People){
                         FXMLLoader loader = null;
                         try {
-                            loader = loadDetailsView("detailedView/peopleListViewDetailed.fxml");
+                            loader = loadDetailedView("detailedView/peopleListViewDetailed.fxml");
                             ((PeopleListViewDetailedController)loader.getController()).setDetailedInfo((Borrower) newValue,borrowerList);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -179,7 +170,7 @@ public class UserListViewController implements Initializable {
             detailedInfo.getChildren().remove(0);
     }
 
-    private FXMLLoader loadDetailsView(String location) throws IOException {
+    private FXMLLoader loadDetailedView(String location) throws IOException {
         emptyDetailInfo();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
         Parent root =  loader.load();
