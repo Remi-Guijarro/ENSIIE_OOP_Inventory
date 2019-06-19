@@ -14,17 +14,23 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Users;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends Application{
     public static ContextContainer contextContainer;
     private static SerializeDatabase database;
+    private static Logger logger;
     private Stage window;
 
     private static void startContext(){
@@ -80,9 +86,16 @@ public class Main extends Application{
 
     public static void main(String[] args){
         database = new SerializeDatabase();
-        //startContext();
-        contextContainer =  database.load();
-        launch();
+        logger = Logger.getLogger(String.valueOf(Main.class));
+        try{
+            contextContainer =  database.load();
+        }catch (IOException | ClassNotFoundException e){
+            startContext();
+            logger.log(Level.SEVERE,"Save not found.An error append during saves loading process.A template context is being imported");
+        }finally {
+
+            launch();
+        }
         database.save(contextContainer);
     }
 }
