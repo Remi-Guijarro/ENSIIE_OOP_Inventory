@@ -8,10 +8,7 @@ import inventory_app.model.users.Teacher;
 import inventory_app.view.tabs.user.UserListViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -28,7 +25,6 @@ public class PeopleListViewDetailedController implements Initializable {
     private People selectedPeople;
 
     private People modifyPeopleContext;
-
 
     @FXML
     private Label peopleConcreteType;
@@ -111,7 +107,6 @@ public class PeopleListViewDetailedController implements Initializable {
 
     public void modifyFirstName(){
         if(firstNameLabel.isEditable())
-            System.out.println(this.firstNameLabel.getText());
             this.modifyPeopleContext.setFirstName(this.firstNameLabel.getText());
     }
 

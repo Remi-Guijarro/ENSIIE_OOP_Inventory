@@ -90,12 +90,12 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="firstNameLabel" onKeyReleased="#modifyFirstName" GridPane.columnIndex="1" />
-            <TextField fx:id="surnameLabel" onKeyReleased="#modifySurname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="addressLabel" onKeyReleased="#modifiyAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="phoneNumberLabel" onKeyReleased="#modifyPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="emailLabel" onKeyReleased="#modifyEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="gradeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="firstNameLabel" onKeyReleased="#modifyFirstName" stylesheets="@customImputText.css" GridPane.columnIndex="1" />
+            <TextField fx:id="surnameLabel" onKeyReleased="#modifySurname" stylesheets="@customImputText.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addressLabel" onKeyReleased="#modifiyAddress" stylesheets="@customImputText.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="phoneNumberLabel" onKeyReleased="#modifyPhoneNumber" stylesheets="@customImputText.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="emailLabel" onKeyReleased="#modifyEmail" stylesheets="@customImputText.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="gradeLabel" stylesheets="@customImputText.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
          <VBox.margin>
             <Insets bottom="40.0" left="10.0" right="40.0" />

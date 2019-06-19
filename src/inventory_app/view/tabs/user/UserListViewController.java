@@ -22,11 +22,18 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class UserListViewController implements Initializable {
+
     @FXML
     private AnchorPane userAnchor;
+
+    @FXML
+    private ComboBox<Class> typeFilterCombo;
 
     @FXML
     private  TableColumn<Borrower, String> nameColumn;
@@ -65,6 +72,7 @@ public class UserListViewController implements Initializable {
         //setColumnName();
         setListenerOnTableItems();
         setSearchFilter();
+        setTypeFilter();
     }
 
     private void setListenerOnTableItems() {
@@ -95,7 +103,7 @@ public class UserListViewController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
-    private void populateTable() {
+    private void  populateTable() {
         borrowerList.getItems().addAll(Main.contextContainer.getUsers().get());
         borrowerList.setCellFactory( param -> new ListCell<Borrower>() {
             @Override
@@ -138,6 +146,33 @@ public class UserListViewController implements Initializable {
         //sortedData.comparatorProperty().bind(borrowerList.comparatorProperty());
 
         borrowerList.setItems(sortedData);
+
+
+    }
+
+
+    public void setTypeFilter(){
+        typeFilterCombo.getItems().add(Borrower.class);
+        ObservableList<Borrower> allData = borrowerList.getItems();
+        FilteredList<Borrower> filteredData = new FilteredList<>(allData, p -> true);
+        Set<Class> types = new HashSet<>();
+        borrowerList.getItems().forEach(item -> {
+            types.add(item.getClass());
+        });
+        typeFilterCombo.getItems().addAll(types);
+        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( borrower -> {
+                if (newValue == null) {
+                    return true;
+                } else {
+                    if (newValue.isInstance(borrower)) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        });
+        borrowerList.setItems(new SortedList<>(filteredData));
     }
 
     private void emptyDetailInfo() {
