@@ -146,7 +146,7 @@ public class UserListViewController implements Initializable {
     }
 
     private FXMLLoader loadDetailsView(String location) throws IOException {
-
+        emptyDetailInfo();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
         Parent root =  loader.load();
         detailedInfo.getChildren().add(root);
