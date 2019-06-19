@@ -3,9 +3,13 @@ package inventory_app.view.main;
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.users.Student;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,6 +26,9 @@ public class MainController implements Initializable {
 
     @FXML
     private TabPane tabs;
+
+    @FXML
+    private SplitPane mainSplitPane;
 
     public void openUserView() {
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
