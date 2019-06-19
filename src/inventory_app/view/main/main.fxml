@@ -41,9 +41,9 @@
             </Button>
          </children>
       </HBox>
-      <SplitPane dividerPositions="0.3" maxHeight="1.7976931348623157E308" style="-fx-background-color: #5F646E;" stylesheets="@../customSplit.css" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" style="-fx-background-color: #5F646E;" stylesheets="@../customSplit.css" VBox.vgrow="ALWAYS">
         <items>
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5F646E;">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" style="-fx-background-color: #5F646E;">
                <children>
                   <Button id="USER" fx:id="btnUser" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openUserView" style="-fx-background-color: #05D39B;" text="Users" textFill="WHITE">
                      <padding>
@@ -91,7 +91,7 @@
                   </Button>
                </children>
             </VBox>
-            <TabPane fx:id="tabs" prefWidth="130.0" style="-fx-background-color: #484C54;" stylesheets="@../tabs/tabPane.css" tabClosingPolicy="ALL_TABS" />
+            <TabPane fx:id="tabs" style="-fx-background-color: #484C54;" stylesheets="@../tabs/tabPane.css" tabClosingPolicy="ALL_TABS" />
         </items>
       </SplitPane>
    </children>
