@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,13 +31,7 @@ import java.util.concurrent.ExecutionException;
 public class UserListViewController implements Initializable {
 
     @FXML
-    private AnchorPane userAnchor;
-
-    @FXML
     private ComboBox<Class> typeFilterCombo;
-
-    @FXML
-    private  TableColumn<Borrower, String> nameColumn;
 
     @FXML
     private ListView<Borrower> borrowerList;
@@ -53,23 +48,13 @@ public class UserListViewController implements Initializable {
     @FXML
     private Button searchButton;
 
-    public TableColumn getNameColumn(){
-        return nameColumn;
-    }
-
     public ListView getBorrowerList(){
         return borrowerList;
     }
 
-    public AnchorPane getUserAnchor(){
-        return userAnchor;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //setIcons();
         populateTable();
-        //setColumnName();
         setListenerOnTableItems();
         setSearchFilter();
         setTypeFilter();
@@ -99,10 +84,6 @@ public class UserListViewController implements Initializable {
         );
     }
 
-    private void setColumnName() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-    }
-
     private void  populateTable() {
         borrowerList.getItems().addAll(Main.contextContainer.getUsers().get());
         borrowerList.setCellFactory( param -> new ListCell<Borrower>() {
@@ -117,10 +98,6 @@ public class UserListViewController implements Initializable {
                 }
             }
         });
-    }
-
-    private void setIcons() {
-        searchButton.setGraphic(new ImageView(new Image(this.getClass().getResource("../../../../icons/search.png").toExternalForm())));
     }
 
     private void setSearchFilter() {
@@ -146,12 +123,10 @@ public class UserListViewController implements Initializable {
         //sortedData.comparatorProperty().bind(borrowerList.comparatorProperty());
 
         borrowerList.setItems(sortedData);
-
-
     }
 
 
-    public void setTypeFilter(){
+    private void setTypeFilter(){
         typeFilterCombo.getItems().add(Borrower.class);
         ObservableList<Borrower> allData = borrowerList.getItems();
         FilteredList<Borrower> filteredData = new FilteredList<>(allData, p -> true);
@@ -173,6 +148,30 @@ public class UserListViewController implements Initializable {
             });
         });
         borrowerList.setItems(new SortedList<>(filteredData));
+        displayNamesInCombo();
+
+        typeFilterCombo.setValue(Borrower.class);
+    }
+
+    private void displayNamesInCombo() {
+        typeFilterCombo.setConverter(new StringConverter<Class>() {
+
+            @Override
+            public String toString(Class object) {
+                //Special case: if class is Borrower, we want the combobox to display 'All'
+                if (object.getSimpleName().equals("Borrower")) {
+                    return "All";
+                }
+
+                return object.getSimpleName();
+            }
+
+            @Override
+            public Class fromString(String string) {
+                return typeFilterCombo.getItems().stream().filter(ap ->
+                        ap.getName().equals(string)).findFirst().orElse(null);
+            }
+        });
     }
 
     private void emptyDetailInfo() {
