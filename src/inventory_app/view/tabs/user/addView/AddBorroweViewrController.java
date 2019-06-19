@@ -29,11 +29,12 @@ public class AddBorroweViewrController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addBorrowerStage = new Stage();
-        addBorrowerStage.initStyle(StageStyle.UNDECORATED);
+        addBorrowerStage.initStyle(StageStyle.DECORATED);
         addBorrowerStage.setTitle("Add Borrower");
-        Scene bordelessScene = new Scene(root);
-        addBorrowerStage.setScene(bordelessScene);
+        Scene scene = new Scene(root);
+        addBorrowerStage.setScene(scene);
         addBorrowerStage.setAlwaysOnTop(true);
+        addBorrowerStage.setResizable(false);
         addBorrowerStage.show();
     }
 

@@ -64,15 +64,15 @@ public class Main extends Application{
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
         primaryStage.setTitle("Inventory");
-        Scene bordelessScene = new Scene(root);
-        primaryStage.setScene(bordelessScene);
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
     public static void main(String[] args){
         database = new SerializeDatabase();
-        //startContext();
+        /*startContext();*/
         contextContainer =  database.load();
         launch();
         database.save(contextContainer);
