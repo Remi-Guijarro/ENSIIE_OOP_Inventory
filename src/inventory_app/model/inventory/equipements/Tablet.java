@@ -50,9 +50,7 @@ public class Tablet extends Equipment implements Serializable {
         if(!(o instanceof Tablet)) return false;
         else {
             Tablet t = (Tablet) o;
-            return t.equals(this) &&
-                    t.resolution.equals(this.resolution) &&
-                    t.os == this.os;
+            return t.resolution.equals(this.resolution) && t.os == this.os;
         }
     }
 }
