@@ -16,7 +16,7 @@
             <Insets left="5.0" />
          </padding>
          <children>
-            <Button fx:id="min" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: none;" text="🔴" textFill="#3dc2fc">
+            <Button fx:id="min" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: none;" textFill="#3dc2fc">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -24,7 +24,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="max" mnemonicParsing="false" onAction="#maximize" style="-fx-background-color: none;" text="🔴" textFill="#33e14d">
+            <Button fx:id="max" mnemonicParsing="false" onAction="#maximize" style="-fx-background-color: none;" textFill="#33e14d">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -32,7 +32,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="close" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: none;" text="🔴" textFill="#e15a5a">
+            <Button fx:id="close" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: none;" textFill="#e15a5a">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

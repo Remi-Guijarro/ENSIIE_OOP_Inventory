@@ -153,4 +153,9 @@ public class UserListViewController implements Initializable {
 
         return loader;
     }
+
+    public void openAddBorrowerView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowerView.fxml"));
+        loader.load();
+    }
 }
