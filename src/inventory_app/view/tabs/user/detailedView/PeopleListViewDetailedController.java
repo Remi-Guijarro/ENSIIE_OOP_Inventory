@@ -1,16 +1,12 @@
 package inventory_app.view.tabs.user.detailedView;
 
 import inventory_app.model.inventory.Borrower;
-import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
-import inventory_app.view.tabs.user.UserListViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,7 +16,7 @@ public class PeopleListViewDetailedController implements Initializable {
 
     private final String nullStr =  "UnHandled User Type";
 
-    private boolean modifyingStatus;
+    private boolean isUpdating;
 
     private People selectedPeople;
 
@@ -30,45 +26,44 @@ public class PeopleListViewDetailedController implements Initializable {
     private Label peopleConcreteType;
 
     @FXML
-    private TextField firstNameLabel;
+    private TextField firstNameField;
 
     @FXML
-    private TextField surnameLabel;
+    private TextField surnameField;
 
     @FXML
-    private TextField addressLabel;
+    private TextField addressField;
 
     @FXML
-    private TextField phoneNumberLabel;
+    private TextField phoneNumberField;
 
     @FXML
-    private TextField emailLabel;
+    private TextField emailField;
 
     @FXML
-    private TextField gradeLabel;
+    private TextField gradeField;
 
     @FXML
-    private Button validateButton;
+    private Button confirmButton;
 
     @FXML
-    private Button modifyButton;
+    private Button editButton;
     private ListView<Borrower> borrowerListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialise when FXML is loaded
-        setEditableStatus(false);
-        modifyingStatus = false;
-        validateButton.setVisible(false);
+        setFieldsEditable(false);
+        isUpdating = false;
+        confirmButton.setVisible(false);
     }
 
-    private void setEditableStatus(boolean editableStatus){
-        firstNameLabel.setEditable(editableStatus);
-        surnameLabel.setEditable(editableStatus);
-        addressLabel.setEditable(editableStatus);
-        phoneNumberLabel.setEditable(editableStatus);
-        emailLabel.setEditable(editableStatus);
-        gradeLabel.setEditable(editableStatus);
+    private void setFieldsEditable(boolean editableStatus){
+        firstNameField.setEditable(editableStatus);
+        surnameField.setEditable(editableStatus);
+        addressField.setEditable(editableStatus);
+        phoneNumberField.setEditable(editableStatus);
+        emailField.setEditable(editableStatus);
+        gradeField.setEditable(editableStatus);
     }
 
     public void setDetailedInfo(Borrower user, ListView<Borrower> borrowerListView){
@@ -78,64 +73,64 @@ public class PeopleListViewDetailedController implements Initializable {
             // handle Teacher
             Teacher teacher = (Teacher) user;
             peopleConcreteType.setText("Teacher");
-            firstNameLabel.setText(teacher.getFirstName());
-            surnameLabel.setText(teacher.getSurname());
-            addressLabel.setText(teacher.getAddress());
-            phoneNumberLabel.setText(teacher.getPhoneNumber());
-            emailLabel.setText(teacher.getEmail());
-            gradeLabel.setText("N/ A");
+            firstNameField.setText(teacher.getFirstName());
+            surnameField.setText(teacher.getSurname());
+            addressField.setText(teacher.getAddress());
+            phoneNumberField.setText(teacher.getPhoneNumber());
+            emailField.setText(teacher.getEmail());
+            gradeField.setDisable(true);
         } else if (user instanceof Student){
             // handle Student
             Student student = (Student) user;
             peopleConcreteType.setText("Student");
-            firstNameLabel.setText(student.getFirstName());
-            surnameLabel.setText(student.getSurname());
-            addressLabel.setText(student.getAddress());
-            phoneNumberLabel.setText(student.getPhoneNumber());
-            emailLabel.setText(student.getEmail());
-            gradeLabel.setText(student.getGrade().toString());
+            firstNameField.setText(student.getFirstName());
+            surnameField.setText(student.getSurname());
+            addressField.setText(student.getAddress());
+            phoneNumberField.setText(student.getPhoneNumber());
+            emailField.setText(student.getEmail());
+            gradeField.setText(student.getGrade().toString());
         } else {
             peopleConcreteType.setText("Unhandled type");
-            firstNameLabel.setText(nullStr);
-            surnameLabel.setText(nullStr);
-            addressLabel.setText(nullStr);
-            phoneNumberLabel.setText(nullStr);
-            emailLabel.setText(nullStr);
-            gradeLabel.setText(nullStr);
+            firstNameField.setText(nullStr);
+            surnameField.setText(nullStr);
+            addressField.setText(nullStr);
+            phoneNumberField.setText(nullStr);
+            emailField.setText(nullStr);
+            gradeField.setText(nullStr);
         }
     }
 
-    public void modifyFirstName(){
-        if(firstNameLabel.isEditable())
-            this.modifyPeopleContext.setFirstName(this.firstNameLabel.getText());
+    public void updateFirstName(){
+        if(firstNameField.isEditable())
+            this.modifyPeopleContext.setFirstName(this.firstNameField.getText());
     }
 
-    public void modifySurname(){
-        if(surnameLabel.isEditable())
-            this.modifyPeopleContext.setSurname(this.surnameLabel.getText());
+    public void updateSurname(){
+        if(surnameField.isEditable())
+            this.modifyPeopleContext.setSurname(this.surnameField.getText());
     }
 
-    public void modifiyAddress(){
-        if(addressLabel.isEditable())
-            this.modifyPeopleContext.setAddress(this.addressLabel.getText());
+    public void updateAddress(){
+        if(addressField.isEditable())
+            this.modifyPeopleContext.setAddress(this.addressField.getText());
     }
 
-    public void modifyPhoneNumber(){
-        if(phoneNumberLabel.isEditable())
-            this.modifyPeopleContext.setPhoneNumber(this.phoneNumberLabel.getText());
+    public void updatePhoneNumber(){
+        if(phoneNumberField.isEditable())
+            this.modifyPeopleContext.setPhoneNumber(this.phoneNumberField.getText());
     }
 
-    public void modifyEmail(){
-        if(this.emailLabel.isEditable()){
-            this.modifyPeopleContext.setEmail(this.emailLabel.getText());
+    public void updateEmail(){
+        if(this.emailField.isEditable()){
+            this.modifyPeopleContext.setEmail(this.emailField.getText());
         }
     }
 
-    public void modifyGrade(){
+    public void updateGrade(){
 
     }
 
-    private  <E extends People> People  instanciatePeopleModifyingContext(E selectedPeople){
+    private  <E extends People> People instantiatePeopleModifyingContext(E selectedPeople){
         if(Teacher.class.isInstance(selectedPeople)){
             return new Teacher((Teacher) selectedPeople);
         }else if(Student.class.isInstance(selectedPeople)){
@@ -144,16 +139,16 @@ public class PeopleListViewDetailedController implements Initializable {
         return null;
     }
 
-    public void modify(){
-        if(!modifyingStatus){
-            validateButton.setVisible(true);
-            modifyingStatus = true;
-            setEditableStatus(true);
-            modifyPeopleContext = instanciatePeopleModifyingContext(selectedPeople);
+    public void update(){
+        if(!isUpdating){
+            confirmButton.setVisible(true);
+            isUpdating = true;
+            setFieldsEditable(true);
+            modifyPeopleContext = instantiatePeopleModifyingContext(selectedPeople);
         } else {
-            validateButton.setVisible(false);
-            modifyingStatus = false;
-            setEditableStatus(false);
+            confirmButton.setVisible(false);
+            isUpdating = false;
+            setFieldsEditable(false);
             modifyPeopleContext = null;
         }
     }
@@ -162,7 +157,7 @@ public class PeopleListViewDetailedController implements Initializable {
         return new ArrayList<>();
     }
 
-    public void validate(){
+    public void confirm(){
         if(modifyPeopleContext != null){
             System.out.println(modifyPeopleContext.getFirstName());
             selectedPeople.setFirstName(modifyPeopleContext.getFirstName());
@@ -170,7 +165,7 @@ public class PeopleListViewDetailedController implements Initializable {
             selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
             selectedPeople.setAddress(modifyPeopleContext.getAddress());
             selectedPeople.setSurname(modifyPeopleContext.getSurname());
-            validateButton.setVisible(false);
+            confirmButton.setVisible(false);
             borrowerListView.refresh();
         }
     }
