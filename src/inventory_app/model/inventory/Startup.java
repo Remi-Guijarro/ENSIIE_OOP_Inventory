@@ -13,6 +13,9 @@ public class Startup implements Borrower,Serializable {
         this.incubator = incubator;
     }
 
+    /**
+     * @return SIREN  : of the company
+     */
     public String getSIREN() {
         return id;
     }
@@ -21,6 +24,9 @@ public class Startup implements Borrower,Serializable {
         return id;
     }
 
+    /**
+     * @return  Name  : of the company
+     */
     public String getName() {
         return name;
     }
@@ -29,5 +35,8 @@ public class Startup implements Borrower,Serializable {
         this.name = name;
     }
 
+    /**
+     * @return incubatorName  : of the company
+     */
     public String getIncubatorName(){return this.incubator.getName();}
 }

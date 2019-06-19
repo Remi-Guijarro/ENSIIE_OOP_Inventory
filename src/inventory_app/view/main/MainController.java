@@ -46,6 +46,22 @@ public class MainController implements Initializable {
         }
     }
 
+    public void openStorageView(){
+        if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("STORAGE"))){
+            try {
+                Tab tab = new Tab();
+                FXMLLoader loader = new FXMLLoader();
+                Parent root = loader.load(this.getClass().getResource("../tabs/storage/storageListView.fxml"));
+                tab.setContent(root);
+                tab.setText("STORAGE");
+                tabs.getTabs().add(tab);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
