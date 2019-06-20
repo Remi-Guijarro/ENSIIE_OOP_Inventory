@@ -11,6 +11,10 @@
     -fx-background-color: #6d7077;
 }
 
+.list-view .list-cell:selected {
+    -fx-background-color: #6d7077;
+}
+
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
     -fx-background-color :#484C54;

@@ -10,19 +10,13 @@ import java.io.*;
 public class SerializeDatabase implements Savable, Loadable{
 
     @Override
-    public ContextContainer load() {
-        try {
-            FileInputStream file = new FileInputStream("resources/saves/save.ser");
-            ObjectInputStream in = new ObjectInputStream(file);
-            ContextContainer save = (ContextContainer)in.readObject();
-            in.close();
-            file.close();
-            return save;
-        } catch(IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-            System.err.println(ex.getMessage());
-            return null;
-        }
+    public ContextContainer load() throws IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream("resources/saves/save.ser");
+        ObjectInputStream in = new ObjectInputStream(file);
+        ContextContainer save = (ContextContainer)in.readObject();
+        in.close();
+        file.close();
+        return save;
     }
 
     @Override

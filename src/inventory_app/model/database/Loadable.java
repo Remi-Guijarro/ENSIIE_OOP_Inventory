@@ -2,6 +2,9 @@ package inventory_app.model.database;
 
 import inventory_app.model.inventory.ContextContainer;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *  Interface Loadable
  *  represent a loading algorithm strategy
@@ -12,5 +15,5 @@ public interface Loadable {
      * {@link ContextContainer}
      * @return ContextContainer
      */
-    ContextContainer load();
+    ContextContainer load() throws IOException, ClassNotFoundException;
 }

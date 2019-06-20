@@ -28,6 +28,9 @@ public final class InventoryManager implements Serializable {
         inventory.addEquipment(equipment);
     }
 
+    /**
+     * @param equipments : ArrayList<Equipement>
+     */
     public void addEquipments(ArrayList<Equipment> equipments) {
         inventory.addEquipments(equipments);
     }
