@@ -11,8 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class PeopleListViewDetailedController implements Initializable {
@@ -55,7 +58,7 @@ public class PeopleListViewDetailedController implements Initializable {
     @FXML
     private Label editResultLabel;
 
-    private ArrayList<TextField> fieldProxy;
+    private HashMap<TextField, String> fieldProxy;
 
     private ListView<Borrower> borrowerListView;
 
@@ -69,7 +72,7 @@ public class PeopleListViewDetailedController implements Initializable {
         isUpdating = false;
         confirmButton.setVisible(false);
         editResultLabel.setVisible(false);
-        fieldProxy = new ArrayList<>();
+        fieldProxy = new HashMap<>();
     }
 
     private void setFieldsEditable(boolean editableStatus){
@@ -193,20 +196,41 @@ public class PeopleListViewDetailedController implements Initializable {
             validateAddress();
             validateEmail();
 
+            setFieldsEditable(true);
             confirmButton.setVisible(true);
             isUpdating = true;
-            setFieldsEditable(true);
             modifyPeopleContext = instantiatePeopleModifyingContext(selectedPeople);
 
-            //fieldProxy.addAll(firstNameField, surnameField, addressField, phoneNumberField, emailField, gradeField);
             editButton.setText("Cancel");
+            populateProxy();
         } else {
+            setFieldsEditable(false);
             confirmButton.setVisible(false);
             isUpdating = false;
-            setFieldsEditable(false);
             modifyPeopleContext = null;
             editButton.setText("Edit...");
+
+            cancelFieldsText();
+            fieldProxy.clear();
         }
+    }
+
+    private void populateProxy() {
+        fieldProxy.put(firstNameField, firstNameField.getText());
+        fieldProxy.put(surnameField, surnameField.getText());
+        fieldProxy.put(addressField, addressField.getText());
+        fieldProxy.put(phoneNumberField, phoneNumberField.getText());
+        fieldProxy.put(emailField, emailField.getText());
+        fieldProxy.put(gradeField, gradeField.getText());
+    }
+
+    private void cancelFieldsText() {
+        firstNameField.setText(fieldProxy.get(firstNameField));
+        surnameField.setText(fieldProxy.get(surnameField));
+        addressField.setText(fieldProxy.get(addressField));
+        emailField.setText(fieldProxy.get(emailField));
+        phoneNumberField.setText(fieldProxy.get(phoneNumberField));
+        gradeField.setText(fieldProxy.get(gradeField));
     }
 
     private ArrayList<String> CheckInput(People people){
