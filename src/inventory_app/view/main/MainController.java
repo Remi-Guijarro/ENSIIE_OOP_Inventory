@@ -47,13 +47,13 @@ public class MainController implements Initializable {
     }
 
     public void openStorageView(){
-        if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("STORAGE"))){
+        if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("INVENTORY"))){
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
-                Parent root = loader.load(this.getClass().getResource("../tabs/storage/storageListView.fxml"));
+                Parent root = loader.load(this.getClass().getResource("../tabs/inventory/inventoryTableView.fxml"));
                 tab.setContent(root);
-                tab.setText("STORAGE");
+                tab.setText("INVENTORY");
                 tabs.getTabs().add(tab);
 
             } catch (IOException e) {

@@ -1,7 +1,6 @@
-package inventory_app.view.tabs.storage;
+package inventory_app.view.tabs.inventory;
 
 import inventory_app.Main;
-import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Equipment;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -9,14 +8,9 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class StorageListViewController implements Initializable {
 
