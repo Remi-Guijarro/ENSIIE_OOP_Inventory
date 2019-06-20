@@ -69,53 +69,47 @@ public class InventoryTableController implements Initializable {
     private void populateTable(){
         Main.contextContainer.getInventoryManager().getAll().forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
-            //  borrowing.getBorrower() == null ? "null" : borrowing.getBorrower().getName()
-            // borrowing.getBorrowReason()
-            //borrowing.getReturnDate().toString()
+            String borrowReason = "N/A";
+            String borrowerName = "N/A";
+            String returnDate = "N/A";
+            if(null != borrowing){
+                borrowReason = borrowing.getBorrowReason();
+                borrowerName = borrowing.getBorrower().getName();
+                returnDate = borrowing.getReturnDate().toString();
+            }
             equipmentTable.getItems().add(new EquipmentRow(equipment.getReference(),
                     equipment.getClass().getSimpleName(),
                     equipment.getName(),
                     equipment.getBrand(),
                     equipment.getOwner().getName(),
                     equipment.getCondition().toString(),
-                   "null",
-                    "null",
-                    "null")
+                    borrowerName,
+                    borrowReason,
+                    returnDate,
+                    equipment)
             );
         });
     }
 
 
     public class EquipmentRow {
-        @FXML
         private String id;
-
-        @FXML
         private String type;
-
-        @FXML
         private String name;
-
-        @FXML
         private String brand;
-
-        @FXML
         private String owner;
-
-        @FXML
         private String condition;
-
-        @FXML
         private String borrower;
-
-        @FXML
         private String borrowReason;
-
-        @FXML
         private String returnDate;
+        private Equipment equipment;
 
         public String getId() {
             return id;
+        }
+
+        public Equipment getEquipment(){
+            return equipment;
         }
 
         public String getType() {
@@ -150,7 +144,7 @@ public class InventoryTableController implements Initializable {
             return returnDate;
         }
 
-        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, String returnDate) {
+        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, String returnDate,Equipment equipment) {
             this.id = id;
             this.type = type;
             this.name = name;
@@ -160,6 +154,7 @@ public class InventoryTableController implements Initializable {
             this.borrower = borrower;
             this.borrowReason = borrowReason;
             this.returnDate = returnDate;
+            this.equipment = equipment;
         }
     }
 }
