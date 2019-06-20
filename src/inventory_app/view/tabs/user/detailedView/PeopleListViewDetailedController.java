@@ -7,14 +7,13 @@ import inventory_app.model.users.Teacher;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -47,7 +46,7 @@ public class PeopleListViewDetailedController implements Initializable {
     private TextField emailField;
 
     @FXML
-    private TextField gradeField;
+    private ComboBox<Student.Grade> gradeComboBox;
 
     @FXML
     private Button confirmButton;
@@ -58,7 +57,7 @@ public class PeopleListViewDetailedController implements Initializable {
     @FXML
     private Label editResultLabel;
 
-    private HashMap<TextField, String> fieldProxy;
+    private HashMap<Node, String> fieldProxy;
 
     private ListView<Borrower> borrowerListView;
 
@@ -68,20 +67,26 @@ public class PeopleListViewDetailedController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setFieldsEditable(false);
+        setFieldsDisable(true);
+        populateGradeCombo();
         isUpdating = false;
         confirmButton.setVisible(false);
         editResultLabel.setVisible(false);
         fieldProxy = new HashMap<>();
     }
 
-    private void setFieldsEditable(boolean editableStatus){
-        firstNameField.setEditable(editableStatus);
-        surnameField.setEditable(editableStatus);
-        addressField.setEditable(editableStatus);
-        phoneNumberField.setEditable(editableStatus);
-        emailField.setEditable(editableStatus);
-        gradeField.setEditable(editableStatus);
+    private void populateGradeCombo() {
+        gradeComboBox.getItems().addAll(Student.Grade.values());
+    }
+
+    private void setFieldsDisable(boolean value){
+        firstNameField.setDisable(value);
+        surnameField.setDisable(value);
+        addressField.setDisable(value);
+        phoneNumberField.setDisable(value);
+        emailField.setDisable(value);
+        gradeComboBox.setDisable(value);
+
     }
 
     public void setDetailedInfo(Borrower user, ListView<Borrower> borrowerListView){
@@ -96,7 +101,7 @@ public class PeopleListViewDetailedController implements Initializable {
             addressField.setText(teacher.getAddress());
             phoneNumberField.setText(teacher.getPhoneNumber());
             emailField.setText(teacher.getEmail());
-            gradeField.setDisable(true);
+            gradeComboBox.setDisable(true);
         } else if (user instanceof Student){
             // handle Student
             Student student = (Student) user;
@@ -106,15 +111,16 @@ public class PeopleListViewDetailedController implements Initializable {
             addressField.setText(student.getAddress());
             phoneNumberField.setText(student.getPhoneNumber());
             emailField.setText(student.getEmail());
-            gradeField.setText(student.getGrade().toString());
+            gradeComboBox.setValue(student.getGrade());
         } else {
             peopleConcreteType.setText("Unhandled type");
-            firstNameField.setText(nullStr);
-            surnameField.setText(nullStr);
-            addressField.setText(nullStr);
-            phoneNumberField.setText(nullStr);
-            emailField.setText(nullStr);
-            gradeField.setText(nullStr);
+            firstNameField.setDisable(true);
+            surnameField.setDisable(true);
+            addressField.setDisable(true);
+            phoneNumberField.setDisable(true);
+            phoneNumberField.setDisable(true);
+            emailField.setDisable(true);
+            gradeComboBox.setDisable(true);
         }
     }
 
@@ -146,6 +152,18 @@ public class PeopleListViewDetailedController implements Initializable {
 
     public boolean validateAddress() {
         return validateField(addressField, ".*");    //any string is okay
+    }
+
+    public void updateUser() {
+        modifyPeopleContext.setFirstName(firstNameField.getText());
+        modifyPeopleContext.setSurname(surnameField.getText());
+        modifyPeopleContext.setAddress(addressField.getText());
+        modifyPeopleContext.setEmail(emailField.getText());
+        modifyPeopleContext.setPhoneNumber(phoneNumberField.getText());
+        if (modifyPeopleContext instanceof Student) {
+            ((Student) modifyPeopleContext).setGrade(gradeComboBox.getValue());
+        }
+
     }
 
     public void updateFirstName(){
@@ -196,7 +214,7 @@ public class PeopleListViewDetailedController implements Initializable {
             validateAddress();
             validateEmail();
 
-            setFieldsEditable(true);
+            setFieldsDisable(true);
             confirmButton.setVisible(true);
             isUpdating = true;
             modifyPeopleContext = instantiatePeopleModifyingContext(selectedPeople);
@@ -204,7 +222,8 @@ public class PeopleListViewDetailedController implements Initializable {
             editButton.setText("Cancel");
             populateProxy();
         } else {
-            setFieldsEditable(false);
+            setFieldsDisable(false);
+            removeFieldsValidationColor();
             confirmButton.setVisible(false);
             isUpdating = false;
             modifyPeopleContext = null;
@@ -215,13 +234,23 @@ public class PeopleListViewDetailedController implements Initializable {
         }
     }
 
+    private void removeFieldsValidationColor() {
+        firstNameField.setStyle("-fx-background-color: WHITE");
+        surnameField.setStyle("-fx-background-color: WHITE");
+        addressField.setStyle("-fx-background-color: WHITE");
+        emailField.setStyle("-fx-background-color: WHITE");
+        phoneNumberField.setStyle("-fx-background-color: WHITE");
+        gradeComboBox.setStyle("-fx-background-color: WHITE");
+    }
+
+
     private void populateProxy() {
         fieldProxy.put(firstNameField, firstNameField.getText());
         fieldProxy.put(surnameField, surnameField.getText());
         fieldProxy.put(addressField, addressField.getText());
         fieldProxy.put(phoneNumberField, phoneNumberField.getText());
         fieldProxy.put(emailField, emailField.getText());
-        fieldProxy.put(gradeField, gradeField.getText());
+        fieldProxy.put(gradeComboBox, gradeComboBox.getValue().toString());
     }
 
     private void cancelFieldsText() {
@@ -230,7 +259,7 @@ public class PeopleListViewDetailedController implements Initializable {
         addressField.setText(fieldProxy.get(addressField));
         emailField.setText(fieldProxy.get(emailField));
         phoneNumberField.setText(fieldProxy.get(phoneNumberField));
-        gradeField.setText(fieldProxy.get(gradeField));
+        gradeComboBox.setValue(Student.Grade.valueOf(fieldProxy.get(gradeComboBox)));
     }
 
     private ArrayList<String> CheckInput(People people){
