@@ -29,13 +29,11 @@ public abstract class Equipment implements Borrowable,Serializable {
         if (purchasePrice < 0) {
             throw new IllegalArgumentException("Price cannot be negative.");
         }
-
         this.name = name;
         this.brand = brand;
         this.owner = owner;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
-
         // Create the reference
         String key = getClass().getSimpleName();
         int lastIDNumber;

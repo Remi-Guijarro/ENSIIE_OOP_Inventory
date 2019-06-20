@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class BorrowingsList implements Serializable {
     private ArrayList<Borrowing> borrowings = new ArrayList<>();
@@ -24,6 +25,11 @@ public class BorrowingsList implements Serializable {
             borrowables.add(borrowing.getBorrowable());
         }
         return borrowables;
+    }
+
+    public Borrowing getBorrowerFrom(Borrowable b){
+        Optional<Borrowing> borrowing = borrowings.stream().filter(item -> item.getBorrowable().equals(b)).findAny();
+        return borrowing.isPresent() ? borrowing.get() : null;
     }
 
     public boolean isBorrowed(Borrowable item) {
