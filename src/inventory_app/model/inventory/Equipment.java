@@ -113,7 +113,7 @@ public abstract class Equipment implements Borrowable,Serializable {
                     e.name.equals(this.name) &&
                     e.purchaseDate.equals(this.purchaseDate) &&
                     e.purchasePrice == this.purchasePrice &&
-                    e.condition == this.condition;
+                    e.condition.equals(this.condition);
         }
     }
 }

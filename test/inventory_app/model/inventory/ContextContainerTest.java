@@ -7,6 +7,7 @@ import inventory_app.model.users.Student;
 import inventory_app.model.users.Users;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,16 +35,17 @@ class ContextContainerTest {
         inventoryManager.addEquipment(tab);
         inventoryManager.addEquipment(tab2);
 
-        inventory_app.model.inventory.BorrowingsList b3 = inventory_app.model.inventory.BorrowingsList.getInstance();
-        b3.addBorrowedItem(tab,Calendar.getInstance().getTime(),"Why not",studentA);
-
+        tab.setBorrowed(Calendar.getInstance().getTime(),"WHY NOT",studentA);
+        tab2.setBorrowed(Calendar.getInstance().getTime(),"WE NEED IT",startup);
 
         this.contextContainer = new inventory_app.model.inventory.ContextContainer(b);
 
         assertNotEquals(null,contextContainer);
         assertEquals(2,contextContainer.getUsers().get().size());
+        assertEquals(true,contextContainer.getBorrowingsList().isBorrowed(tab));
+        assertEquals(true,contextContainer.getBorrowingsList().isBorrowed(tab2));
         assertEquals(2,contextContainer.getInventoryManager().getAll().size());
-        assertEquals(1,contextContainer.getBorrowingsList().getBorrowings().size());
+        assertEquals(2,contextContainer.getBorrowingsList().getBorrowings().size());
         saveContext();
     }
 
@@ -66,7 +68,9 @@ class ContextContainerTest {
             assertNotEquals(null,contextContainer);
             assertEquals(2,contextContainer.getUsers().get().size());
             assertEquals(2,contextContainer.getInventoryManager().getAll().size());
-            assertEquals(1,contextContainer.getBorrowingsList().getBorrowings().size());
+            assertEquals(2,contextContainer.getBorrowingsList().getBorrowings().size());
+            assertEquals(true,contextContainer.getBorrowingsList().isBorrowed(contextContainer.getInventoryManager().getAll().get(0)));
+            assertEquals(true,contextContainer.getBorrowingsList().isBorrowed(contextContainer.getInventoryManager().getAll().get(1)));
         }catch (Exception e){
             e.printStackTrace();
             fail();

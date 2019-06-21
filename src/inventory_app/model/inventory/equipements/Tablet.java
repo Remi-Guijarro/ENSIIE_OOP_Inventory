@@ -45,12 +45,12 @@ public class Tablet extends Equipment implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(o==this) return false;
+        if(o==this) return true;
         if(o==null) return false;
         if(!(o instanceof Tablet)) return false;
         else {
             Tablet t = (Tablet) o;
-            return t.resolution.equals(this.resolution) && t.os == this.os;
+            return t.resolution.equals(this.resolution) && t.os.equals(this.os);
         }
     }
 }

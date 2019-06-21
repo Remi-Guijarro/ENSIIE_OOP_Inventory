@@ -34,7 +34,7 @@ public class BorrowingsList implements Serializable {
 
     public boolean isBorrowed(Borrowable item) {
         for (Borrowing b : borrowings) {
-            if (b.getBorrowable().equals(item)) {
+            if (((Equipment)b.getBorrowable()).equals(((Equipment)item))) {
                 return true;
             }
         }
