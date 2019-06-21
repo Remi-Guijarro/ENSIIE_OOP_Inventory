@@ -22,29 +22,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" style="-fx-background-color: #05D39B;" text="Borrowings" textFill="WHITE">
-               <padding>
-                  <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#openStorageView" style="-fx-background-color: #05D39B;" text="Storage" textFill="WHITE">
-               <padding>
-                  <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" style="-fx-background-color: #05D39B;" text="Equipments" textFill="WHITE">
                <padding>
                   <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
                </padding>
