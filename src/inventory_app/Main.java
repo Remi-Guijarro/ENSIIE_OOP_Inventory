@@ -14,14 +14,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Users;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -93,7 +91,6 @@ public class Main extends Application{
             startContext();
             logger.log(Level.SEVERE,"Save not found.An error append during saves loading process.A template context is being imported");
         }finally {
-
             launch();
         }
         database.save(contextContainer);

@@ -82,7 +82,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ComboBox promptText="Item Type" />
+                  <ComboBox fx:id="typeFilterCombo" promptText="Item Type" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

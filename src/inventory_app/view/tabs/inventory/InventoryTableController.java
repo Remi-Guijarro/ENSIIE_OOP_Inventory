@@ -7,15 +7,20 @@ import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 import org.omg.CORBA.MARSHAL;
+import org.reflections.Reflections;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InventoryTableController implements Initializable {
+
+    private Reflections reflections;
 
     @FXML
     private TableView<EquipmentRow> equipmentTable;
@@ -47,12 +52,49 @@ public class InventoryTableController implements Initializable {
     @FXML
     private TableColumn<String,EquipmentRow> returnDateColumn;
 
+    @FXML
+    private ComboBox<Class> typeFilterCombo;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
         populateTable();
+        setTypeFilter();
+        System.out.println("PackageName " +Equipment.class.getPackage().getName());
     }
+
+    private void setTypeFilter() {
+        populateTypeCombo();
+    }
+
+    private void populateTypeCombo() {
+        reflections = new Reflections(Equipment.class.getPackage().getName());
+        Set<Class<? extends  Equipment>> classSet = reflections.getSubTypesOf(Equipment.class);
+        typeFilterCombo.getItems().add(Equipment.class);
+        typeFilterCombo.getItems().addAll(classSet);
+        displayNamesInTypeFilterCombo();
+    }
+
+    private void displayNamesInTypeFilterCombo() {
+        typeFilterCombo.setConverter(new StringConverter<Class>() {
+            @Override
+            public String toString(Class object) {
+                if(object.getSimpleName().equalsIgnoreCase(Equipment.class.getSimpleName())){
+                    return "All";
+                }else{
+                    return object.getSimpleName();
+                }
+            }
+
+            @Override
+            public Class fromString(String string) {
+                // NOT USED
+                return null;
+            }
+        });
+    }
+
 
     private void setColumnProperty(){
         idItemColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -92,7 +134,7 @@ public class InventoryTableController implements Initializable {
     }
 
 
-    public class EquipmentRow {
+    protected class EquipmentRow {
         private String id;
         private String type;
         private String name;
