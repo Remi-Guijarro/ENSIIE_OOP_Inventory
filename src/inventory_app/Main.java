@@ -37,13 +37,18 @@ public class Main extends Application{
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
         Student studentB = new Student("0123456788","firstNameB","surnameB", "adresseB","1234557890","email2@email2.email",Student.Grade._1A);
         Teacher teacher = new Teacher("0128484937","TeacherA","Teacher Surname","10 rue de l'exemple","0123654398","prof@mail.fr");
-        Incubator incubator = new Incubator("C20","DebutHaut","123");
-        Startup startup = new Startup("Tarbernak","345",incubator);
+        Incubator incubator1 = new Incubator("C20","123");
+        Incubator incubator2 = new Incubator("THE BEST INCUBATOR","52639394");
+        Startup startup1 = new Startup("Tarbernak","345",incubator1);
+        Startup startup2 = new Startup("DebutHaut","97986876",incubator1);
+        Startup startup3 = new Startup("Viser La Lune","897987987",incubator2);
         School school = new School("Ensiie");
         Users b = new Users();
         b.addUser(studentA);
         b.addUser(studentB);
-        b.addUser(startup);
+        b.addUser(startup1);
+        b.addUser(startup2);
+        b.addUser(startup3);
         b.addUser(teacher);
         for(int i = 0 ; i < 250 ; i++){
             b.addUser(new Student("01234567"+i,"firstName" +i,"surname" + i, "adresse" + i,"12345578" + i,"email2@email2.email" + i,Student.Grade._1A));

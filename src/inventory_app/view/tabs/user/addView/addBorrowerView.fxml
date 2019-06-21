@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #484C54;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.addView.AddBorroweViewrController">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #484C54;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.addView.AddBorrowerViewController">
    <children>
       <VBox layoutX="192.0" layoutY="23.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,13 +20,13 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox promptText="BorrowerType" />
+                  <ComboBox fx:id="borrowerComboBox" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </HBox>
-            <AnchorPane VBox.vgrow="ALWAYS" />
+            <AnchorPane fx:id="userForm" VBox.vgrow="ALWAYS" />
             <AnchorPane VBox.vgrow="NEVER">
                <children>
                   <Button fx:id="validateBtn" layoutX="349.0" layoutY="107.0" mnemonicParsing="false" style="-fx-background-color: #05D39B;" text="Validate" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">

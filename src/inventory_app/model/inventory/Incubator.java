@@ -1,6 +1,7 @@
 package inventory_app.model.inventory;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -9,16 +10,22 @@ import java.util.Optional;
 public class Incubator extends inventory_app.model.inventory.Institute implements Serializable {
     private List<inventory_app.model.inventory.Startup> startups;
 
-    public Incubator(String incubatorName, String startupName, String startupSIREN) {
+    public Incubator(String incubatorName, String startupSIREN) {
         super(incubatorName);
-        Startup s = new Startup(startupName,startupSIREN, this);
         startups = new ArrayList<>();
-        startups.add(s);
     }
 
     public void addStartup(String name, String SIREN) {
         Startup s = new Startup(name, SIREN, this);
         startups.add(s);
+    }
+
+    public void addStartup(Startup s) {
+        startups.add(s);
+    }
+
+    public void removeStartup(Startup s) {
+        startups.remove(s);
     }
 
     public void removeStartup(String SIREN) {

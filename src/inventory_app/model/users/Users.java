@@ -1,10 +1,14 @@
 package inventory_app.model.users;
 
 import inventory_app.model.inventory.Borrower;
+import inventory_app.model.inventory.Incubator;
+import inventory_app.model.inventory.Startup;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Users : Keeper and manager of the list of Borrowers
@@ -47,5 +51,13 @@ public class Users implements Serializable {
      */
     public ArrayList<Borrower> get() {
         return users;
+    }
+
+    public Set<Incubator> getIncubators() {
+        Set<Incubator> incubators = new HashSet<>();
+        users.stream()
+                .filter(Startup.class::isInstance)
+                .forEach(item -> incubators.add(((Startup) item).getIncubator()));
+        return incubators;
     }
 }

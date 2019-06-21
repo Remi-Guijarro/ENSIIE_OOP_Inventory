@@ -18,7 +18,7 @@ class ContextContainerTest {
     @Test
     public void createContext(){
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
-        inventory_app.model.inventory.Incubator incubator = new Incubator("C20","DebutHaut","123");
+        inventory_app.model.inventory.Incubator incubator = new Incubator("C20","123");
         inventory_app.model.inventory.Startup startup = new inventory_app.model.inventory.Startup("Tarbernak","345",incubator);
         inventory_app.model.inventory.School school = new inventory_app.model.inventory.School("Ensiie");
         Users b = new Users();

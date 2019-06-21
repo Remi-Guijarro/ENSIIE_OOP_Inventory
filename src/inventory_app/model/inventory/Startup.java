@@ -5,12 +5,14 @@ import java.io.Serializable;
 public class Startup implements Borrower,Serializable {
     private final String id;
     private String name;
+
     private final Incubator incubator;
 
     public Startup(String name, String SIREN, Incubator incubator) {
         this.name = name;
         id = SIREN;
         this.incubator = incubator;
+        incubator.addStartup(this);
     }
 
     /**
@@ -39,4 +41,8 @@ public class Startup implements Borrower,Serializable {
      * @return incubatorName  : of the company
      */
     public String getIncubatorName(){return this.incubator.getName();}
+
+    public Incubator getIncubator() {
+        return incubator;
+    }
 }
