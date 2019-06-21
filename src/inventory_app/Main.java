@@ -1,13 +1,11 @@
 package inventory_app;
 
 import inventory_app.model.database.SerializeDatabase;
-import inventory_app.model.inventory.BorrowingsList;
-import inventory_app.model.inventory.ContextContainer;
-import inventory_app.model.inventory.Incubator;
-import inventory_app.model.inventory.InventoryManager;
-import inventory_app.model.inventory.School;
-import inventory_app.model.inventory.Startup;
+import inventory_app.model.inventory.*;
+import inventory_app.model.inventory.equipements.DepthSensor;
+import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
+import inventory_app.model.inventory.equipements.VRHeadset;
 import inventory_app.model.inventory.stocks.Inventory;
 import inventory_app.model.users.Teacher;
 import javafx.application.Application;
@@ -22,6 +20,7 @@ import inventory_app.model.users.Users;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +35,7 @@ public class Main extends Application{
         Student studentB = new Student("0123456788","firstNameB","surnameB", "adresseB","1234557890","email2@email2.email",Student.Grade._1A);
         Teacher teacher = new Teacher("0128484937","TeacherA","Teacher Surname","10 rue de l'exemple","0123654398","prof@mail.fr");
         Incubator incubator = new Incubator("C20","DebutHaut","123");
-        Startup startup = new Startup("Tarbernak","345",incubator);
+        Startup startup = new Startup("Tarbernakkk","345",incubator);
         School school = new School("Ensiie");
         Users b = new Users();
         b.addUser(studentA);
@@ -50,11 +49,22 @@ public class Main extends Application{
         Tablet tab =  new Tablet("Oxygen6","Apple",school,Calendar.getInstance().getTime(),399.0,Tablet.OS.LINUX,new int[]{1920,1080});
         Tablet tab2 =  new Tablet("Oxygen7","Apple",school,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
 
+        Smartphone smartphone1 = new Smartphone("Iphone X","Apple",school,Calendar.getInstance().getTime(),1500,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,8);
+        Smartphone smartphone2 = new Smartphone("Iphone XV","Apple",school,Calendar.getInstance().getTime(),15000,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,20);
+
+        DepthSensor sensor = new DepthSensor("RealSense", "Intel", school, Calendar.getInstance().getTime(), 224.67);
+
+        VRHeadset vrHeadset = new VRHeadset("HTC Vive","HTC",school,Calendar.getInstance().getTime(),670,Equipment.Condition.GOOD);
+
         inventory_app.model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
         inventoryManager.setInventory(inventory);
         inventoryManager.addEquipment(tab);
         inventoryManager.addEquipment(tab2);
+        inventoryManager.addEquipment(smartphone1);
+        inventoryManager.addEquipment(smartphone2);
+        inventoryManager.addEquipment(sensor);
+        inventoryManager.addEquipment(vrHeadset);
 
         BorrowingsList b3 = BorrowingsList.getInstance();
         b3.addBorrowedItem(tab,Calendar.getInstance().getTime(),"Why not",studentA);

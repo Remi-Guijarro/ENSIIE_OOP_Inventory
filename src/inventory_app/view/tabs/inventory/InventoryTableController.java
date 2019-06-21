@@ -8,6 +8,7 @@ import inventory_app.model.inventory.Equipment;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -55,17 +56,24 @@ public class InventoryTableController implements Initializable {
     @FXML
     private ComboBox<Class> typeFilterCombo;
 
+    @FXML
+    private Label totalCountLabel;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
-        populateTable();
+        populateTableBy(Equipment.class);
         setTypeFilter();
         System.out.println("PackageName " +Equipment.class.getPackage().getName());
     }
 
     private void setTypeFilter() {
         populateTypeCombo();
+        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newType) -> {
+            populateTableBy(newType);
+        });
+        updateTableViewCount();
     }
 
     private void populateTypeCombo() {
@@ -74,6 +82,10 @@ public class InventoryTableController implements Initializable {
         typeFilterCombo.getItems().add(Equipment.class);
         typeFilterCombo.getItems().addAll(classSet);
         displayNamesInTypeFilterCombo();
+    }
+
+    private void updateTableViewCount(){
+        totalCountLabel.setText("Total Count : " + equipmentTable.getItems().size());
     }
 
     private void displayNamesInTypeFilterCombo() {
@@ -108,8 +120,10 @@ public class InventoryTableController implements Initializable {
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
     }
 
-    private void populateTable(){
-        Main.contextContainer.getInventoryManager().getAll().forEach(equipment -> {
+    private void populateTableBy(Class type){
+        if(!equipmentTable.getItems().isEmpty())
+            equipmentTable.getItems().removeAll(equipmentTable.getItems());
+        Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
             String borrowReason = "N/A";
             String borrowerName = "N/A";
@@ -131,6 +145,7 @@ public class InventoryTableController implements Initializable {
                     equipment)
             );
         });
+        updateTableViewCount();
     }
 
 

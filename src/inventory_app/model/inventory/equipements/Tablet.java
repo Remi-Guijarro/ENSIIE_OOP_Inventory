@@ -36,6 +36,10 @@ public class Tablet extends Equipment implements Serializable {
         this.resolution = resolution;
     }
 
+    public int[] getResolution() {
+        return resolution;
+    }
+
     @Override
     public String toString() {
         return "Webcam{" +
