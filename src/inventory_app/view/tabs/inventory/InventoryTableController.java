@@ -5,17 +5,23 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import org.omg.CORBA.MARSHAL;
 import org.reflections.Reflections;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -59,6 +65,9 @@ public class InventoryTableController implements Initializable {
     @FXML
     private Label totalCountLabel;
 
+    @FXML
+    private VBox specificFilterVBox;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,7 +80,21 @@ public class InventoryTableController implements Initializable {
     private void setTypeFilter() {
         populateTypeCombo();
         typeFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newType) -> {
+            if(specificFilterVBox.getChildren().size() > 0)
+                specificFilterVBox.getChildren().remove(0);
             populateTableBy(newType);
+            if(!Equipment.class.equals(newType)){
+                FilterControllerLoader filterControllerLoader = new FilterControllerLoader();
+                FXMLLoader fxmlLoader =  filterControllerLoader.loadFrom(newType);
+                Parent parent = null;
+                try {
+                    parent = fxmlLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Logger will log that error append during loading of the filter view or something
+                }
+                specificFilterVBox.getChildren().add(parent);
+            }
         });
         updateTableViewCount();
     }
@@ -120,6 +143,10 @@ public class InventoryTableController implements Initializable {
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
     }
 
+    /**
+     * This method populate the table by the given Class
+     * @param type -> the wanted Class
+     */
     private void populateTableBy(Class type){
         if(!equipmentTable.getItems().isEmpty())
             equipmentTable.getItems().removeAll(equipmentTable.getItems());
