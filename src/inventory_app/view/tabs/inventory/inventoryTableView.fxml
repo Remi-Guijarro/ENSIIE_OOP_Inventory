@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.inventory.InventoryTableController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.inventory.InventoryTableController">
    <children>
       <HBox prefHeight="472.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -80,7 +80,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" spacing="10.0">
                <children>
                   <ComboBox fx:id="typeFilterCombo" promptText="Item Type" />
                   <VBox fx:id="specificFilterVBox" VBox.vgrow="ALWAYS">
@@ -96,4 +96,7 @@
          </children>
       </HBox>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>
