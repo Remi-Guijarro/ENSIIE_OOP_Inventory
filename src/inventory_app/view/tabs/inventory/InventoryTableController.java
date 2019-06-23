@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -17,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.omg.CORBA.MARSHAL;
 import org.reflections.Reflections;
@@ -128,6 +130,16 @@ public class InventoryTableController implements Initializable {
                 return null;
             }
         });
+    }
+
+    @FXML
+    private void openAddBorrowView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
+        Parent node = loader.load();
+        Stage stage = new Stage();
+        Scene scene = new Scene(node);
+        stage.setScene(scene);
+        stage.show();
     }
 
 

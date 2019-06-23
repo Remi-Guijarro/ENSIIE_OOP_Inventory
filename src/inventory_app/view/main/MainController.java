@@ -30,6 +30,9 @@ public class MainController implements Initializable {
     @FXML
     private SplitPane mainSplitPane;
 
+    @FXML
+    private ProgressBar progressBar;
+
     public void openUserView() {
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
             try {
@@ -48,6 +51,8 @@ public class MainController implements Initializable {
 
     public void openStorageView(){
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("INVENTORY"))){
+            //progressBar.setVisible(true);
+            //progressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
@@ -55,14 +60,16 @@ public class MainController implements Initializable {
                 tab.setContent(root);
                 tab.setText("INVENTORY");
                 tabs.getTabs().add(tab);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //progressBar.setProgress(0);
+            //progressBar.setVisible(false);
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        progressBar.setVisible(false);
     }
 }
