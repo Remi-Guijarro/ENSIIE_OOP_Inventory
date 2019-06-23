@@ -7,7 +7,10 @@ import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.InventoryTableController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.net.URL;
@@ -20,6 +23,10 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class AddBorrowingViewController implements Initializable {
+
+    private Stage stage;
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private TextField equipmentReferenceTextField;
@@ -111,6 +118,14 @@ public class AddBorrowingViewController implements Initializable {
         });
     }
 
+    public void openView(){
+        stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
 
 
     private boolean checkSelectedEquipmentFields(){
@@ -145,8 +160,11 @@ public class AddBorrowingViewController implements Initializable {
             if(checkFields()){
                 Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
                 Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,"My Custom reason",desiredBorrower);
-                System.out.println(Main.contextContainer.getBorrowingsList().isBorrowed(((Borrowable)desiredEquipement)));
+                InventoryTableController.EquipmentRow row = tableView.getItems().stream().filter(item -> item.getId().equalsIgnoreCase(desiredEquipement.getReference())).findAny().orElse(null);
+                row = new InventoryTableController.EquipmentRow(row.getId(),row.getType(),row.getName(),row.getBrand(),row.getOwner(),row.getCondition(),desiredBorrower.getName(),
+                        "My Custom reason",returnDate.toString(),row.getEquipment());
                 tableView.refresh();
+                stage.close();
             }
         }
     }

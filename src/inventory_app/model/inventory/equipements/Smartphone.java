@@ -69,7 +69,7 @@ public class Smartphone extends Equipment implements Serializable {
         if (!(o instanceof Smartphone)) return false;
         else {
             Smartphone p = (Smartphone) o;
-            return p.equals(this) &&
+            return p.getReference().equalsIgnoreCase(p.getReference()) &&
                     p.PHONE_OS == this.PHONE_OS &&
                     p.screenSize == this.screenSize;
         }

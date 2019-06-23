@@ -75,9 +75,9 @@ public class InventoryTableController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
+        equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
         setTypeFilter();
-        System.out.println("PackageName " +Equipment.class.getPackage().getName());
     }
 
     private void setTypeFilter() {
@@ -139,11 +139,7 @@ public class InventoryTableController implements Initializable {
         Parent node = loader.load();
         AddBorrowingViewController controller = loader.getController();
         controller.setTableView(equipmentTable);
-        Stage stage = new Stage();
-        Scene scene = new Scene(node);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        controller.openView();
     }
 
 
@@ -192,7 +188,7 @@ public class InventoryTableController implements Initializable {
     }
 
 
-    public class EquipmentRow {
+    public static class EquipmentRow {
         private String id;
         private String type;
         private String name;
