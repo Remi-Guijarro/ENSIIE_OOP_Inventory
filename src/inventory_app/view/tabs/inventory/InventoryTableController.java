@@ -139,6 +139,7 @@ public class InventoryTableController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(node);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
