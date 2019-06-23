@@ -5,6 +5,7 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -136,6 +137,8 @@ public class InventoryTableController implements Initializable {
     private void openAddBorrowView() throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
         Parent node = loader.load();
+        AddBorrowingViewController controller = loader.getController();
+        controller.setTableView(equipmentTable);
         Stage stage = new Stage();
         Scene scene = new Scene(node);
         stage.setScene(scene);
@@ -189,7 +192,7 @@ public class InventoryTableController implements Initializable {
     }
 
 
-    protected class EquipmentRow {
+    public class EquipmentRow {
         private String id;
         private String type;
         private String name;
