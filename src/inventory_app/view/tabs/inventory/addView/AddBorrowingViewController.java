@@ -4,12 +4,18 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.view.main.MainController;
 import inventory_app.view.tabs.inventory.InventoryTableController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -17,14 +23,35 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class AddBorrowingViewController implements Initializable {
 
+    private enum LevelColor {
+
+        ERROR(Level.SEVERE,Color.RED);
+
+        private Level level;
+        private Color color;
+
+        LevelColor(Level level,Color color){
+            this.level = level;
+            this.color = color;
+        }
+
+        public Level getLevel() {
+            return level;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+    }
+
     private Stage stage;
+
     @FXML
     private AnchorPane root;
 
@@ -46,6 +73,9 @@ public class AddBorrowingViewController implements Initializable {
     @FXML
     private Button validateFormButton;
 
+    @FXML
+    private HBox logMessageBox;
+
     private InventoryTableController tableController;
 
     private Equipment desiredEquipement;
@@ -61,6 +91,34 @@ public class AddBorrowingViewController implements Initializable {
         this.tableController = tableController;
     }
 
+    private void addLogMessage(String message, Level level){
+        Timer timer = new Timer();
+        Label logLabel = new Label(message);
+        for(LevelColor lv : LevelColor.values()){
+            if(lv.getLevel().equals(level)){
+                logLabel.setBackground(new Background(new BackgroundFill(lv.getColor(),CornerRadii.EMPTY,Insets.EMPTY)));
+                logLabel.setPrefWidth(logMessageBox.getWidth());
+                logLabel.setPrefHeight(Double.valueOf(20));
+                logLabel.setFont(new Font("System",14.0));
+                logLabel.setAlignment(Pos.CENTER);
+                logLabel.setTextFill(Color.WHITE);
+            }
+        }
+        if(logMessageBox.getChildren().size() > 0)
+            logMessageBox.getChildren().remove(0);
+        logMessageBox.getChildren().add(logLabel);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if(logMessageBox.getChildren().size() > 0)
+                        logMessageBox.getChildren().remove(0);
+                });
+            }
+        },3000);
+    }
+
+
     @FXML
     private void checkEquipmentReferenceExist(){
         String chosenReference =  equipmentReferenceTextField.getText();
@@ -68,12 +126,12 @@ public class AddBorrowingViewController implements Initializable {
         if(choosenEquipment.isPresent()){
             Equipment equipment = choosenEquipment.get();
             if(Main.contextContainer.getBorrowingsList().isBorrowed(((Borrowable)equipment))){
-                launchAlertBox("Sorry, chosen item is already borrowed",Alert.AlertType.ERROR);
+                addLogMessage("Sorry, chosen item is already borrowed",Level.SEVERE);
             } else {
                 desiredEquipement = equipment;
             }
         }else {
-            launchAlertBox("Sorry, chosen item does not exist",Alert.AlertType.ERROR);
+            addLogMessage("Sorry, chosen item does not exist",Level.SEVERE);
         }
     }
 
@@ -168,9 +226,9 @@ public class AddBorrowingViewController implements Initializable {
     }
 
     /* TEMPORARY METHOD ONCE I THINK USING POP-UP IT'S NOT A VERY GOOD PRACTICE */
-    private void launchAlertBox(String message, Alert.AlertType alertType){
+   /* private void launchAlertBox(String message, Alert.AlertType alertType){
         Alert isBorrowedAlert = new Alert(alertType);
         isBorrowedAlert.setHeaderText(message);
         isBorrowedAlert.show();
-    }
+    } */
 }

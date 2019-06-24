@@ -18,6 +18,11 @@
    <children>
       <VBox layoutX="168.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox fx:id="logMessageBox">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
             <HBox style="-fx-background-color: #5F646E;">
                <children>
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #5F646E;" text="Add New Borrowing" textFill="WHITE" HBox.hgrow="ALWAYS">
