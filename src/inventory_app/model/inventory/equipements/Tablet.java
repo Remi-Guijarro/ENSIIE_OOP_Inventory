@@ -42,7 +42,7 @@ public class Tablet extends Equipment implements Serializable {
 
     @Override
     public String toString() {
-        return "Webcam{" +
+        return "Tablet{" +
                 "resolution=" + Arrays.toString(resolution) +
                 "} " + super.toString();
     }
