@@ -64,10 +64,14 @@ public class Main extends Application{
         inventory_app.model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
         for(int i = 0 ; i < 600 ; i++){
-            inventory.addEquipment(new Tablet("Oxygen" + i,"Apple",school,Calendar.getInstance().getTime(),499.0 * i + 50,Tablet.OS.LINUX,new int[]{1920,1080}));
-            inventory.addEquipment(new Smartphone("Iphone X" + i,"Apple",school,Calendar.getInstance().getTime(),1500 * i +100,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,8));
-            inventory.addEquipment(new DepthSensor("RealSense" + i, "Intel", school, Calendar.getInstance().getTime(), 224.67 + i));
-            inventory.addEquipment(new VRHeadset("HTC Vive" + i,"HTC",school,Calendar.getInstance().getTime(),670 + 1* 2,Equipment.Condition.GOOD));
+            Equipment.Condition condition = Equipment.Condition.GOOD;
+            if(i % 5 == 0){
+                condition = Equipment.Condition.USED;
+            }
+            inventory.addEquipment(new Tablet("Oxygen" + i,"Apple",school,Calendar.getInstance().getTime(),499.0 * i + 50,condition,new int[]{1920,1080},Tablet.OS.LINUX));
+            inventory.addEquipment(new Smartphone("Iphone X" + i,"Apple",school,Calendar.getInstance().getTime(),1500 * i +100,condition,Smartphone.PHONE_OS.IOS,8));
+            inventory.addEquipment(new DepthSensor("RealSense" + i, "Intel", school, Calendar.getInstance().getTime(), 224.67 + i,condition));
+            inventory.addEquipment(new VRHeadset("HTC Vive" + i,"HTC",school,Calendar.getInstance().getTime(),670 + 1* 2,condition));
         }
         inventoryManager.setInventory(inventory);
         inventoryManager.addEquipment(tab);

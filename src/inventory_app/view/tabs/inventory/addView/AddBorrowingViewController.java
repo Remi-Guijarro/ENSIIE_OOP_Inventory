@@ -4,7 +4,6 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Equipment;
-import inventory_app.view.main.MainController;
 import inventory_app.view.tabs.inventory.InventoryTableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,7 +30,8 @@ public class AddBorrowingViewController implements Initializable {
 
     private enum LevelColor {
 
-        ERROR(Level.SEVERE,Color.RED);
+        ERROR(Level.SEVERE,Color.RED),
+        INFO(Level.INFO,Color.GREEN);
 
         private Level level;
         private Color color;
@@ -87,6 +87,11 @@ public class AddBorrowingViewController implements Initializable {
         setBorrowerChooserComboBoxDefaultValue();
     }
 
+    public void setDefaultReferenceValue(String id) {
+        equipmentReferenceTextField.setText(id);
+        checkEquipmentReferenceExist(false);
+    }
+
     public void setTableController(InventoryTableController tableController){
         this.tableController = tableController;
     }
@@ -118,20 +123,28 @@ public class AddBorrowingViewController implements Initializable {
         },3000);
     }
 
-
     @FXML
-    private void checkEquipmentReferenceExist(){
+    private void checkEquipmentReference(){
+        checkEquipmentReferenceExist(true);
+    }
+
+
+    private void checkEquipmentReferenceExist(boolean displayMessage){
         String chosenReference =  equipmentReferenceTextField.getText();
         Optional<Equipment> choosenEquipment =  Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> item.getReference().equalsIgnoreCase(chosenReference)).findAny();
         if(choosenEquipment.isPresent()){
             Equipment equipment = choosenEquipment.get();
             if(Main.contextContainer.getBorrowingsList().isBorrowed(((Borrowable)equipment))){
-                addLogMessage("Sorry, chosen item is already borrowed",Level.SEVERE);
+                if(displayMessage)
+                    addLogMessage("Sorry, chosen item is already borrowed",Level.SEVERE);
             } else {
+                if(displayMessage)
+                    addLogMessage("OK",Level.INFO);
                 desiredEquipement = equipment;
             }
         }else {
-            addLogMessage("Sorry, chosen item does not exist",Level.SEVERE);
+            if(displayMessage)
+                addLogMessage("Sorry, chosen item does not exist",Level.SEVERE);
         }
     }
 
@@ -189,6 +202,7 @@ public class AddBorrowingViewController implements Initializable {
     private boolean checkSelectedEquipmentFields(){
         if(desiredEquipement != null)
             return true;
+        addLogMessage("Equipment must be selected ",Level.SEVERE);
         return false;
     }
 
@@ -197,13 +211,20 @@ public class AddBorrowingViewController implements Initializable {
             desiredBorrower = borrowerChooserComboBox.getSelectionModel().getSelectedItem();
             return true;
         }
+        addLogMessage("Borrower must be selected ",Level.SEVERE);
         return false;
     }
 
     private boolean checkSelectedReturnDateFields(){
-        if(retunDatePicker.getValue().isAfter(LocalDate.now()))
-            return true;
-        return false;
+        if(retunDatePicker.getValue() != null){
+            if(retunDatePicker.getValue().isAfter(LocalDate.now()))
+                return true;
+            addLogMessage("Return date must be at least tomorrow ",Level.SEVERE);
+            return false;
+        }else {
+            addLogMessage("Return date must be selected ",Level.SEVERE);
+            return false;
+        }
     }
 
     private boolean checkFields(){
@@ -220,6 +241,7 @@ public class AddBorrowingViewController implements Initializable {
                 Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,"My Custom reason",desiredBorrower);
                 tableController.getTableView().getItems().removeAll(tableController.getTableView().getItems());
                 tableController.populateTableBy(Equipment.class);
+                //tableController.getTableView().refresh();
                 stage.close();
             }
         }

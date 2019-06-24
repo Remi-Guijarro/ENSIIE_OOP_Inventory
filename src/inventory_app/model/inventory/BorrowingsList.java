@@ -46,9 +46,8 @@ public class BorrowingsList implements Serializable {
     }
 
     public void removeBorrowedItem(Borrowable item) throws NoSuchElementException {
-        if (!isBorrowed(item)){
-            throw new NoSuchElementException("The item is not borrowed.");
-        }
+        if (!isBorrowed(item)) throw new NoSuchElementException("The item is not borrowed.");
+
         borrowings.removeIf(i -> i.getBorrowable().equals(item));
     }
 

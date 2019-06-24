@@ -35,7 +35,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <ComboBox promptText="Condition" />
+                        <ComboBox fx:id="conditionFilterCombo" promptText="Condition" />
                         <ComboBox promptText="Is Borrowed" />
                         <ComboBox promptText="Location" />
                         <Region HBox.hgrow="ALWAYS" />

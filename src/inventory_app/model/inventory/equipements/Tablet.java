@@ -24,9 +24,10 @@ public class Tablet extends Equipment implements Serializable {
     public Tablet(String name, String brand, Institute owner,
                   Date purchaseDate, double purchasePrice,
                   Condition condition,
-                  int[] screenResolution) throws IllegalArgumentException {
+                  int[] screenResolution, OS os) throws IllegalArgumentException {
         super(name, brand, owner, purchaseDate, purchasePrice, condition);
         setResolution(screenResolution);
+        this.os = os;
     }
 
     private void setResolution(int[] resolution) throws IllegalArgumentException {

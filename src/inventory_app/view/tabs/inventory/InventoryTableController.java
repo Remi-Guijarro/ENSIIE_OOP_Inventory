@@ -2,32 +2,29 @@ package inventory_app.view.tabs.inventory;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
-import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.omg.CORBA.MARSHAL;
 import org.reflections.Reflections;
-import sun.security.x509.AVA;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InventoryTableController implements Initializable {
 
@@ -73,6 +70,9 @@ public class InventoryTableController implements Initializable {
     @FXML
     private VBox specificFilterVBox;
 
+    @FXML
+    private ComboBox<String> conditionFilterCombo;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -80,6 +80,7 @@ public class InventoryTableController implements Initializable {
         equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
         setTypeFilter();
+        setConditionFilterCombo();
         setContextMenuOnTable();
     }
 
@@ -105,7 +106,22 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
-
+    private void setConditionFilterCombo(){
+        conditionFilterCombo.getItems().add("ALL");
+        for(Equipment.Condition condition : Equipment.Condition.values())
+            conditionFilterCombo.getItems().add(condition.toString());
+        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newCondition) -> {
+            equipmentTable.getItems().removeAll(
+                    equipmentTable.getItems()
+            );
+            if(!newCondition.equalsIgnoreCase("all")){
+                equipmentTable.getItems().addAll( equipmentTable.getItems().stream().filter(item -> item.getCondition().equalsIgnoreCase(newCondition)).collect(Collectors.toList()));
+            }else {
+                populateTableBy(Equipment.class);
+            }
+        });
+        updateTableViewCount();
+    }
 
     private void populateTypeCombo() {
         reflections = new Reflections(Equipment.class.getPackage().getName());
@@ -140,10 +156,15 @@ public class InventoryTableController implements Initializable {
 
     @FXML
     private void openAddBorrowView() throws IOException {
+        openAddBorrowView("");
+    }
+
+    private void openAddBorrowView(String id) throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
         Parent node = loader.load();
         AddBorrowingViewController controller = loader.getController();
         controller.setTableController(this);
+        controller.setDefaultReferenceValue(id);
         controller.openView();
     }
 
@@ -176,8 +197,19 @@ public class InventoryTableController implements Initializable {
             }
         });
 
+        MenuItem borrowContextMenu = new MenuItem("Borrow this item");
+        borrowContextMenu.setOnAction((ActionEvent) -> {
+            try {
+                EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
+                openAddBorrowView(item.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(giveItBackMenu);
+        menu.getItems().add(borrowContextMenu);
         equipmentTable.setContextMenu(menu);
     }
 
