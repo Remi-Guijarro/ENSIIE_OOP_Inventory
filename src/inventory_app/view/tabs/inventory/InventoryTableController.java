@@ -102,6 +102,8 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
+
+
     private void populateTypeCombo() {
         reflections = new Reflections(Equipment.class.getPackage().getName());
         Set<Class<? extends  Equipment>> classSet = reflections.getSubTypesOf(Equipment.class);
@@ -138,7 +140,7 @@ public class InventoryTableController implements Initializable {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
         Parent node = loader.load();
         AddBorrowingViewController controller = loader.getController();
-        controller.setTableView(equipmentTable);
+        controller.setTableController(this);
         controller.openView();
     }
 
@@ -159,7 +161,7 @@ public class InventoryTableController implements Initializable {
      * This method populate the table by the given Class
      * @param type -> the wanted Class
      */
-    private void populateTableBy(Class type){
+    public void populateTableBy(Class type){
         if(!equipmentTable.getItems().isEmpty())
             equipmentTable.getItems().removeAll(equipmentTable.getItems());
         Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
@@ -187,8 +189,12 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
+    public TableView<EquipmentRow> getTableView() {
+        return this.equipmentTable;
+    }
 
-    public static class EquipmentRow {
+
+    protected static class EquipmentRow {
         private String id;
         private String type;
         private String name;

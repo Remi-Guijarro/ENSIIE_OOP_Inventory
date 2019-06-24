@@ -51,8 +51,8 @@ public class MainController implements Initializable {
 
     public void openStorageView(){
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("INVENTORY"))){
-            //progressBar.setVisible(true);
-            //progressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+            progressBar.setVisible(true);
+            progressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
@@ -63,8 +63,8 @@ public class MainController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //progressBar.setProgress(0);
-            //progressBar.setVisible(false);
+            progressBar.setProgress(0);
+            progressBar.setVisible(false);
         }
     }
 

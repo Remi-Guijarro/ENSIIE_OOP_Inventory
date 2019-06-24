@@ -46,8 +46,7 @@ public class AddBorrowingViewController implements Initializable {
     @FXML
     private Button validateFormButton;
 
-    @FXML
-    private TableView<InventoryTableController.EquipmentRow> tableView;
+    private InventoryTableController tableController;
 
     private Equipment desiredEquipement;
     private Borrower desiredBorrower;
@@ -58,8 +57,8 @@ public class AddBorrowingViewController implements Initializable {
         setBorrowerChooserComboBoxDefaultValue();
     }
 
-    public void setTableView(TableView<InventoryTableController.EquipmentRow> tableView) {
-        this.tableView = tableView;
+    public void setTableController(InventoryTableController tableController){
+        this.tableController = tableController;
     }
 
     @FXML
@@ -128,6 +127,7 @@ public class AddBorrowingViewController implements Initializable {
 
 
 
+
     private boolean checkSelectedEquipmentFields(){
         if(desiredEquipement != null)
             return true;
@@ -156,14 +156,12 @@ public class AddBorrowingViewController implements Initializable {
 
     @FXML
     private void validateForm(){
-        if(tableView != null){
+        if(tableController != null && tableController.getTableView() != null){
             if(checkFields()){
                 Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
                 Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,"My Custom reason",desiredBorrower);
-                InventoryTableController.EquipmentRow row = tableView.getItems().stream().filter(item -> item.getId().equalsIgnoreCase(desiredEquipement.getReference())).findAny().orElse(null);
-                row = new InventoryTableController.EquipmentRow(row.getId(),row.getType(),row.getName(),row.getBrand(),row.getOwner(),row.getCondition(),desiredBorrower.getName(),
-                        "My Custom reason",returnDate.toString(),row.getEquipment());
-                tableView.refresh();
+                tableController.getTableView().getItems().removeAll(tableController.getTableView().getItems());
+                tableController.populateTableBy(Equipment.class);
                 stage.close();
             }
         }
