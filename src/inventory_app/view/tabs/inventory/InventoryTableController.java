@@ -6,6 +6,7 @@ import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -67,6 +68,9 @@ public class InventoryTableController implements Initializable {
     private Label totalCountLabel;
 
     @FXML
+    private Label currentCountLabel;
+
+    @FXML
     private VBox specificFilterVBox;
 
     @FXML
@@ -91,6 +95,7 @@ public class InventoryTableController implements Initializable {
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
         searchField.textProperty().addListener( (observable, oldValue, newValue) -> {
             filteredData.setPredicate( equipmentRow -> {
+
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
@@ -135,6 +140,8 @@ public class InventoryTableController implements Initializable {
         sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
 
         equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
     }
 
     private void setTypeFilter() {
@@ -192,40 +199,16 @@ public class InventoryTableController implements Initializable {
         SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
         equipmentTable.setItems(sortedData);
-        /*Set<String> conditions = new HashSet<>();
-        equipmentTable.getItems().forEach(item -> {
-            conditions.add(item.getCondition());
-        });
-        conditionFilterCombo.getItems().addAll(conditions);
-        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
-            filteredData.setPredicate( condition -> {
-                if (newValue == null) {
-                    return true;
-                } else {
-                    if (newValue.isInstance(condition)) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        });
-        borrowerList.setItems(new SortedList<>(filteredData));
-        displayNamesInCombo();*/
 
-        /*conditionFilterCombo.getItems().add("ALL");
-        for(Equipment.Condition condition : Equipment.Condition.values())
-            conditionFilterCombo.getItems().add(condition.toString());
-        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newCondition) -> {
-            equipmentTable.getItems().removeAll(
-                    equipmentTable.getItems()
-            );
-            if(!newCondition.equalsIgnoreCase("all")){
-                equipmentTable.getItems().addAll( equipmentTable.getItems().stream().filter(item -> item.getCondition().equalsIgnoreCase(newCondition)).collect(Collectors.toList()));
-            }else {
-                populateTableBy(Equipment.class);
-            }
-        });
-        updateTableViewCount();*/
+        addCountListener(sortedData);
+    }
+
+    private void addCountListener(SortedList<EquipmentRow> sortedData) {
+        sortedData.addListener((ListChangeListener<EquipmentRow>) c -> updateCurrentCountLabel(c.getList().size()));
+    }
+
+    private void updateCurrentCountLabel(int value) {
+        currentCountLabel.setText("Current Count: "+value);
     }
 
     private void populateTypeCombo() {
@@ -237,7 +220,8 @@ public class InventoryTableController implements Initializable {
     }
 
     private void updateTableViewCount(){
-        totalCountLabel.setText("Total Count : " + equipmentTable.getItems().size());
+        totalCountLabel.setText("Total Count: " + equipmentTable.getItems().size());
+
     }
 
     private void displayNamesInTypeFilterCombo() {
