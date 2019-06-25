@@ -79,6 +79,9 @@ public class InventoryTableController implements Initializable {
     @FXML
     private TextField searchField;
 
+    @FXML
+    private ComboBox<String> isBorrowedCombo;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
@@ -86,8 +89,49 @@ public class InventoryTableController implements Initializable {
         populateTableBy(Equipment.class);
         setTypeFilter();
         setConditionFilterCombo();
+        setIsBorrowedFilterCombo();
         setContextMenuOnTable();
         setSearchFilter();
+    }
+
+    private void setIsBorrowedFilterCombo() {
+        populateIsBorrowedCombo();
+
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        isBorrowedCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+
+                if (newValue.equals("Is Borrowed"))
+                    return true;
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return false;
+                }
+
+                if (newValue.equals("YES") && !equipmentRow.getBorrower().equals(AVAILABLE)) {
+                    return true;
+                }
+
+                if (newValue.equals("NO") && equipmentRow.getBorrower().equals(AVAILABLE)) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
+
+    private void populateIsBorrowedCombo() {
+        isBorrowedCombo.getItems().add("Is Borrowed");
+        isBorrowedCombo.getItems().add("YES");
+        isBorrowedCombo.getItems().add("NO");
     }
 
     private void setSearchFilter() {

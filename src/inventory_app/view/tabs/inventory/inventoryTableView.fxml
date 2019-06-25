@@ -36,7 +36,7 @@
                            </HBox.margin>
                         </TextField>
                         <ComboBox fx:id="conditionFilterCombo" promptText="Condition" />
-                        <ComboBox promptText="Is Borrowed" />
+                        <ComboBox fx:id="isBorrowedCombo" promptText="Is Borrowed" />
                         <ComboBox promptText="Location" />
                         <Region HBox.hgrow="ALWAYS" />
                         <CheckBox mnemonicParsing="false" text="Only display late" textFill="WHITE">
@@ -51,7 +51,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="equipmentTable" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="equipmentTable" snapToPixel="false" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="idItemColumn" prefWidth="75.0" text="Id" />
                       <TableColumn prefWidth="75.0" text="Item">
