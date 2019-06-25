@@ -4,15 +4,18 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -22,10 +25,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class InventoryTableController implements Initializable {
 
     private Reflections reflections;
+    private final String AVAILABLE = "Available";
 
     @FXML
     private TableView<EquipmentRow> equipmentTable;
@@ -66,13 +71,18 @@ public class InventoryTableController implements Initializable {
     @FXML
     private VBox specificFilterVBox;
 
+    @FXML
+    private ComboBox<String> conditionFilterCombo;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
+        equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
         setTypeFilter();
-        System.out.println("PackageName " +Equipment.class.getPackage().getName());
+        setConditionFilterCombo();
+        setContextMenuOnTable();
     }
 
     private void setTypeFilter() {
@@ -92,6 +102,23 @@ public class InventoryTableController implements Initializable {
                     // Logger will log that error append during loading of the filter view or something
                 }
                 specificFilterVBox.getChildren().add(parent);
+            }
+        });
+        updateTableViewCount();
+    }
+
+    private void setConditionFilterCombo(){
+        conditionFilterCombo.getItems().add("ALL");
+        for(Equipment.Condition condition : Equipment.Condition.values())
+            conditionFilterCombo.getItems().add(condition.toString());
+        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newCondition) -> {
+            equipmentTable.getItems().removeAll(
+                    equipmentTable.getItems()
+            );
+            if(!newCondition.equalsIgnoreCase("all")){
+                equipmentTable.getItems().addAll( equipmentTable.getItems().stream().filter(item -> item.getCondition().equalsIgnoreCase(newCondition)).collect(Collectors.toList()));
+            }else {
+                populateTableBy(Equipment.class);
             }
         });
         updateTableViewCount();
@@ -128,6 +155,20 @@ public class InventoryTableController implements Initializable {
         });
     }
 
+    @FXML
+    private void openAddBorrowView() throws IOException {
+        openAddBorrowView("");
+    }
+
+    private void openAddBorrowView(String id) throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
+        Parent node = loader.load();
+        AddBorrowingViewController controller = loader.getController();
+        controller.setTableController(this);
+        controller.setDefaultReferenceValue(id);
+        controller.openView();
+    }
+
 
     private void setColumnProperty(){
         idItemColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -141,22 +182,56 @@ public class InventoryTableController implements Initializable {
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
     }
 
+    public void setContextMenuOnTable(){
+        MenuItem giveItBackMenu = new MenuItem("Give equipment back");
+        giveItBackMenu.setOnAction((ActionEvent event) -> {
+            EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
+            if(!item.getReturnDate().equalsIgnoreCase(AVAILABLE) &&
+                    !item.getBorrower().equalsIgnoreCase(AVAILABLE) &&
+                    !item.getBorrowReason().equalsIgnoreCase(AVAILABLE)){
+                Main.contextContainer.getBorrowingsList().removeBorrowedItem(item.getEquipment());
+                this.populateTableBy(Equipment.class);
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Current equipment is not borrowed ");
+                alert.show();
+            }
+        });
+
+        MenuItem borrowContextMenu = new MenuItem("Borrow this item");
+        borrowContextMenu.setOnAction((ActionEvent) -> {
+            try {
+                EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
+                openAddBorrowView(item.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(giveItBackMenu);
+        menu.getItems().add(borrowContextMenu);
+        equipmentTable.setContextMenu(menu);
+    }
+
     /**
      * This method populate the table by the given Class
      * @param type -> the wanted Class
      */
-    private void populateTableBy(Class type){
+    public void populateTableBy(Class type){
         if(!equipmentTable.getItems().isEmpty())
             equipmentTable.getItems().removeAll(equipmentTable.getItems());
         Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
-            String borrowReason = "N/A";
-            String borrowerName = "N/A";
-            String returnDate = "N/A";
-            if(null != borrowing){
+            String borrowReason = AVAILABLE;
+            String borrowerName = AVAILABLE;
+            String returnDate = AVAILABLE;
+
+            if(borrowing != null){
                 borrowReason = borrowing.getBorrowReason();
                 borrowerName = borrowing.getBorrower().getName();
                 returnDate = borrowing.getReturnDate().toString();
+
             }
             equipmentTable.getItems().add(new EquipmentRow(equipment.getReference(),
                     equipment.getClass().getSimpleName(),
@@ -173,8 +248,12 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
+    public TableView<EquipmentRow> getTableView() {
+        return this.equipmentTable;
+    }
 
-    protected class EquipmentRow {
+
+    protected static class EquipmentRow {
         private String id;
         private String type;
         private String name;
