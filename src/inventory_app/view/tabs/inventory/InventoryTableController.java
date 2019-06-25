@@ -122,6 +122,7 @@ public class InventoryTableController implements Initializable {
         setContextMenuOnTable();
         setTypeFilter();
         setDisplayLateFilter();
+        updateCurrentCountLabel(equipmentTable.getItems().size());
     }
 
     private void setLocationFilter() {
@@ -319,7 +320,7 @@ public class InventoryTableController implements Initializable {
         sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
         equipmentTable.setItems(sortedData);
         addCountListener(sortedData);
-        updateTableViewCount();
+        setTotalCountLabel();
     }
 
     private void populateConditionCombo() {
@@ -375,7 +376,7 @@ public class InventoryTableController implements Initializable {
         displayNamesInTypeFilterCombo();
     }
 
-    private void updateTableViewCount(){
+    private void setTotalCountLabel(){
         totalCountLabel.setText("Total Count: " + equipmentTable.getItems().size());
 
     }
@@ -528,7 +529,8 @@ public class InventoryTableController implements Initializable {
         setConditionFilterCombo();
         setIsBorrowedFilterCombo();
         setSearchFilter();
-        updateTableViewCount();
+        setTotalCountLabel();
+
     }
 
     @FXML
