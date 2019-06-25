@@ -99,8 +99,6 @@ public class Main extends Application{
         window.setScene(scene);
         window.setMaximized(false);
         window.show();
-
-        System.out.println("123 456 678".replaceAll("\\s+", ""));
     }
 
     private void setWindowMinSize() {

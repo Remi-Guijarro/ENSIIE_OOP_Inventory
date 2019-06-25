@@ -1,30 +1,17 @@
 package inventory_app.view.main;
 
-import inventory_app.Main;
-import inventory_app.model.inventory.Borrower;
-import inventory_app.model.users.Student;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainController implements Initializable {
 
@@ -50,7 +37,7 @@ public class MainController implements Initializable {
                 tab.setContent(root);
                 tab.setText("USERS");
                 tabs.getTabs().add(tab);
-
+                tabs.getSelectionModel().select(tab);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -69,6 +56,7 @@ public class MainController implements Initializable {
                 tab.setContent(root);
                 tab.setText("INVENTORY");
                 tabs.getTabs().add(tab);
+                tabs.getSelectionModel().select(tab);
             } catch (IOException e) {
                 e.printStackTrace();
             }
