@@ -5,6 +5,7 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
+import inventory_app.view.tabs.inventory.filter.utils.FilterController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -126,7 +127,7 @@ public class InventoryTableController implements Initializable {
                 if (!newValue)
                     return true;
 
-                if (newValue && !equipmentRow.returnDate.equals(AVAILABLE) && equipmentRow.isLate())
+                if (newValue && equipmentRow.returnDate != null && equipmentRow.isLate())
                     return true;
 
                 return false;
@@ -249,23 +250,26 @@ public class InventoryTableController implements Initializable {
                 Parent parent = null;
                 try {
                     parent = fxmlLoader.load();
+                    FilterController filterController = fxmlLoader.getController();
+                    filterController.setTableView(equipmentTable);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // Logger will log that error append during loading of the filter view or something
                 }
                 specificFilterVBox.getChildren().add(parent);
+                filteredData.setPredicate( equipmentRow -> {
+                    if (newValue == null) {
+                        return true;
+                    }
+                    String classSimpleName = newValue.getSimpleName();
+
+                    if (equipmentRow.getType().equalsIgnoreCase(classSimpleName)) {
+                        return true;
+                    }
+                    return false;
+                });
+            }else {
+                populateTableBy(Equipment.class);
             }
-            filteredData.setPredicate( equipmentRow -> {
-                if (newValue == null || newValue.equals(Equipment.class)) {
-                    return true;
-                }
-                String classSimpleName = newValue.getSimpleName();
-                // By type
-                if (equipmentRow.getType().equalsIgnoreCase(classSimpleName)) {
-                    return true;
-                }
-                return false;
-            });
         });
 
         SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
@@ -376,28 +380,6 @@ public class InventoryTableController implements Initializable {
         itemConditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
         itemBorrowerColumn.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         borrowReasonColumn.setCellValueFactory(new PropertyValueFactory<>("borrowReason"));
-        returnDateColumn.setCellFactory(column -> {
-            TableCell<EquipmentRow, String> cell = new TableCell<EquipmentRow, String>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if(empty || item.equals(AVAILABLE)) {
-                        setText(null);
-                    }
-                    else {
-                        try {
-                            Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(item);
-                            setText(format.format(date));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            };
-            return cell;
-        });
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
     }
 
@@ -405,7 +387,7 @@ public class InventoryTableController implements Initializable {
         MenuItem giveItBackMenu = new MenuItem("Give equipment back");
         giveItBackMenu.setOnAction((ActionEvent event) -> {
             EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
-            if(!item.getReturnDate().equalsIgnoreCase(AVAILABLE) &&
+            if(item.getReturnDate() != null &&
                     !item.getBorrower().equalsIgnoreCase(AVAILABLE) &&
                     !item.getBorrowReason().equalsIgnoreCase(AVAILABLE)){
                 Main.contextContainer.getBorrowingsList().removeBorrowedItem(item.getEquipment());
@@ -445,12 +427,12 @@ public class InventoryTableController implements Initializable {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
             String borrowReason = AVAILABLE;
             String borrowerName = AVAILABLE;
-            String returnDate = AVAILABLE;
+            Date returnDate = null;
 
             if(borrowing != null){
                 borrowReason = borrowing.getBorrowReason();
                 borrowerName = borrowing.getBorrower().getName();
-                returnDate = borrowing.getReturnDate().toString();
+                returnDate = borrowing.getReturnDate();
 
             }
             equipmentRows.add(new EquipmentRow(equipment.getReference(),
@@ -487,7 +469,7 @@ public class InventoryTableController implements Initializable {
     }
 
 
-    protected static class EquipmentRow {
+    public static class EquipmentRow {
         private String id;
         private String type;
         private String name;
@@ -496,7 +478,7 @@ public class InventoryTableController implements Initializable {
         private String condition;
         private String borrower;
         private String borrowReason;
-        private String returnDate;
+        private Date returnDate;
         private Equipment equipment;
 
         public String getId() {
@@ -535,11 +517,11 @@ public class InventoryTableController implements Initializable {
             return borrowReason;
         }
 
-        public String getReturnDate() {
+        public Date getReturnDate() {
             return returnDate;
         }
 
-        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, String returnDate,Equipment equipment) {
+        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, Date returnDate,Equipment equipment) {
             this.id = id;
             this.type = type;
             this.name = name;
@@ -553,15 +535,8 @@ public class InventoryTableController implements Initializable {
         }
 
         public boolean isLate() {
-            try {
-                Date returnDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(this.returnDate);
-                Date now = new Date();
-
-                return now.after(returnDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return false;
-            }
+            Date now = new Date();
+            return now.after(this.returnDate);
         }
     }
 }
