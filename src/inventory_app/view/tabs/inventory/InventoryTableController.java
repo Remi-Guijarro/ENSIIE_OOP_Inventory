@@ -2,7 +2,6 @@ package inventory_app.view.tabs.inventory;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
-import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
@@ -15,15 +14,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-import org.omg.CORBA.MARSHAL;
 import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 public class InventoryTableController implements Initializable {
 

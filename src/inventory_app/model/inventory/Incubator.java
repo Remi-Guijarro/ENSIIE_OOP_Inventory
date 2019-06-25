@@ -1,16 +1,15 @@
 package inventory_app.model.inventory;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class Incubator extends inventory_app.model.inventory.Institute implements Serializable {
     private List<inventory_app.model.inventory.Startup> startups;
 
-    public Incubator(String incubatorName, String startupSIREN) {
+    public Incubator(String incubatorName) {
         super(incubatorName);
         startups = new ArrayList<>();
     }

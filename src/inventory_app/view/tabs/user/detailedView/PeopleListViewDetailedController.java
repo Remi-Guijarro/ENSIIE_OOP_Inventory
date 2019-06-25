@@ -4,6 +4,7 @@ import inventory_app.model.inventory.Borrower;
 import inventory_app.model.users.People;
 import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
+import inventory_app.view.TextFieldValidator;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class PeopleListViewDetailedController implements Initializable {
 
     private People selectedPeople;
 
-    private People modifyPeopleContext;
+    //private People modifyPeopleContext;
 
     @FXML
     private Label peopleConcreteType;
@@ -61,14 +63,8 @@ public class PeopleListViewDetailedController implements Initializable {
 
     private ListView<Borrower> borrowerListView;
 
-    private final String NAME_REGEX = "^([A-Za-z\\-\\ ]+)$";
-    private final String EMAIL_REGEX = "^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$";
-    private final String PHONE_NUMBER_REGEX = "^0([0-9]{9})$";
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setFieldsDisable(true);
-        populateGradeCombo();
         isUpdating = false;
         confirmButton.setVisible(false);
         editResultLabel.setVisible(false);
@@ -77,6 +73,26 @@ public class PeopleListViewDetailedController implements Initializable {
 
     private void populateGradeCombo() {
         gradeComboBox.getItems().addAll(Student.Grade.values());
+        displayGradeNamesInCombo();
+    }
+
+    private void displayGradeNamesInCombo() {
+        gradeComboBox.setConverter(new StringConverter<Student.Grade>() {
+            @Override
+            public String toString(Student.Grade grade) {
+                String gradeString = grade.toString();
+                if (gradeString.charAt(0) == '_')
+                    gradeString = gradeString.substring(1);
+
+                return gradeString;
+            }
+
+            @Override
+            public Student.Grade fromString(String string) {
+                return gradeComboBox.getItems().stream().filter(ap ->
+                        ap.toString().equals(string)).findFirst().orElse(null);
+            }
+        });
     }
 
     private void setFieldsDisable(boolean value){
@@ -85,13 +101,15 @@ public class PeopleListViewDetailedController implements Initializable {
         addressField.setDisable(value);
         phoneNumberField.setDisable(value);
         emailField.setDisable(value);
-        gradeComboBox.setDisable(value);
+        if (selectedPeople instanceof Student)
+            gradeComboBox.setDisable(value);
 
     }
 
     public void setDetailedInfo(Borrower user, ListView<Borrower> borrowerListView){
         this.borrowerListView = borrowerListView;
         this.selectedPeople = (People) user;
+        setFieldsDisable(true);
         if(user instanceof Teacher){
             // handle Teacher
             Teacher teacher = (Teacher) user;
@@ -112,135 +130,132 @@ public class PeopleListViewDetailedController implements Initializable {
             phoneNumberField.setText(student.getPhoneNumber());
             emailField.setText(student.getEmail());
             gradeComboBox.setValue(student.getGrade());
+            populateGradeCombo();
         } else {
             peopleConcreteType.setText("Unhandled type");
-            firstNameField.setDisable(true);
-            surnameField.setDisable(true);
-            addressField.setDisable(true);
-            phoneNumberField.setDisable(true);
-            phoneNumberField.setDisable(true);
-            emailField.setDisable(true);
+            setFieldsDisable(true);
             gradeComboBox.setDisable(true);
         }
     }
 
-    private boolean validateField(TextField field, final String regex) {
-        if (field.getText().matches(regex)) {
-            field.setStyle("-fx-background-color: #a5ff93");
-            return true;
-        } else {
-            field.setStyle("-fx-background-color: #ff998c");
-            return false;
+    @FXML
+    private boolean validateFirstName() {
+        return TextFieldValidator.validate(firstNameField, TextFieldValidator.FieldREGEX.NAME_REGEX);
+    }
+
+    @FXML
+    private boolean validateSurname() {
+        return TextFieldValidator.validate(surnameField, TextFieldValidator.FieldREGEX.NAME_REGEX);
+    }
+
+    @FXML
+    private boolean validatePhoneNumber() {
+        return TextFieldValidator.validate(phoneNumberField, TextFieldValidator.FieldREGEX.PHONE_NUMBER_REGEX);
+    }
+
+    @FXML
+    private boolean validateEmail() {
+        return TextFieldValidator.validate(emailField, TextFieldValidator.FieldREGEX.EMAIL_REGEX);
+    }
+
+    @FXML
+    private boolean validateAddress() {
+        return TextFieldValidator.validate(addressField, TextFieldValidator.FieldREGEX.ANY);
+    }
+
+    private void updateUser() {
+        updateFirstName();
+        updateSurname();
+        updatePhoneNumber();
+        updateEmail();
+        updateAddress();
+        if (selectedPeople instanceof Student) {
+            updateStudentGrade();
         }
     }
 
-    public boolean validateFirstName() {
-        return validateField(firstNameField, NAME_REGEX);
+    private void updateFirstName(){
+            selectedPeople.setFirstName(this.firstNameField.getText().trim());
     }
 
-    public boolean validateSurname() {
-        return validateField(surnameField, NAME_REGEX);
+    private void updateSurname(){
+        selectedPeople.setSurname(this.surnameField.getText().trim());
     }
 
-    public boolean validatePhoneNumber() {
-        return validateField(phoneNumberField, PHONE_NUMBER_REGEX);
+    private void updateAddress(){
+        selectedPeople.setAddress(this.addressField.getText().trim());
     }
 
-    public boolean validateEmail() {
-        return validateField(emailField, EMAIL_REGEX);
+    private void updatePhoneNumber(){
+        selectedPeople.setPhoneNumber(this.phoneNumberField.getText().trim());
     }
 
-    public boolean validateAddress() {
-        return validateField(addressField, ".*");    //any string is okay
+    private void updateEmail(){
+        selectedPeople.setEmail(this.emailField.getText().trim());
     }
 
-    public void updateUser() {
-        modifyPeopleContext.setFirstName(firstNameField.getText());
-        modifyPeopleContext.setSurname(surnameField.getText());
-        modifyPeopleContext.setAddress(addressField.getText());
-        modifyPeopleContext.setEmail(emailField.getText());
-        modifyPeopleContext.setPhoneNumber(phoneNumberField.getText());
-        if (modifyPeopleContext instanceof Student) {
-            ((Student) modifyPeopleContext).setGrade(gradeComboBox.getValue());
-        }
-
+    private void updateStudentGrade(){
+        Student current = (Student) selectedPeople;
+        current.setGrade(gradeComboBox.getValue());
     }
 
-    public void updateFirstName(){
-        if(firstNameField.isEditable())
-            this.modifyPeopleContext.setFirstName(this.firstNameField.getText());
-    }
-
-    public void updateSurname(){
-        if(surnameField.isEditable())
-            this.modifyPeopleContext.setSurname(this.surnameField.getText());
-    }
-
-    public void updateAddress(){
-        if(addressField.isEditable())
-            this.modifyPeopleContext.setAddress(this.addressField.getText());
-    }
-
-    public void updatePhoneNumber(){
-        if(phoneNumberField.isEditable())
-            this.modifyPeopleContext.setPhoneNumber(this.phoneNumberField.getText());
-    }
-
-    public void updateEmail(){
-        if(this.emailField.isEditable()){
-            this.modifyPeopleContext.setEmail(this.emailField.getText());
-        }
-    }
-
-    public void updateGrade(){
-
-    }
-
-    private  <E extends People> People instantiatePeopleModifyingContext(E selectedPeople){
-        if(Teacher.class.isInstance(selectedPeople)){
+    /*private  <E extends People> People instantiatePeopleModifyingContext(E selectedPeople){
+        if(selectedPeople instanceof Teacher){
             return new Teacher((Teacher) selectedPeople);
-        }else if(Student.class.isInstance(selectedPeople)){
+        }else if(selectedPeople instanceof Student){
             return new Student((Student)selectedPeople);
         }
         return null;
+    }*/
+
+    private boolean validateAllFields() {
+        // We want to execute ALL the functions, that's why we use &
+        return (validateFirstName() &
+                validateSurname() &
+                validatePhoneNumber() &
+                validateEmail() &
+                validateAddress()
+        );
     }
 
     public void editClicked(){
         if(!isUpdating){
-
-            validateFirstName();
-            validateSurname();
-            validatePhoneNumber();
-            validateAddress();
-            validateEmail();
-
-            setFieldsDisable(true);
-            confirmButton.setVisible(true);
             isUpdating = true;
-            modifyPeopleContext = instantiatePeopleModifyingContext(selectedPeople);
+
+            validateAllFields();
+
+            setFieldsDisable(false);
+            confirmButton.setVisible(true);
+            //selectedPeople = instantiatePeopleModifyingContext(selectedPeople);
 
             editButton.setText("Cancel");
             populateProxy();
         } else {
-            setFieldsDisable(false);
-            removeFieldsValidationColor();
-            confirmButton.setVisible(false);
-            isUpdating = false;
-            modifyPeopleContext = null;
-            editButton.setText("Edit...");
-
             cancelFieldsText();
-            fieldProxy.clear();
+            stopUpdating();
         }
     }
 
+    private void stopUpdating() {
+        isUpdating = false;
+
+        removeFieldsValidationColor();
+
+        setFieldsDisable(true);
+        confirmButton.setVisible(false);
+
+        //modifyPeopleContext = null;
+
+        editButton.setText("Edit...");
+        fieldProxy.clear();
+    }
+
     private void removeFieldsValidationColor() {
-        firstNameField.setStyle("-fx-background-color: WHITE");
-        surnameField.setStyle("-fx-background-color: WHITE");
-        addressField.setStyle("-fx-background-color: WHITE");
-        emailField.setStyle("-fx-background-color: WHITE");
-        phoneNumberField.setStyle("-fx-background-color: WHITE");
-        gradeComboBox.setStyle("-fx-background-color: WHITE");
+        TextFieldValidator.setBlankBackground(firstNameField);
+        TextFieldValidator.setBlankBackground(surnameField);
+        TextFieldValidator.setBlankBackground(addressField);
+        TextFieldValidator.setBlankBackground(emailField);
+        TextFieldValidator.setBlankBackground(phoneNumberField);
     }
 
 
@@ -250,7 +265,8 @@ public class PeopleListViewDetailedController implements Initializable {
         fieldProxy.put(addressField, addressField.getText());
         fieldProxy.put(phoneNumberField, phoneNumberField.getText());
         fieldProxy.put(emailField, emailField.getText());
-        fieldProxy.put(gradeComboBox, gradeComboBox.getValue().toString());
+        if (selectedPeople instanceof Student)
+            fieldProxy.put(gradeComboBox, gradeComboBox.getValue().toString());
     }
 
     private void cancelFieldsText() {
@@ -259,7 +275,8 @@ public class PeopleListViewDetailedController implements Initializable {
         addressField.setText(fieldProxy.get(addressField));
         emailField.setText(fieldProxy.get(emailField));
         phoneNumberField.setText(fieldProxy.get(phoneNumberField));
-        gradeComboBox.setValue(Student.Grade.valueOf(fieldProxy.get(gradeComboBox)));
+        if (selectedPeople instanceof Student)
+            gradeComboBox.setValue(Student.Grade.valueOf(fieldProxy.get(gradeComboBox)));
     }
 
     private ArrayList<String> CheckInput(People people){
@@ -267,19 +284,14 @@ public class PeopleListViewDetailedController implements Initializable {
     }
 
     public void confirm(){
-        if(modifyPeopleContext != null){
-            if (validateAllField()) {
-                selectedPeople.setFirstName(modifyPeopleContext.getFirstName());
-                selectedPeople.setEmail(modifyPeopleContext.getEmail());
-                selectedPeople.setPhoneNumber(modifyPeopleContext.getPhoneNumber());
-                selectedPeople.setAddress(modifyPeopleContext.getAddress());
-                selectedPeople.setSurname(modifyPeopleContext.getSurname());
-                confirmButton.setVisible(false);
-                borrowerListView.refresh();
-                displayDatabaseUpdated(3000);
-            } else {
-                displayEditError(3000);
-            }
+        if (validateAllFields()) {
+            updateUser();
+            confirmButton.setVisible(false);
+            borrowerListView.refresh();
+            displayDatabaseUpdated(3000);
+            stopUpdating();
+        } else {
+            displayEditError(3000);
         }
     }
 
@@ -307,13 +319,5 @@ public class PeopleListViewDetailedController implements Initializable {
         );
         editResultLabel.setVisible(true);
         visiblePause.play();
-    }
-
-    private boolean validateAllField() {
-        return (validateFirstName() &&
-                validateSurname() &&
-                validateAddress() &&
-                validateEmail() &&
-                validatePhoneNumber());
     }
 }

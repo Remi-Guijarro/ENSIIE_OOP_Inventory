@@ -25,6 +25,6 @@ public class Teacher extends People implements Borrower,Serializable {
 
     @Override
     public String getName() {
-        return this.getFirstName();
+        return this.getFirstName() + " " + this.getSurname();
     }
 }

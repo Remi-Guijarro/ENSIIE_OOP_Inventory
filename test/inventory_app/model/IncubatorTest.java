@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IncubatorTest {
-    private Incubator incubator = new Incubator("C19","502333917");
+    private Incubator incubator = new Incubator("C19");
 
     @Test
     void addStartup() {

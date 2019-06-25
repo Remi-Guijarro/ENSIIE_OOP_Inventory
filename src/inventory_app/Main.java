@@ -7,7 +7,9 @@ import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
 import inventory_app.model.inventory.equipements.VRHeadset;
 import inventory_app.model.inventory.stocks.Inventory;
+import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
+import inventory_app.model.users.Users;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,12 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import inventory_app.model.users.Student;
-import inventory_app.model.users.Users;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,8 +33,8 @@ public class Main extends Application{
         Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
         Student studentB = new Student("0123456788","firstNameB","surnameB", "adresseB","1234557890","email2@email2.email",Student.Grade._1A);
         Teacher teacher = new Teacher("0128484937","TeacherA","Teacher Surname","10 rue de l'exemple","0123654398","prof@mail.fr");
-        Incubator incubator1 = new Incubator("C20","123");
-        Incubator incubator2 = new Incubator("THE BEST INCUBATOR","52639394");
+        Incubator incubator1 = new Incubator("C20");
+        Incubator incubator2 = new Incubator("THE BEST INCUBATOR");
         Startup startup1 = new Startup("Tarbernak","345",incubator1);
         Startup startup2 = new Startup("DebutHaut","97986876",incubator1);
         Startup startup3 = new Startup("Viser La Lune","897987987",incubator2);
@@ -90,6 +89,8 @@ public class Main extends Application{
         window.setScene(scene);
         window.setMaximized(false);
         window.show();
+
+        System.out.println("123 456 678".replaceAll("\\s+", ""));
     }
 
     private void setWindowMinSize() {

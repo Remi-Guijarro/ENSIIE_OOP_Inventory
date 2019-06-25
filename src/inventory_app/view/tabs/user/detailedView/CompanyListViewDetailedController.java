@@ -2,12 +2,9 @@ package inventory_app.view.tabs.user.detailedView;
 
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Startup;
-import inventory_app.model.users.Student;
-import inventory_app.model.users.Teacher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +25,7 @@ public class CompanyListViewDetailedController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialise when FXML is loaded
+
 
     }
 

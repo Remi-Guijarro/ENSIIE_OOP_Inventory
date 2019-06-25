@@ -2,12 +2,12 @@ package inventory_app.view.tabs.user.addView;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Incubator;
+import inventory_app.model.inventory.Startup;
+import inventory_app.view.TextFieldValidator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.net.URL;
@@ -24,16 +24,13 @@ public class AddStartupViewController implements Initializable {
     private ComboBox<Incubator> incubatorComboBox;
 
     @FXML
-    private Button newIncubatorButton;
-
-    @FXML
     private Label newIncubatorLabel;
 
     @FXML
     private TextField newIncubatorField;
 
     @FXML
-    private Button newIncubationConfirmButton;
+    private Button createStartupButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,7 +42,6 @@ public class AddStartupViewController implements Initializable {
     private void setNewIncubatorWidgetsVisible(boolean value) {
         newIncubatorLabel.setVisible(value);
         newIncubatorField.setVisible(value);
-        newIncubationConfirmButton.setVisible(value);
     }
 
     private void displayNamesInCombo() {
@@ -58,7 +54,8 @@ public class AddStartupViewController implements Initializable {
 
             @Override
             public Incubator fromString(String string) {
-                //NOT NEEDED
+                //SHOULD NOT BE REQUIRED
+                System.err.println(getClass().getEnclosingMethod().getName() + " is not implemented.");
                 return null;
             }
         });
@@ -73,7 +70,61 @@ public class AddStartupViewController implements Initializable {
     @FXML
     private void newIncubatorButtonClicked() {
         newIncubatorField.clear();
-        setNewIncubatorWidgetsVisible(!newIncubationConfirmButton.isVisible());
+        setNewIncubatorWidgetsVisible(!newIncubatorField.isVisible());
+    }
+
+    @FXML
+    private boolean validateStartupName() {
+        return TextFieldValidator.validate(nameField, TextFieldValidator.FieldREGEX.NAME_REGEX);
+    }
+
+    @FXML
+    private boolean validateSIREN() {
+        return TextFieldValidator.validate(SIRENField, TextFieldValidator.FieldREGEX.SIREN);
+    }
+
+    @FXML
+    private boolean validateIncubatorName() {
+        return TextFieldValidator.validate(newIncubatorField, TextFieldValidator.FieldREGEX.NAME_REGEX);
+    }
+
+    @FXML
+    private void createStartupButtonClicked() {
+        if (validateAllFields()) {
+            Startup startup;
+            String SIRENFieldFormated = SIRENField.getText().replaceAll("\\s+","").trim(); // "123 456 678" -> "123456789"
+            if (newIncubatorField.isVisible()) {
+                startup = new Startup(nameField.getText().trim(),
+                        SIRENFieldFormated,
+                        new Incubator(newIncubatorField.getText().trim()));
+            } else {
+                startup = new Startup(nameField.getText().trim(),
+                        SIRENFieldFormated,
+                        incubatorComboBox.getValue());
+            }
+            Main.contextContainer.getUsers().addUser(startup);
+            ((Stage)createStartupButton.getScene().getWindow()).close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Cannot Add Startup");
+            alert.setContentText("Incorrect field(s)");
+
+            // Trick to force the alert to always be displayed on top (sometimes, it popped behind the current window)
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.setAlwaysOnTop(true);
+            stage.toFront();
+            stage.showAndWait();
+        }
+    }
+
+    private boolean validateAllFields() {
+        boolean result = validateStartupName() && validateSIREN();
+
+        if (newIncubatorField.isVisible())
+            result = result && validateIncubatorName();
+
+        return result;
     }
 
 }

@@ -8,10 +8,10 @@ public class Student extends People implements Borrower,Serializable {
 
     @Override
     public String getName() {
-        return this.getFirstName();
+        return this.getFirstName() + " " + this.getSurname();
     }
 
-    public enum Grade {_1A, _2A, JIN;}
+    public enum Grade { _1A, _2A, JIN }
 
     private Grade grade;
 
