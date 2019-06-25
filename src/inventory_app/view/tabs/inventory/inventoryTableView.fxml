@@ -39,7 +39,7 @@
                         <ComboBox fx:id="isBorrowedCombo" promptText="Is Borrowed" />
                         <ComboBox promptText="Location" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <CheckBox mnemonicParsing="false" text="Only display late" textFill="WHITE">
+                        <CheckBox fx:id="displayLateCheckBox" mnemonicParsing="false" onAction="#onlyDisplayLate" text="Only display late" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>

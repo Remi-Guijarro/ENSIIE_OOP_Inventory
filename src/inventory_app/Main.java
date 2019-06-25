@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,7 +83,11 @@ public class Main extends Application{
         inventoryManager.addEquipment(vrHeadset);
 
         BorrowingsList b3 = BorrowingsList.getInstance();
-        b3.addBorrowedItem(tab,Calendar.getInstance().getTime(),"Why not",studentA);
+        try {
+            b3.addBorrowedItem(tab, new SimpleDateFormat("yyyy-MM-dd").parse("2019-06-02"),"Why not",studentA);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
         contextContainer = new ContextContainer(b);
@@ -113,7 +119,7 @@ public class Main extends Application{
             contextContainer =  database.load();
         }catch (IOException | ClassNotFoundException e){
             startContext();
-            logger.log(Level.SEVERE,"Save not found.An error append during saves loading process.A template context is being imported");
+            logger.log(Level.SEVERE,"Save not found.An error append during saves loading process. A template context is being imported");
         }finally {
             launch();
         }

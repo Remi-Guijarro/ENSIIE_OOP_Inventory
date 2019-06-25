@@ -23,6 +23,9 @@ import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -82,8 +85,23 @@ public class InventoryTableController implements Initializable {
     @FXML
     private ComboBox<String> isBorrowedCombo;
 
+    @FXML
+    private CheckBox displayLateCheckBox;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /*//TEST
+        try {
+            Main.contextContainer.getBorrowingsList().
+                    addBorrowedItem(Main.contextContainer.getInventoryManager().getAvailable().get(19),
+                            new SimpleDateFormat("yyyy-MM-dd").parse("2019-06-02"),
+                            "Why not",
+                            Main.contextContainer.getUsers().get().get(19));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+
         setColumnProperty();
         equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
@@ -92,6 +110,31 @@ public class InventoryTableController implements Initializable {
         setIsBorrowedFilterCombo();
         setContextMenuOnTable();
         setSearchFilter();
+
+        setDisplayLateFilter();
+    }
+
+    private void setDisplayLateFilter() {
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        displayLateCheckBox.selectedProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+
+                if (!newValue)
+                    return true;
+
+                if (newValue && !equipmentRow.returnDate.equals(AVAILABLE) && equipmentRow.isLate())
+                    return true;
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
     }
 
     private void setIsBorrowedFilterCombo() {
@@ -380,6 +423,15 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
+    @FXML
+    private void onlyDisplayLate() {
+        if (displayLateCheckBox.isSelected()) {
+
+        } else {
+
+        }
+    }
+
     public TableView<EquipmentRow> getTableView() {
         return this.equipmentTable;
     }
@@ -448,6 +500,18 @@ public class InventoryTableController implements Initializable {
             this.borrowReason = borrowReason;
             this.returnDate = returnDate;
             this.equipment = equipment;
+        }
+
+        public boolean isLate() {
+            try {
+                Date returnDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(this.returnDate);
+                Date now = new Date();
+
+                return now.after(returnDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 }
