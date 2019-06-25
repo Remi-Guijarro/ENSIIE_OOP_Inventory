@@ -22,7 +22,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
-                        <Button fx:id="addBorrowButton" mnemonicParsing="false" onAction="#openAddBorrowView" style="-fx-background-color: #05D39B;" text="+" textFill="WHITE">
+                        <Button fx:id="addBorrowButton" mnemonicParsing="false" onAction="#openAddEquipmentView" style="-fx-background-color: #05D39B;" text="+" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>

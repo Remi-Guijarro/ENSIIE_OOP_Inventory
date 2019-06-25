@@ -364,6 +364,11 @@ public class InventoryTableController implements Initializable {
         openAddBorrowView("");
     }
 
+    @FXML
+    private void openAddEquipmentView(){
+        System.out.println("COUCOU");
+    }
+
     private void openAddBorrowView(String id) throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addBorrowingView.fxml"));
         Parent node = loader.load();
