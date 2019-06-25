@@ -4,6 +4,7 @@ import inventory_app.Main;
 import inventory_app.model.inventory.Incubator;
 import inventory_app.model.inventory.Startup;
 import inventory_app.view.TextFieldValidator;
+import inventory_app.view.tabs.user.UserListViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -102,7 +103,7 @@ public class AddStartupViewController implements Initializable {
                         SIRENFieldFormated,
                         incubatorComboBox.getValue());
             }
-            Main.contextContainer.getUsers().addUser(startup);
+            UserListViewController.addUser(startup);
             ((Stage)createStartupButton.getScene().getWindow()).close();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);

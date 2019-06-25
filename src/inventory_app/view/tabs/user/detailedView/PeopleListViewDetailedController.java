@@ -15,7 +15,6 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -27,10 +26,11 @@ public class PeopleListViewDetailedController implements Initializable {
 
     private People selectedPeople;
 
-    //private People modifyPeopleContext;
-
     @FXML
     private Label peopleConcreteType;
+
+    @FXML
+    private Label IDLabel;
 
     @FXML
     private TextField firstNameField;
@@ -114,6 +114,7 @@ public class PeopleListViewDetailedController implements Initializable {
             // handle Teacher
             Teacher teacher = (Teacher) user;
             peopleConcreteType.setText("Teacher");
+            IDLabel.setText(teacher.getId());
             firstNameField.setText(teacher.getFirstName());
             surnameField.setText(teacher.getSurname());
             addressField.setText(teacher.getAddress());
@@ -124,6 +125,7 @@ public class PeopleListViewDetailedController implements Initializable {
             // handle Student
             Student student = (Student) user;
             peopleConcreteType.setText("Student");
+            IDLabel.setText(student.getId());
             firstNameField.setText(student.getFirstName());
             surnameField.setText(student.getSurname());
             addressField.setText(student.getAddress());
@@ -277,10 +279,6 @@ public class PeopleListViewDetailedController implements Initializable {
         phoneNumberField.setText(fieldProxy.get(phoneNumberField));
         if (selectedPeople instanceof Student)
             gradeComboBox.setValue(Student.Grade.valueOf(fieldProxy.get(gradeComboBox)));
-    }
-
-    private ArrayList<String> CheckInput(People people){
-        return new ArrayList<>();
     }
 
     public void confirm(){

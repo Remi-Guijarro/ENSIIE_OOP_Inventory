@@ -6,6 +6,7 @@ import inventory_app.model.inventory.Startup;
 import inventory_app.model.users.People;
 import inventory_app.view.tabs.user.detailedView.CompanyListViewDetailedController;
 import inventory_app.view.tabs.user.detailedView.PeopleListViewDetailedController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -16,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -27,6 +29,8 @@ public class UserListViewController implements Initializable {
     @FXML
     private ComboBox<Class> typeFilterCombo;
 
+    private static ObservableList<Borrower> borrowers;
+
     @FXML
     private ListView<Borrower> borrowerList;
 
@@ -34,21 +38,19 @@ public class UserListViewController implements Initializable {
     private VBox detailedInfo;
 
     @FXML
-    private Button addButton;
-
-    @FXML
     private TextField searchField;
-
-    public ListView getBorrowerList(){
-        return borrowerList;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setObservableList();
         populateTable();
         setListenerOnTableItems();
         setSearchFilter();
         setTypeFilter();
+    }
+
+    private void setObservableList() {
+        borrowers = FXCollections.observableArrayList(Main.contextContainer.getUsers().get());
     }
 
     private void setListenerOnTableItems() {
@@ -75,13 +77,21 @@ public class UserListViewController implements Initializable {
         );
     }
 
+    public static void addUser(Borrower b) {
+        Main.contextContainer.getUsers().addUser(b);
+        borrowers.add(b);
+    }
+
+    public static ObservableList<Borrower> getBorrowers() {
+        return borrowers;
+    }
+
     private void  populateTable() {
-        borrowerList.getItems().addAll(Main.contextContainer.getUsers().get());
+        borrowerList.setItems(getBorrowers());
         borrowerList.setCellFactory( param -> new ListCell<Borrower>() {
             @Override
             protected void updateItem(Borrower borrower, boolean empty) {
                 super.updateItem(borrower, empty);
-
                 if (empty || borrower == null || borrower.getName() == null) {
                     setText(null);
                 } else {
