@@ -239,9 +239,7 @@ public class AddBorrowingViewController implements Initializable {
             if(checkFields()){
                 Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
                 Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,"My Custom reason",desiredBorrower);
-                tableController.getTableView().getItems().removeAll(tableController.getTableView().getItems());
-                tableController.populateTableBy(Equipment.class);
-                //tableController.getTableView().refresh();
+                tableController.getTableView().refresh();
                 stage.close();
             }
         }

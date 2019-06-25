@@ -233,13 +233,14 @@ public class InventoryTableController implements Initializable {
 
     private void setTypeFilter() {
         populateTypeCombo();
-        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newType) -> {
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
             if(specificFilterVBox.getChildren().size() > 0)
                 specificFilterVBox.getChildren().remove(0);
-            populateTableBy(newType);
-            if(!Equipment.class.equals(newType)){
+            if(!newValue.equals(Equipment.class)){
                 FilterControllerLoader filterControllerLoader = new FilterControllerLoader();
-                FXMLLoader fxmlLoader =  filterControllerLoader.loadFrom(newType);
+                FXMLLoader fxmlLoader =  filterControllerLoader.loadFrom(newValue);
                 Parent parent = null;
                 try {
                     parent = fxmlLoader.load();
@@ -249,7 +250,23 @@ public class InventoryTableController implements Initializable {
                 }
                 specificFilterVBox.getChildren().add(parent);
             }
+            filteredData.setPredicate( equipmentRow -> {
+                if (newValue == null || newValue.equals(Equipment.class)) {
+                    return true;
+                }
+                String classSimpleName = newValue.getSimpleName();
+                // By type
+                if (equipmentRow.getType().equalsIgnoreCase(classSimpleName)) {
+                    return true;
+                }
+                return false;
+            });
         });
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+        addCountListener(sortedData);
         updateTableViewCount();
     }
 
@@ -262,7 +279,6 @@ public class InventoryTableController implements Initializable {
 
     private void setConditionFilterCombo(){
         populateConditionCombo();
-
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
         conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
