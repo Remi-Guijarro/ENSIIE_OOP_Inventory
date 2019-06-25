@@ -8,12 +8,12 @@ import javafx.fxml.FXMLLoader;
 
 import java.net.URL;
 
-public class FilterControllerLoader {
+public class FilterControllerLoader {// this.getClass().getClassLoader().getResource("inventory_app/view/tabs
     protected enum CLASS_FXML_LOCATION{
-        DEPTH_SENSOR(inventory_app.model.inventory.equipements.DepthSensor.class,FilterControllerLoader.class.getResource("../depthSensor/depthSensorFilterView.fxml")),
-        TABLET(inventory_app.model.inventory.equipements.Tablet.class,FilterControllerLoader.class.getResource("../tablet/tabletFilterView.fxml")),
-        SMARTPHONE(inventory_app.model.inventory.equipements.Smartphone.class,FilterControllerLoader.class.getResource("../smartphone/smartphoneFilterView.fxml")),
-        VRHEADSET(inventory_app.model.inventory.equipements.VRHeadset.class,FilterControllerLoader.class.getResource("../vrheadset/vrheadsetFilterView.fxml"));
+        DEPTH_SENSOR(inventory_app.model.inventory.equipements.DepthSensor.class,FilterControllerLoader.class.getClassLoader().getResource("inventory_app/view/tabs/inventory/filter/depthSensor/depthSensorFilterView.fxml")),
+        TABLET(inventory_app.model.inventory.equipements.Tablet.class,FilterControllerLoader.class.getClassLoader().getResource("inventory_app/view/tabs/inventory/filter/tablet/tabletFilterView.fxml")),
+        SMARTPHONE(inventory_app.model.inventory.equipements.Smartphone.class,FilterControllerLoader.class.getClassLoader().getResource("inventory_app/view/tabs/inventory/filter/smartphone/smartphoneFilterView.fxml")),
+        VRHEADSET(inventory_app.model.inventory.equipements.VRHeadset.class,FilterControllerLoader.class.getClassLoader().getResource("inventory_app/view/tabs/inventory/filter/vrheadset/vrheadsetFilterView.fxml"));
 
         private Class type;
         private URL location;

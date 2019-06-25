@@ -98,7 +98,7 @@ public class Main extends Application{
         window = primaryStage;
         Parent root = FXMLLoader.load(this.getClass().getResource("view/main/main.fxml"));
         window.initStyle(StageStyle.DECORATED);
-        window.getIcons().add(new Image(this.getClass().getResource("../icons/inventory.png").toExternalForm()));
+        window.getIcons().add(new Image(this.getClass().getClassLoader().getResource("icons/inventory.png").toExternalForm()));
         window.setTitle("Inventory");
         Scene scene = new Scene(root);
         setWindowMinSize();

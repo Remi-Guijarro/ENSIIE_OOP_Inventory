@@ -33,7 +33,7 @@ public class MainController implements Initializable {
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
-                Parent root = loader.load(this.getClass().getResource("../tabs/user/userListView.fxml"));
+                Parent root = loader.load(this.getClass().getClassLoader().getResource("inventory_app/view/tabs/user/userListView.fxml"));
                 tab.setContent(root);
                 tab.setText("USERS");
                 tabs.getTabs().add(tab);
@@ -52,7 +52,7 @@ public class MainController implements Initializable {
             try {
                 Tab tab = new Tab();
                 FXMLLoader loader = new FXMLLoader();
-                Parent root = loader.load(this.getClass().getResource("../tabs/inventory/inventoryTableView.fxml"));
+                Parent root = loader.load(this.getClass().getClassLoader().getResource("inventory_app/view/tabs/inventory/inventoryTableView.fxml"));
                 tab.setContent(root);
                 tab.setText("INVENTORY");
                 tabs.getTabs().add(tab);
