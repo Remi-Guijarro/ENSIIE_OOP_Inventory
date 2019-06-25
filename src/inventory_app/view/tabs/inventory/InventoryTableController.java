@@ -5,6 +5,7 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
+import inventory_app.view.tabs.inventory.detailedView.utils.EquipmentDetailedController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.collections.FXCollections;
@@ -17,9 +18,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.reflections.Reflections;
@@ -447,6 +450,32 @@ public class InventoryTableController implements Initializable {
                     equipment)
             );
         });
+
+        equipmentTable.setRowFactory( tv -> {
+            TableRow<EquipmentRow> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    EquipmentRow rowData = row.getItem();
+                    EquipmentDetailedController equipmentDetailedController= new EquipmentDetailedController();
+                    FXMLLoader fxmlLoader =  equipmentDetailedController.loadFrom(rowData.getEquipment().getClass());
+                    Parent parent = null;
+                    try {
+                        parent = fxmlLoader.load();
+                        //FilterController filterController = fxmlLoader.getController();
+                        //filterController.setTableView(equipmentTable);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setTitle("Detailed View");
+                    Scene scene = new Scene(parent);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            });
+            return row ;
+        });
+
         equipmentTable.setItems(FXCollections.observableArrayList(equipmentRows));
         setTypeFilter();
         setConditionFilterCombo();
