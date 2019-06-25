@@ -46,6 +46,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label text="Equipment reference" textFill="WHITE">
@@ -101,6 +102,25 @@
                                     <Insets left="20.0" right="20.0" top="30.0" />
                                  </HBox.margin>
                               </ComboBox>
+                           </children>
+                        </HBox>
+                        <Label text="Borow Reason" textFill="WHITE" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <ComboBox fx:id="reasonTypeCombo" promptText="ReasonTypeCombo">
+                                 <HBox.margin>
+                                    <Insets left="10.0" top="20.0" />
+                                 </HBox.margin>
+                              </ComboBox>
+                              <TextField fx:id="messageText" alignment="CENTER" promptText="message" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="20.0" />
+                                 </HBox.margin>
+                              </TextField>
                            </children>
                         </HBox>
                      </children>

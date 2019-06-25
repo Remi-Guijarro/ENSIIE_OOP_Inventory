@@ -3,6 +3,7 @@ package inventory_app.view.tabs.inventory.addView;
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
+import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.InventoryTableController;
 import javafx.application.Platform;
@@ -71,6 +72,12 @@ public class AddBorrowingViewController implements Initializable {
     private DatePicker retunDatePicker;
 
     @FXML
+    private ComboBox<Borrowing.BorrowReasonType> reasonTypeCombo;
+
+    @FXML
+    private TextField messageText;
+
+    @FXML
     private Button validateFormButton;
 
     @FXML
@@ -85,6 +92,11 @@ public class AddBorrowingViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setBorrowerByNameFilter();
         setBorrowerChooserComboBoxDefaultValue();
+        populateReasonTypeCombo();
+    }
+
+    private void populateReasonTypeCombo() {
+        reasonTypeCombo.getItems().addAll(Borrowing.BorrowReasonType.values());
     }
 
     public void setDefaultReferenceValue(String id) {
@@ -197,7 +209,14 @@ public class AddBorrowingViewController implements Initializable {
     }
 
 
-
+    private boolean checkReasonTypeField(){
+        if(reasonTypeCombo.getSelectionModel().getSelectedItem() != null && !messageText.getText().isEmpty())
+            return true;
+        else{
+            addLogMessage("Reason Type and message must be fulfilled",Level.SEVERE);
+            return false;
+        }
+    }
 
     private boolean checkSelectedEquipmentFields(){
         if(desiredEquipement != null)
@@ -230,7 +249,8 @@ public class AddBorrowingViewController implements Initializable {
     private boolean checkFields(){
         return checkSelectedBorrowerFields() &&
                 checkSelectedEquipmentFields() &&
-                checkSelectedReturnDateFields();
+                checkSelectedReturnDateFields() &&
+                checkReasonTypeField();
     }
 
     @FXML
@@ -238,7 +258,8 @@ public class AddBorrowingViewController implements Initializable {
         if(tableController != null && tableController.getTableView() != null){
             if(checkFields()){
                 Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
-                Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,"My Custom reason",desiredBorrower);
+                Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,
+                        reasonTypeCombo.getSelectionModel().getSelectedItem().toString() + " : " + messageText.getText(),desiredBorrower);
                 tableController.populateTableBy(Equipment.class);
                 stage.close();
             }

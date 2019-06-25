@@ -17,6 +17,36 @@ public class Borrowing implements Serializable {
         this.borrower = borrower;
     }
 
+    public enum BorrowReasonType{
+        LESSON,OTHER;
+    }
+
+    public class BorrowReason{
+        private BorrowReasonType type;
+        private String message;
+
+        public BorrowReason(BorrowReasonType type, String message) {
+            this.type = type;
+            this.message = message;
+        }
+
+        public BorrowReasonType getType() {
+            return type;
+        }
+
+        public void setType(BorrowReasonType type) {
+            this.type = type;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
     public Borrowable getBorrowable() {
         return borrowable;
     }

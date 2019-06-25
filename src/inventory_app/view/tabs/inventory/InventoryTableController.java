@@ -396,7 +396,6 @@ public class InventoryTableController implements Initializable {
                     }
                 }
             };
-
             return cell;
         });
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
