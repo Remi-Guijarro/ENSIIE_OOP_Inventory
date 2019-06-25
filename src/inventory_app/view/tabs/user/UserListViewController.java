@@ -14,7 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
@@ -125,7 +128,6 @@ public class UserListViewController implements Initializable {
 
         borrowerList.setItems(sortedData);
     }
-
 
     private void setTypeFilter(){
         typeFilterCombo.getItems().add(Borrower.class);

@@ -6,8 +6,7 @@ import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class InventoryTableController implements Initializable {
 
@@ -74,7 +72,6 @@ public class InventoryTableController implements Initializable {
     @FXML
     private ComboBox<String> conditionFilterCombo;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
@@ -107,8 +104,61 @@ public class InventoryTableController implements Initializable {
         updateTableViewCount();
     }
 
+    private void populateConditionCombo() {
+        conditionFilterCombo.getItems().add("Condition");
+        for (Equipment.Condition current : Equipment.Condition.values()) {
+            conditionFilterCombo.getItems().add(current.toString());
+        }
+    }
+
+    private void filterByCondition(Equipment.Condition condition) {
+        equipmentTable.getItems();
+    }
+
     private void setConditionFilterCombo(){
-        conditionFilterCombo.getItems().add("ALL");
+        populateConditionCombo();
+
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return false;
+                }
+
+                if (equipmentRow.getCondition().equals(newValue)) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+        /*Set<String> conditions = new HashSet<>();
+        equipmentTable.getItems().forEach(item -> {
+            conditions.add(item.getCondition());
+        });
+        conditionFilterCombo.getItems().addAll(conditions);
+        conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( condition -> {
+                if (newValue == null) {
+                    return true;
+                } else {
+                    if (newValue.isInstance(condition)) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        });
+        borrowerList.setItems(new SortedList<>(filteredData));
+        displayNamesInCombo();*/
+
+        /*conditionFilterCombo.getItems().add("ALL");
         for(Equipment.Condition condition : Equipment.Condition.values())
             conditionFilterCombo.getItems().add(condition.toString());
         conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener((opt,oldType,newCondition) -> {
@@ -121,7 +171,7 @@ public class InventoryTableController implements Initializable {
                 populateTableBy(Equipment.class);
             }
         });
-        updateTableViewCount();
+        updateTableViewCount();*/
     }
 
     private void populateTypeCombo() {
