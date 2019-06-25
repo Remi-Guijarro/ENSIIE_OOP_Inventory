@@ -8,10 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
@@ -27,12 +26,6 @@ public class AddBorrowerViewController implements Initializable {
     AnchorPane root;
 
     @FXML
-    private Button cancelBtn;
-
-    @FXML
-    private Button validateBtn;
-
-    @FXML
     private ComboBox<Class> borrowerComboBox;
 
     @FXML
@@ -41,6 +34,7 @@ public class AddBorrowerViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addBorrowerStage = new Stage();
+        addBorrowerStage.initModality(Modality.APPLICATION_MODAL);
         addBorrowerStage.initStyle(StageStyle.DECORATED);
         addBorrowerStage.setTitle("Add Borrower");
         Scene scene = new Scene(root);
@@ -48,6 +42,7 @@ public class AddBorrowerViewController implements Initializable {
         addBorrowerStage.setAlwaysOnTop(true);
         addBorrowerStage.setResizable(false);
         addBorrowerStage.show();
+
 
         populateBorrowerComboBox();
         displayNamesInCombo();
@@ -109,7 +104,9 @@ public class AddBorrowerViewController implements Initializable {
     private void displayTeacherForm() {
         try {
             FXMLLoader loader = loadForm("addPeopleView.fxml");
-            ((AddPeopleViewController) loader.getController()).setTypeLabelText("Add Teacher");
+            AddPeopleViewController controller = (AddPeopleViewController) loader.getController();
+            controller.setTypeLabelText("Add Teacher");
+            controller.hideGrade();
         } catch (IOException e) {
             e.printStackTrace();
         }

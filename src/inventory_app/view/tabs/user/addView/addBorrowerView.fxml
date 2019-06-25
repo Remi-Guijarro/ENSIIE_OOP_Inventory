@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #484C54;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.addView.AddBorrowerViewController">
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #484C54;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.user.addView.AddBorrowerViewController">
    <children>
       <VBox layoutX="192.0" layoutY="23.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -27,20 +26,6 @@
                </padding>
             </HBox>
             <AnchorPane fx:id="userForm" VBox.vgrow="ALWAYS" />
-            <AnchorPane VBox.vgrow="NEVER">
-               <children>
-                  <Button fx:id="validateBtn" layoutX="349.0" layoutY="107.0" mnemonicParsing="false" style="-fx-background-color: #05D39B;" text="Validate" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="cancelBtn" layoutX="464.0" layoutY="107.0" mnemonicParsing="false" onAction="#close" style="-fx-background-color: #e81300;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
          </children>
       </VBox>
    </children>
