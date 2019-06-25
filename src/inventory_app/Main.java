@@ -53,15 +53,19 @@ public class Main extends Application{
         }
 
         Tablet tab =  new Tablet("Oxygen6","Apple",school,Calendar.getInstance().getTime(),399.0,Tablet.OS.LINUX,new int[]{1920,1080});
+        tab.setLocation(Equipment.Location.ROOM_199);
         Tablet tab2 =  new Tablet("Oxygen7","Apple",school,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
+        tab2.setLocation(Equipment.Location.ROOM_266);
 
         Smartphone smartphone1 = new Smartphone("Iphone X","Apple",school,Calendar.getInstance().getTime(),1500,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,8);
+        smartphone1.setLocation(Equipment.Location.ROOM_266);
         Smartphone smartphone2 = new Smartphone("Iphone XV","Apple",school,Calendar.getInstance().getTime(),15000,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,20);
+        smartphone2.setLocation(Equipment.Location.ROOM_266);
 
         DepthSensor sensor = new DepthSensor("RealSense", "Intel", school, Calendar.getInstance().getTime(), 224.67);
-
+        sensor.setLocation(Equipment.Location.ROOM_301);
         VRHeadset vrHeadset = new VRHeadset("HTC Vive","HTC",school,Calendar.getInstance().getTime(),670,Equipment.Condition.GOOD);
-
+        vrHeadset.setLocation(Equipment.Location.ROOM_301);
         inventory_app.model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
         for(int i = 0 ; i < 600 ; i++){
@@ -103,7 +107,7 @@ public class Main extends Application{
         Scene scene = new Scene(root);
         setWindowMinSize();
         window.setScene(scene);
-        window.setMaximized(false);
+        window.setMaximized(true);
         window.show();
     }
 

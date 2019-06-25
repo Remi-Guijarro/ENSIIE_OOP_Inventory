@@ -23,14 +23,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -66,10 +63,13 @@ public class InventoryTableController implements Initializable {
     private TableColumn<EquipmentRow,String>  itemBorrowerColumn;
 
     @FXML
-    private TableColumn<EquipmentRow,String>borrowReasonColumn;
+    private TableColumn<EquipmentRow,String> borrowReasonColumn;
 
     @FXML
     private TableColumn<EquipmentRow,String> returnDateColumn;
+
+    @FXML
+    private TableColumn<EquipmentRow, Equipment.Location> locationColumn;
 
     @FXML
     private ComboBox<Class> typeFilterCombo;
@@ -85,6 +85,9 @@ public class InventoryTableController implements Initializable {
 
     @FXML
     private ComboBox<String> conditionFilterCombo;
+
+    @FXML
+    private ComboBox<String> locationComboBox;
 
     @FXML
     private TextField searchField;
@@ -112,13 +115,50 @@ public class InventoryTableController implements Initializable {
         setColumnProperty();
         equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
-        setTypeFilter();
+        setSearchFilter();
         setConditionFilterCombo();
         setIsBorrowedFilterCombo();
+        setLocationFilter();
         setContextMenuOnTable();
-        setSearchFilter();
-
+        setTypeFilter();
         setDisplayLateFilter();
+    }
+
+    private void setLocationFilter() {
+        if(locationComboBox.getItems().isEmpty())
+            populateLocationCombo();
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        locationComboBox.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+
+                if (newValue.equals("Location"))
+                    return true;
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return false;
+                }
+
+                if (equipmentRow.getLocation() == Equipment.Location.valueOf(newValue)) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
+
+    private void populateLocationCombo() {
+        locationComboBox.getItems().add("Location");
+        for (Equipment.Location l : Equipment.Location.values()) {
+            locationComboBox.getItems().add(l.toString());
+        }
     }
 
     private void setDisplayLateFilter() {
@@ -384,6 +424,7 @@ public class InventoryTableController implements Initializable {
         itemBorrowerColumn.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         borrowReasonColumn.setCellValueFactory(new PropertyValueFactory<>("borrowReason"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
     }
 
     public void setContextMenuOnTable(){
@@ -447,6 +488,7 @@ public class InventoryTableController implements Initializable {
                     borrowerName,
                     borrowReason,
                     returnDate,
+                    equipment.getLocation(),
                     equipment)
             );
         });
@@ -508,6 +550,7 @@ public class InventoryTableController implements Initializable {
         private String borrower;
         private String borrowReason;
         private Date returnDate;
+        private Equipment.Location location;
         private Equipment equipment;
 
         public String getId() {
@@ -550,7 +593,11 @@ public class InventoryTableController implements Initializable {
             return returnDate;
         }
 
-        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, Date returnDate,Equipment equipment) {
+        public Equipment.Location getLocation() {
+            return location;
+        }
+
+        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, Date returnDate, Equipment.Location location, Equipment equipment) {
             this.id = id;
             this.type = type;
             this.name = name;
@@ -560,6 +607,7 @@ public class InventoryTableController implements Initializable {
             this.borrower = borrower;
             this.borrowReason = borrowReason;
             this.returnDate = returnDate;
+            this.location = location;
             this.equipment = equipment;
         }
 

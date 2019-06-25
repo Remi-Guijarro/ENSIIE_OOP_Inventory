@@ -7,12 +7,27 @@ import java.util.Map;
 
 public abstract class Equipment implements Borrowable,Serializable {
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public enum Condition {
         GOOD,
         USED,
         BROKEN;
 
     }
+
+    public enum Location {
+        ROOM_266,
+        ROOM_199,
+        ROOM_301
+    }
+
     private Institute owner;
 
     private final String reference;
@@ -22,6 +37,8 @@ public abstract class Equipment implements Borrowable,Serializable {
     private Date purchaseDate;
     private double purchasePrice;
     private Condition condition = Condition.GOOD;
+    private Location location;
+
 
     public Equipment(String name, String brand, Institute owner,
                      Date purchaseDate, double purchasePrice)

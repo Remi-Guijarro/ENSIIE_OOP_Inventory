@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.inventory.InventoryTableController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventory_app.view.tabs.inventory.InventoryTableController">
    <children>
       <HBox prefHeight="472.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -37,7 +37,7 @@
                         </TextField>
                         <ComboBox fx:id="conditionFilterCombo" promptText="Condition" />
                         <ComboBox fx:id="isBorrowedCombo" promptText="Is Borrowed" />
-                        <ComboBox promptText="Location" />
+                        <ComboBox fx:id="locationComboBox" promptText="Location" />
                         <Region HBox.hgrow="ALWAYS" />
                         <CheckBox fx:id="displayLateCheckBox" mnemonicParsing="false" onAction="#onlyDisplayLate" text="Only display late" textFill="WHITE">
                            <font>
