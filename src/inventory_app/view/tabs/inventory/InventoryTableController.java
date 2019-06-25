@@ -6,6 +6,7 @@ import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.reflections.Reflections;
 
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -138,7 +141,8 @@ public class InventoryTableController implements Initializable {
     }
 
     private void setIsBorrowedFilterCombo() {
-        populateIsBorrowedCombo();
+        if(isBorrowedCombo.getItems().isEmpty())
+            populateIsBorrowedCombo();
 
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
@@ -232,7 +236,8 @@ public class InventoryTableController implements Initializable {
     }
 
     private void setTypeFilter() {
-        populateTypeCombo();
+        if(typeFilterCombo.getItems().isEmpty())
+            populateTypeCombo();
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
         typeFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
@@ -278,7 +283,8 @@ public class InventoryTableController implements Initializable {
     }
 
     private void setConditionFilterCombo(){
-        populateConditionCombo();
+        if(conditionFilterCombo.getItems().isEmpty())
+            populateConditionCombo();
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
         conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
@@ -433,8 +439,9 @@ public class InventoryTableController implements Initializable {
      * @param type -> the wanted Class
      */
     public void populateTableBy(Class type){
+        ArrayList<EquipmentRow> equipmentRows = new ArrayList<>();
         if(!equipmentTable.getItems().isEmpty())
-            equipmentTable.getItems().removeAll(equipmentTable.getItems());
+            equipmentTable.setItems(FXCollections.observableArrayList(new ArrayList<>()));
         Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
             String borrowReason = AVAILABLE;
@@ -447,7 +454,7 @@ public class InventoryTableController implements Initializable {
                 returnDate = borrowing.getReturnDate().toString();
 
             }
-            equipmentTable.getItems().add(new EquipmentRow(equipment.getReference(),
+            equipmentRows.add(new EquipmentRow(equipment.getReference(),
                     equipment.getClass().getSimpleName(),
                     equipment.getName(),
                     equipment.getBrand(),
@@ -459,6 +466,11 @@ public class InventoryTableController implements Initializable {
                     equipment)
             );
         });
+        equipmentTable.setItems(FXCollections.observableArrayList(equipmentRows));
+        setTypeFilter();
+        setConditionFilterCombo();
+        setIsBorrowedFilterCombo();
+        setSearchFilter();
         updateTableViewCount();
     }
 
