@@ -123,6 +123,9 @@ public class InventoryTableController implements Initializable {
         conditionFilterCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
             filteredData.setPredicate(equipmentRow -> {
 
+                if (newValue.equals("Condition"))
+                    return true;
+
                 if (newValue == null || newValue.isEmpty()) {
                     return false;
                 }
