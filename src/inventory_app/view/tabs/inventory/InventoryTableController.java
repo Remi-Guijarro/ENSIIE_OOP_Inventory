@@ -38,31 +38,31 @@ public class InventoryTableController implements Initializable {
     private TableView<EquipmentRow> equipmentTable;
 
     @FXML
-    private TableColumn<String,EquipmentRow> idItemColumn;
+    private TableColumn<EquipmentRow,String> idItemColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> itemTypeColumn;
+    private TableColumn<EquipmentRow,String> itemTypeColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> itemNameColumn;
+    private TableColumn<EquipmentRow,String> itemNameColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> itemBrandColumn;
+    private TableColumn<EquipmentRow,String> itemBrandColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> itemOwnerColumn;
+    private TableColumn<EquipmentRow,String> itemOwnerColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> itemConditionColumn;
+    private TableColumn<EquipmentRow,String> itemConditionColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow>  itemBorrowerColumn;
+    private TableColumn<EquipmentRow,String>  itemBorrowerColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> borrowReasonColumn;
+    private TableColumn<EquipmentRow,String>borrowReasonColumn;
 
     @FXML
-    private TableColumn<String,EquipmentRow> returnDateColumn;
+    private TableColumn<EquipmentRow,String> returnDateColumn;
 
     @FXML
     private ComboBox<Class> typeFilterCombo;
@@ -354,6 +354,29 @@ public class InventoryTableController implements Initializable {
         itemConditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
         itemBorrowerColumn.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         borrowReasonColumn.setCellValueFactory(new PropertyValueFactory<>("borrowReason"));
+        returnDateColumn.setCellFactory(column -> {
+            TableCell<EquipmentRow, String> cell = new TableCell<EquipmentRow, String>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty || item.equals(AVAILABLE)) {
+                        setText(null);
+                    }
+                    else {
+                        try {
+                            Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(item);
+                            setText(format.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+
+            return cell;
+        });
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
     }
 
