@@ -72,6 +72,9 @@ public class InventoryTableController implements Initializable {
     @FXML
     private ComboBox<String> conditionFilterCombo;
 
+    @FXML
+    private TextField searchField;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setColumnProperty();
@@ -80,6 +83,58 @@ public class InventoryTableController implements Initializable {
         setTypeFilter();
         setConditionFilterCombo();
         setContextMenuOnTable();
+        setSearchFilter();
+    }
+
+    private void setSearchFilter() {
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        searchField.textProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( equipmentRow -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                // By id
+                if (equipmentRow.getId().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By type
+                if (equipmentRow.getType().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By name
+                if (equipmentRow.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By brand
+                if (equipmentRow.getBrand().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By owner
+                if (equipmentRow.getOwner().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By borrower
+                if (equipmentRow.getBorrower().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                // By reason
+                if (equipmentRow.getBorrowReason().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+
+        equipmentTable.setItems(sortedData);
     }
 
     private void setTypeFilter() {
@@ -109,10 +164,6 @@ public class InventoryTableController implements Initializable {
         for (Equipment.Condition current : Equipment.Condition.values()) {
             conditionFilterCombo.getItems().add(current.toString());
         }
-    }
-
-    private void filterByCondition(Equipment.Condition condition) {
-        equipmentTable.getItems();
     }
 
     private void setConditionFilterCombo(){
