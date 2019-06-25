@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ *
+ */
 public class Borrowing implements Serializable {
     private Borrowable borrowable;
     private Date borrowDate;
@@ -17,10 +20,17 @@ public class Borrowing implements Serializable {
         this.borrower = borrower;
     }
 
+    /**
+     * BorrowReasonType : represent the different types of reasons to borrow a borrowable
+     */
     public enum BorrowReasonType{
         LESSON,OTHER;
     }
 
+
+    /**
+     *  BorrowReason Represent a borrowType and a custom message
+     */
     public class BorrowReason{
         private BorrowReasonType type;
         private String message;
@@ -47,22 +57,44 @@ public class Borrowing implements Serializable {
         }
     }
 
+    /**
+     * @return {@link Borrowable}
+     * return the Borrowable directly linked to the current Borrowing
+     */
     public Borrowable getBorrowable() {
         return borrowable;
     }
 
+
+    /**
+     * @param borrowable
+     * Set the Borrowable object for the current Borrowing
+     */
     public void setBorrowable(Borrowable borrowable) {
         this.borrowable = borrowable;
     }
 
+
+    /**
+     * @return Date
+     * the date at which the current borrowing has started
+     */
     public Date getBorrowDate() {
         return borrowDate;
     }
 
+
+    /**
+     * @param borrowDate
+     */
     public void setBorrowDate(Date borrowDate) {
         this.borrowDate = borrowDate;
     }
 
+    /**
+     * @return Date
+     * get the return date -> BorrowDate + 2 weeks
+     */
     public Date getReturnDate() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(borrowDate);
@@ -75,6 +107,9 @@ public class Borrowing implements Serializable {
         return cal.getTime();
     }
 
+    /**
+     * @return String BorrowReason
+     */
     public String getBorrowReason() {
         return borrowReason;
     }
@@ -83,10 +118,16 @@ public class Borrowing implements Serializable {
         this.borrowReason = borrowReason;
     }
 
+    /**
+     * @return Borrower, the borrower directly linked to the current borrowing
+     */
     public Borrower getBorrower() {
         return borrower;
     }
 
+    /**
+     * @return True if the current Borrowing is late, False otherwise
+     */
     public boolean isLate() {
         return Calendar.getInstance().getTime().after(getReturnDate());
     }

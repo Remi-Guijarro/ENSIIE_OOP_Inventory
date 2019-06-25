@@ -9,6 +9,11 @@ import java.io.*;
  */
 public class SerializeDatabase implements Savable, Loadable{
 
+    /**
+     * @return {@link ContextContainer} return the saved ContextContainer
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     @Override
     public ContextContainer load() throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream("resources/saves/save.ser");
@@ -19,6 +24,10 @@ public class SerializeDatabase implements Savable, Loadable{
         return save;
     }
 
+    /**
+     * @param contextContainer
+     * Save the given contextContainer into a file a this location -> resources/saves/save.ser
+     */
     @Override
     public void save(ContextContainer contextContainer) {
         try {

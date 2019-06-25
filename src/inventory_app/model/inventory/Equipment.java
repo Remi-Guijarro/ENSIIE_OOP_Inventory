@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public abstract class Equipment implements Borrowable,Serializable {
 
     public enum Condition {
@@ -54,6 +57,9 @@ public abstract class Equipment implements Borrowable,Serializable {
         this.condition = condition;
     }
 
+    /**
+     * @return Institute the institute that own the current Equipment
+     */
     public Institute getOwner() {
         return owner;
     }
@@ -61,6 +67,7 @@ public abstract class Equipment implements Borrowable,Serializable {
     public void setOwner(Institute owner) {
         this.owner = owner;
     }
+
 
     public Condition getCondition() {
         return condition;

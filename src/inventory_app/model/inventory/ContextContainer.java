@@ -10,6 +10,9 @@ public class ContextContainer implements Serializable {
     private inventory_app.model.inventory.InventoryManager inventoryManager;
     private Users users;
 
+    /**
+     * @param contextContainer represent the context of the app, it is a container that contains all the wanted informations for a save
+     */
     public ContextContainer(ContextContainer contextContainer){
         this.borrowingsList = contextContainer.borrowingsList;
         this.users = contextContainer.users;
