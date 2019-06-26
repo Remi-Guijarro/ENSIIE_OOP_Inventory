@@ -29,6 +29,7 @@ import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -67,7 +68,7 @@ public class InventoryTableController implements Initializable {
     private TableColumn<EquipmentRow,String> borrowReasonColumn;
 
     @FXML
-    private TableColumn<EquipmentRow,String> returnDateColumn;
+    private TableColumn<EquipmentRow,Date> returnDateColumn;
 
     @FXML
     private TableColumn<EquipmentRow, Equipment.Location> locationColumn;
@@ -451,6 +452,24 @@ public class InventoryTableController implements Initializable {
         });
         itemBorrowerColumn.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         borrowReasonColumn.setCellValueFactory(new PropertyValueFactory<>("borrowReason"));
+        returnDateColumn.setCellFactory(column -> {
+            TableCell<EquipmentRow, Date> cell = new TableCell<EquipmentRow, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty|| item == null) {
+                        setText(null);
+                    }
+                    else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+
+            return cell;
+        });
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
     }
