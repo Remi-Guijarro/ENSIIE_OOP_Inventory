@@ -61,7 +61,7 @@ public class InventoryTableController implements Initializable {
     private TableColumn<EquipmentRow,String> itemConditionColumn;
 
     @FXML
-    private TableColumn<EquipmentRow,String>  itemBorrowerColumn;
+    private TableColumn<EquipmentRow,Borrower>  itemBorrowerColumn;
 
     @FXML
     private TableColumn<EquipmentRow,String> borrowReasonColumn;
@@ -433,6 +433,22 @@ public class InventoryTableController implements Initializable {
         itemBrandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
         itemOwnerColumn.setCellValueFactory(new PropertyValueFactory<>("owner"));
         itemConditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
+        itemBorrowerColumn.setCellFactory( column -> {
+            TableCell<EquipmentRow, Borrower> cell = new TableCell<EquipmentRow, Borrower>() {
+                @Override
+                protected void updateItem(Borrower item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        // HERE TO CHANGE TEXT WHEN NO BORROWER
+                        setText(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            };
+
+            return cell;
+        });
         itemBorrowerColumn.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         borrowReasonColumn.setCellValueFactory(new PropertyValueFactory<>("borrowReason"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));

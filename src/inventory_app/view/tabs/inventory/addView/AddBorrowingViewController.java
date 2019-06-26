@@ -20,9 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -234,7 +231,7 @@ public class AddBorrowingViewController implements Initializable {
         return false;
     }
 
-    private boolean checkSelectedReturnDateFields(){
+    /*private boolean checkSelectedReturnDateFields(){
         if(retunDatePicker.getValue() != null){
             if(retunDatePicker.getValue().isAfter(LocalDate.now()))
                 return true;
@@ -244,12 +241,11 @@ public class AddBorrowingViewController implements Initializable {
             addLogMessage("Return date must be selected ",Level.SEVERE);
             return false;
         }
-    }
+    }*/
 
     private boolean checkFields(){
         return checkSelectedBorrowerFields() &&
                 checkSelectedEquipmentFields() &&
-                checkSelectedReturnDateFields() &&
                 checkReasonTypeField();
     }
 
@@ -257,8 +253,8 @@ public class AddBorrowingViewController implements Initializable {
     private void validateForm(){
         if(tableController != null && tableController.getTableView() != null){
             if(checkFields()){
-                Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
-                Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement,returnDate,
+                //Date returnDate = Date.from(Instant.from(retunDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())));
+                Main.contextContainer.getBorrowingsList().addBorrowedItem(desiredEquipement, new Date(),
                         reasonTypeCombo.getSelectionModel().getSelectedItem().toString() + " : " + messageText.getText(),desiredBorrower);
                 tableController.populateTableBy(Equipment.class);
                 stage.close();
