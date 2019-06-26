@@ -30,6 +30,11 @@ public class Tablet extends Equipment implements Serializable {
         this.os = os;
     }
 
+    /**
+     * @param resolution
+     * @throws IllegalArgumentException
+     * Set the Resolution
+     */
     private void setResolution(int[] resolution) throws IllegalArgumentException {
         if (resolution.length != 2) {
             throw new IllegalArgumentException("Resolution array must be size 2.");
@@ -37,6 +42,10 @@ public class Tablet extends Equipment implements Serializable {
         this.resolution = resolution;
     }
 
+    /**
+     * @return int[]
+     * the resolution of the Tablet Object
+     */
     public int[] getResolution() {
         return resolution;
     }

@@ -46,6 +46,9 @@ public class Smartphone extends Equipment implements Serializable {
         this.screenSize = screenSize;
     }
 
+    /**
+     * @return {@link PHONE_OS } return the OS of the phone
+     */
     public PHONE_OS getPHONE_OS() {
         return PHONE_OS;
     }

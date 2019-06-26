@@ -71,11 +71,17 @@ public class PeopleListViewDetailedController implements Initializable {
         fieldProxy = new HashMap<>();
     }
 
+    /**
+     * Populate the Grade Combo with Student.Grade {@link Student.Grade}
+     */
     private void populateGradeCombo() {
         gradeComboBox.getItems().addAll(Student.Grade.values());
         displayGradeNamesInCombo();
     }
 
+    /**
+     * Convert Student.Grade to String in order to be display in combo
+     */
     private void displayGradeNamesInCombo() {
         gradeComboBox.setConverter(new StringConverter<Student.Grade>() {
             @Override
@@ -95,6 +101,9 @@ public class PeopleListViewDetailedController implements Initializable {
         });
     }
 
+    /**
+     * @param value, set Disable State of the different Field to value
+     */
     private void setFieldsDisable(boolean value){
         firstNameField.setDisable(value);
         surnameField.setDisable(value);
@@ -140,26 +149,44 @@ public class PeopleListViewDetailedController implements Initializable {
         }
     }
 
+    /**
+     * @return true if firsName is valid false otherwise
+     */
     @FXML
     private boolean validateFirstName() {
         return TextFieldValidator.validate(firstNameField, TextFieldValidator.FieldREGEX.NAME_REGEX);
     }
 
+    /**
+     * @return true if Surname is valid false otherwise
+     */
     @FXML
     private boolean validateSurname() {
         return TextFieldValidator.validate(surnameField, TextFieldValidator.FieldREGEX.NAME_REGEX);
     }
 
+
+    /**
+     * @return true if PhoneNumber is valid false otherwise
+     */
     @FXML
     private boolean validatePhoneNumber() {
         return TextFieldValidator.validate(phoneNumberField, TextFieldValidator.FieldREGEX.PHONE_NUMBER_REGEX);
     }
 
+
+    /**
+     * @return true if Email is valid false otherwise
+     */
     @FXML
     private boolean validateEmail() {
         return TextFieldValidator.validate(emailField, TextFieldValidator.FieldREGEX.EMAIL_REGEX);
     }
 
+
+    /**
+     * @return true if Address is valid false otherwise
+     */
     @FXML
     private boolean validateAddress() {
         return TextFieldValidator.validate(addressField, TextFieldValidator.FieldREGEX.ANY);

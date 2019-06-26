@@ -27,7 +27,9 @@ public class MainController implements Initializable {
     private ProgressBar progressBar;
 
 
-
+    /**
+     * Open the UserTab and set its content {@link inventory_app.view.tabs.user.UserListViewController}
+     */
     public void openUserView() {
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("USERS"))){
             try {
@@ -45,6 +47,9 @@ public class MainController implements Initializable {
     }
 
 
+    /**
+     * Open the StorageTab ans set its content {@link inventory_app.view.tabs.inventory.InventoryTableController}
+     */
     public void openStorageView(){
         if(!tabs.getTabs().stream().anyMatch(tab -> tab.getText().equalsIgnoreCase("INVENTORY"))){
             progressBar.setVisible(true);
