@@ -5,6 +5,7 @@ import inventory_app.model.users.Student;
 import inventory_app.model.users.Teacher;
 import inventory_app.model.users.Users;
 import inventory_app.view.TextFieldValidator;
+import inventory_app.view.tabs.user.UserListViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -93,22 +94,24 @@ public class AddPeopleViewController implements Initializable {
 
             // A visible grade combobox means we're adding a student, else it's a teacher
             if (gradeComboBox.isVisible()) {
-                users.addUser(new Student(SSNField.getText().trim(),
+                Student student = new Student(SSNField.getText().trim(),
                         firstNameField.getText().trim(),
                         lastNameField.getText().trim(),
                         addressField.getText().trim(),
                         phoneNumberField.getText().trim(),
                         emailField.getText().trim(),
-                        gradeComboBox.getValue())
-                );
+                        gradeComboBox.getValue());
+                users.addUser(student);
+                UserListViewController.addUser(student);
             } else {
-                users.addUser(new Teacher(SSNField.getText().trim(),
+                Teacher teacher= new Teacher(SSNField.getText().trim(),
                         firstNameField.getText().trim(),
                         lastNameField.getText().trim(),
                         addressField.getText().trim(),
                         phoneNumberField.getText().trim(),
-                        emailField.getText().trim())
-                );
+                        emailField.getText().trim());
+                users.addUser(teacher);
+                UserListViewController.addUser(teacher);
             }
             ((Stage)createUserButton.getScene().getWindow()).close();
         } else {

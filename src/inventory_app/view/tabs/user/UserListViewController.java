@@ -7,6 +7,7 @@ import inventory_app.model.users.People;
 import inventory_app.view.tabs.user.detailedView.CompanyListViewDetailedController;
 import inventory_app.view.tabs.user.detailedView.PeopleListViewDetailedController;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -54,6 +55,12 @@ public class UserListViewController implements Initializable {
 
     private void setObservableList() {
         borrowers = FXCollections.observableArrayList(Main.contextContainer.getUsers().get());
+        borrowers.addListener(new ListChangeListener<Borrower>() {
+            @Override
+            public void onChanged(Change<? extends Borrower> c) {
+                borrowerList.refresh();
+            }
+        });
     }
 
     private void setListenerOnTableItems() {
