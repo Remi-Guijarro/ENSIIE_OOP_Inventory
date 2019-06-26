@@ -2,6 +2,9 @@ package inventory_app.model.inventory.equipements;
 
 import java.io.Serializable;
 
+/**
+ * @author Geoffrey Delval
+ */
 public class VRControllerPair implements Serializable {
     private String idLeftController;
     private String idRightController;

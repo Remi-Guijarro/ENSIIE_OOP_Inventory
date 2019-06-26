@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -48,7 +49,7 @@ public class Main extends Application{
         b.addUser(startup2);
         b.addUser(startup3);
         b.addUser(teacher);
-        for(int i = 0 ; i < 250 ; i++){
+        for(int i = 0 ; i < 10 ; i++){
             b.addUser(new Student("01234567"+i,"firstName" +i,"surname" + i, "adresse" + i,"12345578" + i,"email2@email2.email" + i,Student.Grade._1A));
         }
 
@@ -68,16 +69,33 @@ public class Main extends Application{
         vrHeadset.setLocation(Equipment.Location.ROOM_301);
         inventory_app.model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
-        for(int i = 0 ; i < 600 ; i++){
+        for(int i = 0 ; i < 5 ; i++){
             Equipment.Condition condition = Equipment.Condition.GOOD;
             if(i % 5 == 0){
                 condition = Equipment.Condition.USED;
             }
-            inventory.addEquipment(new Tablet("Oxygen" + i,"Apple",school,Calendar.getInstance().getTime(),499.0 * i + 50,condition,new int[]{1920,1080},Tablet.OS.LINUX));
-            inventory.addEquipment(new Smartphone("Iphone X" + i,"Apple",school,Calendar.getInstance().getTime(),1500 * i +100,condition,Smartphone.PHONE_OS.IOS,8));
-            inventory.addEquipment(new DepthSensor("RealSense" + i, "Intel", school, Calendar.getInstance().getTime(), 224.67 + i,condition));
-            inventory.addEquipment(new VRHeadset("HTC Vive" + i,"HTC",school,Calendar.getInstance().getTime(),670 + 1* 2,condition));
+            Tablet tablet = new Tablet("Oxygen" + i,"Apple",school,Calendar.getInstance().getTime(),499.0 * i + 50,condition,new int[]{1920,1080},Tablet.OS.LINUX);
+            tablet.setLocation(Equipment.Location.ROOM_266);
+            inventory.addEquipment(tablet);
+            Smartphone smartphone = new Smartphone("Iphone X" + i,"Apple",school,Calendar.getInstance().getTime(),1500 * i +100,condition,Smartphone.PHONE_OS.IOS,4 + i);
+            smartphone.setLocation(Equipment.Location.ROOM_199);
+            inventory.addEquipment(smartphone);
+            DepthSensor depthSensor =  new DepthSensor("RealSense" + i, "Intel", school, Calendar.getInstance().getTime(), 224.67 + i,condition);
+            depthSensor.setLocation(Equipment.Location.ROOM_199);
+            inventory.addEquipment(depthSensor);
+            VRHeadset vrHeadset1 =  new VRHeadset("HTC Vive" + i,"HTC",school,Calendar.getInstance().getTime(),670 + 1* 2,condition);
+            vrHeadset1.setLocation(Equipment.Location.ROOM_266);
+            inventory.addEquipment(vrHeadset1);
         }
+        Smartphone smartphone= new Smartphone("Iphone X","Apple",school,Calendar.getInstance().getTime(),1500,Equipment.Condition.GOOD, inventory_app.model.inventory.equipements.Smartphone.PHONE_OS.IOS,4);
+        smartphone.setLocation(Equipment.Location.ROOM_301);
+        inventory.addEquipment(smartphone);
+        Tablet tablet = new Tablet("A2","Asus",school,Calendar.getInstance().getTime(),499.0 ,Equipment.Condition.BROKEN,new int[]{1920,1080},Tablet.OS.WINDOWS);
+        tab.setLocation(Equipment.Location.ROOM_199);
+        inventory.addEquipment(tablet);
+        Tablet tablet1 = new Tablet("A3","Asus",school,Calendar.getInstance().getTime(),599.0 ,Equipment.Condition.GOOD,new int[]{3840,2160 },Tablet.OS.WINDOWS);
+        tablet1.setLocation(Equipment.Location.ROOM_266);
+        inventory.addEquipment(tablet1);
         inventoryManager.setInventory(inventory);
         inventoryManager.addEquipment(tab);
         inventoryManager.addEquipment(tab2);
@@ -88,7 +106,8 @@ public class Main extends Application{
 
         BorrowingsList b3 = BorrowingsList.getInstance();
         try {
-            b3.addBorrowedItem(tab, new SimpleDateFormat("yyyy-MM-dd").parse("2019-06-02"),"Why not",studentA);
+            b3.addBorrowedItem(tab, new SimpleDateFormat("yyyy-MM-dd").parse("2019-06-02"),"Personnal project",studentA);
+            b3.addBorrowedItem(smartphone, new SimpleDateFormat("yyyy-MM-dd").parse("2019-08-02"),"Demo",startup1);
         } catch (ParseException e) {
             e.printStackTrace();
         }

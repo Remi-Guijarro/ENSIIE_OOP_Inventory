@@ -5,6 +5,7 @@ import inventory_app.model.inventory.ContextContainer;
 /**
  *  Interface Savable
  *  represent a saving algorithm strategy
+ * @author Rémi Guijarro Espinosa
  */
 public interface Savable {
     /**

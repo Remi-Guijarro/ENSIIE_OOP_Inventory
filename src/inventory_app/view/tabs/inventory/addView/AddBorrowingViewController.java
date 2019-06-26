@@ -231,18 +231,9 @@ public class AddBorrowingViewController implements Initializable {
         return false;
     }
 
-    /*private boolean checkSelectedReturnDateFields(){
-        if(retunDatePicker.getValue() != null){
-            if(retunDatePicker.getValue().isAfter(LocalDate.now()))
-                return true;
-            addLogMessage("Return date must be at least tomorrow ",Level.SEVERE);
-            return false;
-        }else {
-            addLogMessage("Return date must be selected ",Level.SEVERE);
-            return false;
-        }
-    }*/
-
+    /**
+     * @return True if all the fields are consistent
+     */
     private boolean checkFields(){
         return checkSelectedBorrowerFields() &&
                 checkSelectedEquipmentFields() &&
@@ -261,11 +252,4 @@ public class AddBorrowingViewController implements Initializable {
             }
         }
     }
-
-    /* TEMPORARY METHOD ONCE I THINK USING POP-UP IT'S NOT A VERY GOOD PRACTICE */
-   /* private void launchAlertBox(String message, Alert.AlertType alertType){
-        Alert isBorrowedAlert = new Alert(alertType);
-        isBorrowedAlert.setHeaderText(message);
-        isBorrowedAlert.show();
-    } */
 }

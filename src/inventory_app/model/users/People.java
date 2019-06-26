@@ -2,6 +2,9 @@ package inventory_app.model.users;
 
 import java.io.Serializable;
 
+/**
+ * @author Geoffrey Delval & Rémi Guijarro Espinosa
+ */
 public abstract class People implements Serializable {
     private final String id;
     private String firstName;

@@ -6,6 +6,9 @@ import inventory_app.model.inventory.Course;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * @author Geoffrey Delval & Rémi Guijarro Espinosa
+ */
 public class Teacher extends People implements Borrower,Serializable {
     private ArrayList<Course> classes;
 

@@ -476,9 +476,18 @@ public class InventoryTableController implements Initializable {
             }
         });
 
+        MenuItem deleteItem = new MenuItem("Delete");
+        deleteItem.setOnAction((ActionEvent) -> {
+            EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
+            Main.contextContainer.getInventoryManager().getAll().remove(item.getEquipment());
+            equipmentRows.remove(item);
+            equipmentTable.refresh();
+        });
+
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(giveItBackMenu);
         menu.getItems().add(borrowContextMenu);
+        menu.getItems().add(deleteItem);
         equipmentTable.setContextMenu(menu);
     }
 

@@ -54,6 +54,7 @@ public class AddTabletViewController implements Initializable {
 
     @FXML
     private TextField occurenceField;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -101,7 +102,7 @@ public class AddTabletViewController implements Initializable {
 
     @FXML
     private boolean validateOccurence(){
-        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.NUMBER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
+        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.INTEGER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
     }
 
     private void populateConditionCombo() {
@@ -181,10 +182,10 @@ public class AddTabletViewController implements Initializable {
 
     private boolean validateAllFields() {
 
-        return validateName() &&
-                validateBrand() &&
-                validatePrice() &&
-                validateResolution() &&
-                validateOccurence();
+        return validateOccurence() &
+                validateName() &
+                validateBrand() &
+                validatePrice() &
+                validateResolution();
     }
 }

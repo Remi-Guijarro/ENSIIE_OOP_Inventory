@@ -16,6 +16,10 @@ public abstract class Institute implements Serializable {
         equipments = new ArrayList<>();
     }
 
+    /**
+     * @param e
+     * Add a new Equipment to the current Institute
+     */
     public void addEquipment(Equipment e) {
         equipments.add(e);
     }

@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  *  Interface Loadable
  *  represent a loading algorithm strategy
+ * @author Rémi Guijarro Espinosa
  */
 public interface Loadable {
     /**

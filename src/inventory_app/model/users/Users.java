@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
+ * @author Geoffrey Delval & Rémi Guijarro Espinosa
  * Users : Keeper and manager of the list of Borrowers
  */
 public class Users implements Serializable {

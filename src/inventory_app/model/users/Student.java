@@ -4,6 +4,9 @@ import inventory_app.model.inventory.Borrower;
 
 import java.io.Serializable;
 
+/**
+ * @author Geoffrey Delval & Rémi Guijarro Espinosa
+ */
 public class Student extends People implements Borrower,Serializable {
 
     @Override
@@ -27,6 +30,9 @@ public class Student extends People implements Borrower,Serializable {
         this.grade = grade;
     }
 
+    /**
+     * @return {@link Grade}
+     */
     public Grade getGrade() {
         return grade;
     }

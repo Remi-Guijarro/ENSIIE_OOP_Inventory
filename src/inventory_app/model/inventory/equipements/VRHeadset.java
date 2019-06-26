@@ -6,6 +6,9 @@ import inventory_app.model.inventory.Institute;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author Geoffrey Delval
+ */
 public class VRHeadset extends Equipment implements Serializable {
     private VRControllerPair controllers;
 

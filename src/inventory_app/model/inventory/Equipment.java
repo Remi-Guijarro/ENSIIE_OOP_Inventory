@@ -81,35 +81,64 @@ public abstract class Equipment implements Borrowable,Serializable {
         return owner;
     }
 
+    /**
+     * @param owner set the owner for the current equipement
+     */
     public void setOwner(Institute owner) {
         this.owner = owner;
     }
 
 
+    /**
+     * @return The Condition of the current Equipement {@link Condition}
+     */
     public Condition getCondition() {
         return condition;
     }
 
+
+    /**
+     * @param condition {@link Condition}
+     */
     public void setCondition(Condition condition) {
         this.condition = condition;
     }
 
+
+    /**
+     * @return String the reference of the current Equipment
+     */
     public String getReference() {
         return reference;
     }
 
+
+    /**
+     * @return String the name of the current Equipment
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * @return String the Brand of the current Equipment
+     */
     public String getBrand() {
         return brand;
     }
 
+
+    /**
+     * @return Date, the purchase date of the current Equipement
+     */
     public Date getPurchaseDate() {
         return purchaseDate;
     }
 
+    /**
+     * @return double the price of the current Equipement
+     */
     public double getPurchasePrice() {
         return purchasePrice;
     }

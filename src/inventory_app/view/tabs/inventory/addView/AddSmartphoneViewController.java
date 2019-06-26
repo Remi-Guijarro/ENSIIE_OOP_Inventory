@@ -134,7 +134,7 @@ public class AddSmartphoneViewController implements Initializable {
 
     @FXML
     private boolean validateOccurence(){
-        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.NUMBER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
+        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.INTEGER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
     }
 
     @FXML

@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * @author Geoffrey Delval
+ */
 public class Tablet extends Equipment implements Serializable {
     public enum OS { WINDOWS, MAC_OS, LINUX }
 

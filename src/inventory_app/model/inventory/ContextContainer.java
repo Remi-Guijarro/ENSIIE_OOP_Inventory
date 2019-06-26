@@ -1,8 +1,13 @@
 package inventory_app.model.inventory;
 
+import inventory_app.model.inventory.equipements.DepthSensor;
+import inventory_app.model.inventory.equipements.Smartphone;
+import inventory_app.model.inventory.equipements.Tablet;
+import inventory_app.model.inventory.equipements.VRHeadset;
 import inventory_app.model.users.Users;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 
 public class ContextContainer implements Serializable {
@@ -53,12 +58,14 @@ public class ContextContainer implements Serializable {
         return inventoryManager;
     }
 
-    /*public void computeStaticFields() {
+    public void computeStaticFields() {
+        /*
         HashMap<String, Integer> lastIdsMap = new HashMap<>();
         lastIdsMap.put(DepthSensor.class.getSimpleName(), lastIds.get(0));
         lastIdsMap.put(Smartphone.class.getSimpleName(), lastIds.get(1));
         lastIdsMap.put(Tablet.class.getSimpleName(), lastIds.get(2));
         lastIdsMap.put(VRHeadset.class.getSimpleName(), lastIds.get(3));
         Equipment.setLastId(lastIdsMap);
-    }*/
+        */
+    }
 }

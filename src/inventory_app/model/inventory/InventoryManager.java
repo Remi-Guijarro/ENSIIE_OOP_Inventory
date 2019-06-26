@@ -35,6 +35,12 @@ public final class InventoryManager implements Serializable {
         inventory.addEquipments(equipments);
     }
 
+    /**
+     * @param e
+     * @param destination
+     * @throws NoSuchElementException
+     * move the given Equipement to the given destination subStock
+     */
     public void moveToSubStock(Equipment e, SubStock destination) throws NoSuchElementException {
         if (!getAll().contains(e))
             throw new NoSuchElementException("The equipment does not exist.");
@@ -68,6 +74,9 @@ public final class InventoryManager implements Serializable {
         }
     }
 
+    /**
+     * @return ArrayList<Equipment> get the list of Equipement
+     */
     public ArrayList<Equipment> getAll() {
         ArrayList<Equipment> equipments = new ArrayList<>(inventory.getEquipments());
         for (SubStock s : inventory.getSubStocks()) {
@@ -76,6 +85,9 @@ public final class InventoryManager implements Serializable {
         return equipments;
     }
 
+    /**
+     * @return ArrayList<Equipment> get the Borrowed Equipement
+     */
     public ArrayList<Equipment> getBorrowed() {
         ArrayList<Equipment> equipements = new ArrayList<>();
         ArrayList<Borrowing> list = BorrowingsList.getInstance().getBorrowings();
@@ -88,6 +100,9 @@ public final class InventoryManager implements Serializable {
         return equipements;
     }
 
+    /**
+     * @return ArrayList<Equipment> get the available equipement
+     */
     public ArrayList<Equipment> getAvailable() {
         ArrayList<Equipment> borrowed = getBorrowed();
         ArrayList<Equipment> available = getAll();
@@ -99,10 +114,17 @@ public final class InventoryManager implements Serializable {
         return available;
     }
 
+    /**
+     * @return the number of Equipment in the list
+     */
     public int countAll() {
         return getAll().size();
     }
 
+    /**
+     * @param equipmentClass
+     * @return the number of object with the given type in the list
+     */
     public int countEquipments(Class<? extends Equipment> equipmentClass) {
         ArrayList<Equipment> all = getAll();
         int count = 0;
