@@ -8,10 +8,7 @@ import inventory_app.view.TextFieldValidator;
 import inventory_app.view.tabs.inventory.InventoryTableController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -55,7 +52,7 @@ public class AddSmartphoneViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        purchaseDatePicker.setValue(LocalDate.now());
+        initDatePicker();
         populateOwnerCombo();
         displayNamesInOwnerCombo();
         populateOSCombo();
@@ -64,8 +61,22 @@ public class AddSmartphoneViewController implements Initializable {
 
     }
 
+    private void initDatePicker() {
+        purchaseDatePicker.setValue(LocalDate.now());
+        // Disable dates > today
+        purchaseDatePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) > 0 );
+            }
+        });
+    }
+
     private void populateLocationCombo() {
         locationComboBox.getItems().setAll(Equipment.Location.values());
+        locationComboBox.getSelectionModel().selectFirst();
     }
 
     private void displayNamesInOwnerCombo() {
