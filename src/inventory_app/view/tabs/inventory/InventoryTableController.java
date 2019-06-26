@@ -9,8 +9,6 @@ import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.detailedView.EquipmentDetailedController;
-import inventory_app.view.tabs.inventory.filter.utils.FilterController;
-import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -287,7 +285,7 @@ public class InventoryTableController implements Initializable {
     }
 
     private void setTypeFilter() {
-        if(typeFilterCombo.getItems().isEmpty())
+        /*if(typeFilterCombo.getItems().isEmpty())
             populateTypeCombo();
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
         FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
@@ -326,7 +324,35 @@ public class InventoryTableController implements Initializable {
         sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
         equipmentTable.setItems(sortedData);
         addCountListener(sortedData);
-        setTotalCountLabel();
+        setTotalCountLabel();*/
+
+        if(typeFilterCombo.getItems().isEmpty())
+            populateTypeCombo();
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+
+                if (newValue.equals(Equipment.class))
+                    return true;
+
+                if (newValue == null) {
+                    return false;
+                }
+
+                if (equipmentRow.getType().equals(newValue.getSimpleName())) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
     }
 
     private void populateConditionCombo() {
@@ -380,6 +406,7 @@ public class InventoryTableController implements Initializable {
         typeFilterCombo.getItems().add(Equipment.class);
         typeFilterCombo.getItems().addAll(classSet);
         displayNamesInTypeFilterCombo();
+        typeFilterCombo.getSelectionModel().selectFirst();
     }
 
     private void setTotalCountLabel(){
@@ -392,7 +419,7 @@ public class InventoryTableController implements Initializable {
             @Override
             public String toString(Class object) {
                 if(object.getSimpleName().equalsIgnoreCase(Equipment.class.getSimpleName())){
-                    return "All";
+                    return "Type";
                 }else{
                     return object.getSimpleName();
                 }
