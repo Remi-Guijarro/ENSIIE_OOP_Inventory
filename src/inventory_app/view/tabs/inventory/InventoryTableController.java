@@ -9,6 +9,7 @@ import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.detailedView.EquipmentDetailedController;
+import inventory_app.view.tabs.inventory.filter.EquipmentAttributesFilterController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -261,9 +262,8 @@ public class InventoryTableController implements Initializable {
                     return true;
                 }
                 // By borrower
-                //if (equipmentRow.getBorrower().toLowerCase().contains(lowerCaseFilter)) {
-                if (equipmentRow.getBorrower().getName().toLowerCase().contains(lowerCaseFilter)) {
-
+                if (equipmentRow.getBorrower() != null
+                        && equipmentRow.getBorrower().getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 // By reason
@@ -598,8 +598,8 @@ public class InventoryTableController implements Initializable {
 /*        setTypeFilter();
         setConditionFilterCombo();
         setIsBorrowedFilterCombo();
-        setSearchFilter();
-        setTotalCountLabel();*/
+        setSearchFilter();*/
+        setTotalCountLabel();
         InventoryTableController.equipmentRows = equipmentTable.getItems();
 
     }
@@ -624,21 +624,6 @@ public class InventoryTableController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*Parent root;
-        try {
-            URL url = new File("src/inventory_app/view/tabs/inventory/detailedView/equipmentDetailedView.fxml").toURL();
-            root = FXMLLoader.load(url);
-            Stage stage = new Stage();
-            stage.setTitle("Details");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        System.out.println(type);
     }
 
     private void addDepthSensorFields(EquipmentDetailedController controller) {
@@ -692,6 +677,186 @@ public class InventoryTableController implements Initializable {
         return this.equipmentTable;
     }
 
+    @FXML
+    private void displayAttributes() {
+        loadEquipmentAttributesFilterView();
+    }
+
+    private void loadEquipmentAttributesFilterView() {
+        specificFilterVBox.getChildren().clear();
+
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("filter/equipmentAttributesFilterView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+            specificFilterVBox.getChildren().add(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        EquipmentAttributesFilterController controller = loader.getController();
+        addAttributesFields(controller);
+    }
+
+    private void addAttributesFields(EquipmentAttributesFilterController controller) {
+        if (typeFilterCombo.getSelectionModel().getSelectedItem() == Smartphone.class) {
+            // Quick fix: when filter by type multiple times, table becomes empty
+            populateTableBy(Smartphone.class);
+
+            addSmarphoneAttributeFields(controller);
+        } else if (typeFilterCombo.getSelectionModel().getSelectedItem() == Tablet.class) {
+            // Quick fix: when filter by type multiple times, table becomes empty
+            populateTableBy(Tablet.class);
+
+            addTabletAttributeFields(controller);
+        }
+    }
+
+    private void addTabletAttributeFields(EquipmentAttributesFilterController controller) {
+        Label OSLabel = new Label("OS");
+        ComboBox<Tablet.OS> OSCombo = new ComboBox<>();
+        OSCombo.getItems().setAll(Tablet.OS.values());
+        controller.addComboFilter(OSLabel, OSCombo);
+        setFilterTabletOS(OSCombo);
+
+        Label resolutionLabel = new Label("Resolution");
+        TextField resolutionField = new TextField();
+        resolutionField.setPromptText("1920x1080");
+        controller.addTextFieldFilter(resolutionLabel, resolutionField);
+        setFilterTabletResolution(resolutionField);
+    }
+
+    private void setFilterTabletResolution(TextField resolutionField) {
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        resolutionField.textProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( equipmentRow -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                if (equipmentRow.getType().equals("Tablet")) {
+                    Tablet tablet = (Tablet)equipmentRow.getEquipment();
+                    String[] resolution = newValue.split("x");
+                    if (tablet.getResolution()[0] == Integer.valueOf(resolution[0]) &&
+                            tablet.getResolution()[1] == Integer.valueOf(resolution[1])) {
+                        return true;
+                    }
+                }
+
+
+                return false;
+            });
+        });
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
+
+    private void setFilterTabletOS(ComboBox<Tablet.OS> osCombo) {
+        if(osCombo.getItems().isEmpty())
+            populateConditionCombo();
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        osCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+                if (newValue == null) {
+                    return false;
+                }
+
+                if (equipmentRow.getType().equals("Tablet") &&
+                        ((Tablet)equipmentRow.getEquipment()).getOS() == newValue) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
+
+    private void addSmarphoneAttributeFields(EquipmentAttributesFilterController controller) {
+        Label OSLabel = new Label("OS");
+        ComboBox<Smartphone.PHONE_OS> OSCombo = new ComboBox<>();
+        OSCombo.getItems().setAll(Smartphone.PHONE_OS.values());
+        controller.addComboFilter(OSLabel, OSCombo);
+        setFilterSmartphoneOS(OSCombo);
+
+        Label screenSizeLabel = new Label("Screen Size");
+        TextField screenSizeField = new TextField();
+        screenSizeField.setPromptText("in inches");
+        controller.addTextFieldFilter(screenSizeLabel, screenSizeField);
+        setFilterSmartphoneScreenSize(screenSizeField);
+    }
+
+    private void setFilterSmartphoneScreenSize(TextField screenSizeField) {
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        screenSizeField.textProperty().addListener( (observable, oldValue, newValue) -> {
+            filteredData.setPredicate( equipmentRow -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                if (equipmentRow.getType().equals("Smartphone")
+                        && Double.valueOf(
+                            ((Smartphone)equipmentRow.getEquipment()).getScreenSize()
+                        ).equals(Double.valueOf(newValue))) {
+                    return true;
+                }
+
+
+                return false;
+            });
+        });
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
+
+    private void setFilterSmartphoneOS(ComboBox<Smartphone.PHONE_OS> osCombo) {
+        if(osCombo.getItems().isEmpty())
+            populateConditionCombo();
+        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
+        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
+        osCombo.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(equipmentRow -> {
+                if (newValue == null) {
+                    return false;
+                }
+
+                if (equipmentRow.getType().equals("Smartphone") &&
+                        ((Smartphone)equipmentRow.getEquipment()).getPHONE_OS() == newValue) {
+                    return true;
+                }
+
+                return false;
+            });
+        }));
+
+        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
+        equipmentTable.setItems(sortedData);
+
+        addCountListener(sortedData);
+    }
 
     public static class EquipmentRow {
         private String id;

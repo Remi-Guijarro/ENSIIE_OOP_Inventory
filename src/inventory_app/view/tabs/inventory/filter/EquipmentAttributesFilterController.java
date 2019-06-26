@@ -2,6 +2,7 @@ package inventory_app.view.tabs.inventory.filter;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -17,6 +18,13 @@ public class EquipmentAttributesFilterController {
         name.setTextFill(Color.WHITE);
         gridPane.add(name, 0, rowCount);
         gridPane.add(field, 1, rowCount);
+    }
+
+    public <T> void addComboFilter(Label name, ComboBox<T> comboBox) {
+        int rowCount = gridPaneRowCount();
+        name.setTextFill(Color.WHITE);
+        gridPane.add(name, 0, rowCount);
+        gridPane.add(comboBox, 1, rowCount);
     }
 
     private int gridPaneRowCount() {

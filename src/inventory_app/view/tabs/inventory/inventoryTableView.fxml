@@ -96,7 +96,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" spacing="10.0">
                <children>
-                  <ComboBox fx:id="typeFilterCombo" promptText="Item Type" />
+                  <ComboBox fx:id="typeFilterCombo" onAction="#displayAttributes" promptText="Item Type" />
                   <VBox fx:id="specificFilterVBox" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
