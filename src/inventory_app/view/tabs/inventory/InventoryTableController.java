@@ -5,8 +5,10 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.model.inventory.equipements.DepthSensor;
 import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
+import inventory_app.model.inventory.equipements.VRHeadset;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.detailedView.EquipmentDetailedController;
 import inventory_app.view.tabs.inventory.filter.EquipmentAttributesFilterController;
@@ -103,18 +105,6 @@ public class InventoryTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*//TEST
-        try {
-            Main.contextContainer.getBorrowingsList().
-                    addBorrowedItem(Main.contextContainer.getInventoryManager().getAvailable().get(19),
-                            new SimpleDateFormat("yyyy-MM-dd").parse("2019-06-02"),
-                            "Why not",
-                            Main.contextContainer.getUsers().get().get(19));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
-
         setColumnProperty();
         equipmentTable.setEditable(true);
         populateTableBy(Equipment.class);
@@ -285,47 +275,6 @@ public class InventoryTableController implements Initializable {
     }
 
     private void setTypeFilter() {
-        /*if(typeFilterCombo.getItems().isEmpty())
-            populateTypeCombo();
-        ObservableList<EquipmentRow> allData = equipmentTable.getItems();
-        FilteredList<EquipmentRow> filteredData = new FilteredList<>(allData, p -> true);
-        typeFilterCombo.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
-            if(specificFilterVBox.getChildren().size() > 0)
-                specificFilterVBox.getChildren().remove(0);
-            if(!newValue.equals(Equipment.class)){
-                FilterControllerLoader filterControllerLoader = new FilterControllerLoader();
-                FXMLLoader fxmlLoader =  filterControllerLoader.loadFrom(newValue);
-                Parent parent = null;
-                try {
-                    parent = fxmlLoader.load();
-                    FilterController filterController = fxmlLoader.getController();
-                    filterController.setTableView(equipmentTable);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                specificFilterVBox.getChildren().add(parent);
-                filteredData.setPredicate( equipmentRow -> {
-                    if (newValue == null) {
-                        return true;
-                    }
-                    String classSimpleName = newValue.getSimpleName();
-
-                    if (equipmentRow.getType().equalsIgnoreCase(classSimpleName)) {
-                        return true;
-                    }
-                    return false;
-                });
-            }else {
-                populateTableBy(Equipment.class);
-            }
-        });
-
-        SortedList<EquipmentRow> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(equipmentTable.comparatorProperty());
-        equipmentTable.setItems(sortedData);
-        addCountListener(sortedData);
-        setTotalCountLabel();*/
-
         if(typeFilterCombo.getItems().isEmpty())
             populateTypeCombo();
         ObservableList<EquipmentRow> allData = equipmentTable.getItems();
@@ -539,8 +488,10 @@ public class InventoryTableController implements Initializable {
      */
     public void populateTableBy(Class type){
         ArrayList<EquipmentRow> equipmentRows = new ArrayList<>();
-        if(!equipmentTable.getItems().isEmpty())
+        if(!equipmentTable.getItems().isEmpty()){
             equipmentTable.setItems(FXCollections.observableArrayList(new ArrayList<>()));
+        }
+
         Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
             String borrowReason = AVAILABLE;
@@ -573,22 +524,6 @@ public class InventoryTableController implements Initializable {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     EquipmentRow rowData = row.getItem();
                     loadDetailedView(rowData.getType(), rowData.getEquipment());
-                    /*EquipmentDetailedController equipmentDetailedController= new EquipmentDetailedController();
-                    //FXMLLoader fxmlLoader =  equipmentDetailedController.loadFrom(rowData.getEquipment().getClass());
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    Parent parent = null;
-                    try {
-                        parent = fxmlLoader.load();
-                        //FilterController filterController = fxmlLoader.getController();
-                        //filterController.setTableView(equipmentTable);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Stage stage = new Stage();
-                    stage.setTitle("Detailed View");
-                    Scene scene = new Scene(parent);
-                    stage.setScene(scene);
-                    stage.show();*/
                 }
             });
             return row ;
@@ -603,10 +538,6 @@ public class InventoryTableController implements Initializable {
             }
         });
         equipmentTable.setItems(observableList);
-/*        setTypeFilter();
-        setConditionFilterCombo();
-        setIsBorrowedFilterCombo();
-        setSearchFilter();*/
         setTotalCountLabel();
         InventoryTableController.equipmentRows = equipmentTable.getItems();
 
@@ -711,16 +642,20 @@ public class InventoryTableController implements Initializable {
     }
 
     private void addAttributesFields(EquipmentAttributesFilterController controller) {
-        if (typeFilterCombo.getSelectionModel().getSelectedItem() == Smartphone.class) {
-            // Quick fix: when filter by type multiple times, table becomes empty
-            populateTableBy(Smartphone.class);
-
+        System.out.println(typeFilterCombo.getSelectionModel().getSelectedItem().getSimpleName());
+        if (typeFilterCombo.getSelectionModel().getSelectedItem().equals(Smartphone.class)) {
             addSmarphoneAttributeFields(controller);
-        } else if (typeFilterCombo.getSelectionModel().getSelectedItem() == Tablet.class) {
+        } else if (typeFilterCombo.getSelectionModel().getSelectedItem().equals(Tablet.class)) {
             // Quick fix: when filter by type multiple times, table becomes empty
-            populateTableBy(Tablet.class);
-
             addTabletAttributeFields(controller);
+        } else if(typeFilterCombo.getSelectionModel().getSelectedItem().equals(Equipment.class)){
+            populateTableBy(Equipment.class);
+            setSearchFilter();
+            setConditionFilterCombo();
+            setIsBorrowedFilterCombo();
+            setLocationFilter();
+            setTypeFilter();
+            setDisplayLateFilter();
         }
     }
 
