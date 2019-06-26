@@ -5,8 +5,10 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
+import inventory_app.model.inventory.equipements.Smartphone;
+import inventory_app.model.inventory.equipements.Tablet;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
-import inventory_app.view.tabs.inventory.detailedView.utils.EquipmentDetailedController;
+import inventory_app.view.tabs.inventory.detailedView.EquipmentDetailedController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterController;
 import inventory_app.view.tabs.inventory.filter.utils.FilterControllerLoader;
 import javafx.collections.FXCollections;
@@ -19,11 +21,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.reflections.Reflections;
 
@@ -545,8 +545,10 @@ public class InventoryTableController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     EquipmentRow rowData = row.getItem();
-                    EquipmentDetailedController equipmentDetailedController= new EquipmentDetailedController();
-                    FXMLLoader fxmlLoader =  equipmentDetailedController.loadFrom(rowData.getEquipment().getClass());
+                    loadDetailedView(rowData.getType(), rowData.getEquipment());
+                    /*EquipmentDetailedController equipmentDetailedController= new EquipmentDetailedController();
+                    //FXMLLoader fxmlLoader =  equipmentDetailedController.loadFrom(rowData.getEquipment().getClass());
+                    FXMLLoader fxmlLoader = new FXMLLoader();
                     Parent parent = null;
                     try {
                         parent = fxmlLoader.load();
@@ -559,7 +561,7 @@ public class InventoryTableController implements Initializable {
                     stage.setTitle("Detailed View");
                     Scene scene = new Scene(parent);
                     stage.setScene(scene);
-                    stage.show();
+                    stage.show();*/
                 }
             });
             return row ;
@@ -573,6 +575,81 @@ public class InventoryTableController implements Initializable {
         setTotalCountLabel();*/
         InventoryTableController.equipmentRows = equipmentTable.getItems();
 
+    }
+
+    private void loadDetailedView(String type, Equipment equipment) {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("detailedView/equipmentDetailedView.fxml"));
+        try {
+            loader.load();
+            EquipmentDetailedController controller = loader.getController();
+            controller.setTypeLabel(type);
+            controller.setEquipment(equipment);
+            controller.setDetailedInfo();
+            if (type.equals("Smartphone")) {
+                addSmarphoneFields(controller);
+            } else if (type.equals("Tablet")) {
+                addTabletFields(controller);
+            } else if (type.equals("VRHeadset")) {
+                addVRHeadsetFields(controller);
+            } else if (type.equals("DepthSensor")) {
+                addDepthSensorFields(controller);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*Parent root;
+        try {
+            URL url = new File("src/inventory_app/view/tabs/inventory/detailedView/equipmentDetailedView.fxml").toURL();
+            root = FXMLLoader.load(url);
+            Stage stage = new Stage();
+            stage.setTitle("Details");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        System.out.println(type);
+    }
+
+    private void addDepthSensorFields(EquipmentDetailedController controller) {
+        //NO ADDITIONAL FIELD
+    }
+
+    private void addVRHeadsetFields(EquipmentDetailedController controller) {
+        //NO ADDITIONAL FIELD
+    }
+
+    private void addTabletFields(EquipmentDetailedController controller) {
+        Tablet tablet = (Tablet) controller.getEquipment();
+        Label OSLabel = new Label("OS");
+        TextField OSField = new TextField();
+        OSField.setText(tablet.getOS().toString());
+        controller.addTextField(OSLabel, OSField);
+
+        Label resolutionLabel = new Label("Resolution");
+        TextField resolutionField = new TextField();
+        String resolution = String.valueOf(tablet.getResolution()[0]);
+        resolution += "x";
+        resolution += String.valueOf(tablet.getResolution()[1]);
+        resolutionField.setText(resolution);
+        controller.addTextField(resolutionLabel, resolutionField);
+    }
+
+    private void addSmarphoneFields(EquipmentDetailedController controller) {
+        Smartphone smartphone = (Smartphone) controller.getEquipment();
+        Label OSLabel = new Label("OS");
+        TextField OSField = new TextField();
+
+        OSField.setText(smartphone.getPHONE_OS().toString());
+        controller.addTextField(OSLabel, OSField);
+
+        Label screenSizeLabel = new Label("Screen Size");
+        TextField screenSizeField = new TextField();
+        screenSizeField.setText(String.valueOf(smartphone.getScreenSize()));
+        controller.addTextField(screenSizeLabel, screenSizeField);
     }
 
     public static void addEquipment(Equipment e) {

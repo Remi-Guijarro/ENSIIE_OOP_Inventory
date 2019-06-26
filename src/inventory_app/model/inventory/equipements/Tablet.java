@@ -50,6 +50,10 @@ public class Tablet extends Equipment implements Serializable {
         return resolution;
     }
 
+    public OS getOS() {
+        return os;
+    }
+
     @Override
     public String toString() {
         return "Tablet{" +

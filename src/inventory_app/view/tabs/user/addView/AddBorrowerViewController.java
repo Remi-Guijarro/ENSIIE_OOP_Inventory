@@ -40,7 +40,7 @@ public class AddBorrowerViewController implements Initializable {
         Scene scene = new Scene(root);
         addBorrowerStage.setScene(scene);
         addBorrowerStage.setAlwaysOnTop(true);
-        addBorrowerStage.setResizable(false);
+        addBorrowerStage.setResizable(true);
         addBorrowerStage.show();
 
 
