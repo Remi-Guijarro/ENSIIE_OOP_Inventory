@@ -594,7 +594,15 @@ public class InventoryTableController implements Initializable {
             return row ;
         });
 
-        equipmentTable.setItems(FXCollections.observableArrayList(equipmentRows));
+        ObservableList<EquipmentRow> observableList = FXCollections.observableArrayList(equipmentRows);
+        observableList.addListener(new ListChangeListener<EquipmentRow>() {
+            @Override
+            public void onChanged(Change<? extends EquipmentRow> c) {
+                equipmentTable.refresh();
+                updateTotalCountLabel(c.getList().size());
+            }
+        });
+        equipmentTable.setItems(observableList);
 /*        setTypeFilter();
         setConditionFilterCombo();
         setIsBorrowedFilterCombo();
@@ -602,6 +610,10 @@ public class InventoryTableController implements Initializable {
         setTotalCountLabel();
         InventoryTableController.equipmentRows = equipmentTable.getItems();
 
+    }
+
+    private void updateTotalCountLabel(int size) {
+        this.totalCountLabel.setText("Total Count: " + size);
     }
 
     private void loadDetailedView(String type, Equipment equipment) {

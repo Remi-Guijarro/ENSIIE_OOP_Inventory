@@ -52,6 +52,8 @@ public class AddTabletViewController implements Initializable {
     @FXML
     private ComboBox<Equipment.Location> locationComboBox;
 
+    @FXML
+    private TextField occurenceField;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -95,6 +97,11 @@ public class AddTabletViewController implements Initializable {
                 return null;
             }
         });
+    }
+
+    @FXML
+    private boolean validateOccurence(){
+        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.NUMBER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
     }
 
     private void populateConditionCombo() {
@@ -144,18 +151,19 @@ public class AddTabletViewController implements Initializable {
         if (validateAllFields() && purchaseDatePicker.getValue() != null) {
             int resolutionWidth = Integer.valueOf(resolutionWidthField.getText().trim());
             int resolutionHeight = Integer.valueOf(resolutionHeightField.getText().trim());
-            Tablet tablet= new Tablet(nameField.getText().trim(),
-                    brandField.getText().trim(),
-                    ownerComboBox.getValue(),
-                    Date.from(purchaseDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    Double.valueOf(purchasePriceField.getText().trim()),
-                    conditionComboBox.getValue(),
-                    new int[] {resolutionWidth,resolutionHeight},
-                    OSComboBox.getValue()
-            );
-            tablet.setLocation(locationComboBox.getValue());
-            InventoryTableController.addEquipment(tablet);
-
+            for(int i = 0 ; i < Integer.parseInt(occurenceField.getText()) ; i++ ){
+                Tablet tablet= new Tablet(nameField.getText().trim(),
+                        brandField.getText().trim(),
+                        ownerComboBox.getValue(),
+                        Date.from(purchaseDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Double.valueOf(purchasePriceField.getText().trim()),
+                        conditionComboBox.getValue(),
+                        new int[] {resolutionWidth,resolutionHeight},
+                        OSComboBox.getValue()
+                );
+                tablet.setLocation(locationComboBox.getValue());
+                InventoryTableController.addEquipment(tablet);
+            }
             ((Stage)nameField.getScene().getWindow()).close();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -176,6 +184,7 @@ public class AddTabletViewController implements Initializable {
         return validateName() &&
                 validateBrand() &&
                 validatePrice() &&
-                validateResolution();
+                validateResolution() &&
+                validateOccurence();
     }
 }

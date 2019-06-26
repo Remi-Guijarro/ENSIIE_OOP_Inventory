@@ -49,6 +49,9 @@ public class AddSmartphoneViewController implements Initializable {
     @FXML
     private ComboBox<Equipment.Location> locationComboBox;
 
+    @FXML
+    private TextField occurenceField;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -130,6 +133,11 @@ public class AddSmartphoneViewController implements Initializable {
     }
 
     @FXML
+    private boolean validateOccurence(){
+        return TextFieldValidator.validate(occurenceField, TextFieldValidator.FieldREGEX.NUMBER_REGEX) && Integer.parseInt(occurenceField.getText()) > 0;
+    }
+
+    @FXML
     private boolean validateScreenSize() {
         return TextFieldValidator.validate(screenSizeField, TextFieldValidator.FieldREGEX.NUMBER_REGEX);
     }
@@ -137,18 +145,19 @@ public class AddSmartphoneViewController implements Initializable {
     @FXML
     private void confirmButtonClicked() {
         if (validateAllFields() && purchaseDatePicker.getValue() != null) {
-            Smartphone smartphone = new Smartphone(nameField.getText().trim(),
-                    brandField.getText().trim(),
-                    ownerComboBox.getValue(),
-                    Date.from(purchaseDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    Double.valueOf(purchasePriceField.getText().trim()),
-                    conditionComboBox.getValue(),
-                    OSComboBox.getValue(),
-                    Double.valueOf(screenSizeField.getText().trim())
-            );
-            smartphone.setLocation(locationComboBox.getValue());
-            InventoryTableController.addEquipment(smartphone);
-
+            for(int i = 0 ; i < Integer.parseInt(occurenceField.getText()); i++ ){
+                Smartphone smartphone = new Smartphone(nameField.getText().trim(),
+                        brandField.getText().trim(),
+                        ownerComboBox.getValue(),
+                        Date.from(purchaseDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Double.valueOf(purchasePriceField.getText().trim()),
+                        conditionComboBox.getValue(),
+                        OSComboBox.getValue(),
+                        Double.valueOf(screenSizeField.getText().trim())
+                );
+                smartphone.setLocation(locationComboBox.getValue());
+                InventoryTableController.addEquipment(smartphone);
+            }
             ((Stage)nameField.getScene().getWindow()).close();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -169,6 +178,7 @@ public class AddSmartphoneViewController implements Initializable {
         return validateName() &&
                 validateBrand() &&
                 validatePrice() &&
-                validateScreenSize();
+                validateScreenSize() &&
+                validateOccurence();
     }
 }
