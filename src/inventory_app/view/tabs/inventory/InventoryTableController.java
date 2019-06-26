@@ -2,6 +2,7 @@ package inventory_app.view.tabs.inventory;
 
 import inventory_app.Main;
 import inventory_app.model.inventory.Borrowable;
+import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
@@ -36,7 +37,7 @@ import java.util.Set;
 public class InventoryTableController implements Initializable {
 
     private Reflections reflections;
-    private final String AVAILABLE = "Available";
+    private final String AVAILABLE = "";
 
     @FXML
     private TableView<EquipmentRow> equipmentTable;
@@ -97,6 +98,8 @@ public class InventoryTableController implements Initializable {
 
     @FXML
     private CheckBox displayLateCheckBox;
+
+    private static ObservableList<EquipmentRow> equipmentRows;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -201,11 +204,11 @@ public class InventoryTableController implements Initializable {
                     return false;
                 }
 
-                if (newValue.equals("YES") && !equipmentRow.getBorrower().equals(AVAILABLE)) {
+                if (newValue.equals("YES") && equipmentRow.getBorrower() != null) {
                     return true;
                 }
 
-                if (newValue.equals("NO") && equipmentRow.getBorrower().equals(AVAILABLE)) {
+                if (newValue.equals("NO") && equipmentRow.getBorrower() == null) {
                     return true;
                 }
 
@@ -259,7 +262,9 @@ public class InventoryTableController implements Initializable {
                     return true;
                 }
                 // By borrower
-                if (equipmentRow.getBorrower().toLowerCase().contains(lowerCaseFilter)) {
+                //if (equipmentRow.getBorrower().toLowerCase().contains(lowerCaseFilter)) {
+                if (equipmentRow.getBorrower().getName().toLowerCase().contains(lowerCaseFilter)) {
+
                     return true;
                 }
                 // By reason
@@ -406,8 +411,9 @@ public class InventoryTableController implements Initializable {
     }
 
     @FXML
-    private void openAddEquipmentView(){
-        System.out.println("COUCOU");
+    private void openAddEquipmentView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("addView/addEquipmentView.fxml"));
+        loader.load();
     }
 
     private void openAddBorrowView(String id) throws IOException {
@@ -438,7 +444,7 @@ public class InventoryTableController implements Initializable {
         giveItBackMenu.setOnAction((ActionEvent event) -> {
             EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
             if(item.getReturnDate() != null &&
-                    !item.getBorrower().equalsIgnoreCase(AVAILABLE) &&
+                    item.getBorrower() != null &&
                     !item.getBorrowReason().equalsIgnoreCase(AVAILABLE)){
                 Main.contextContainer.getBorrowingsList().removeBorrowedItem(item.getEquipment());
                 this.populateTableBy(Equipment.class);
@@ -476,12 +482,12 @@ public class InventoryTableController implements Initializable {
         Main.contextContainer.getInventoryManager().getAll().stream().filter(item -> type.isInstance(item)).forEach(equipment -> {
             Borrowing borrowing =  Main.contextContainer.getBorrowingsList().getBorrowerFrom(((Borrowable)equipment));
             String borrowReason = AVAILABLE;
-            String borrowerName = AVAILABLE;
+            Borrower borrower = null;
             Date returnDate = null;
 
             if(borrowing != null){
                 borrowReason = borrowing.getBorrowReason();
-                borrowerName = borrowing.getBorrower().getName();
+                borrower = borrowing.getBorrower();
                 returnDate = borrowing.getReturnDate();
 
             }
@@ -491,7 +497,7 @@ public class InventoryTableController implements Initializable {
                     equipment.getBrand(),
                     equipment.getOwner().getName(),
                     equipment.getCondition().toString(),
-                    borrowerName,
+                    borrower,
                     borrowReason,
                     returnDate,
                     equipment.getLocation(),
@@ -525,21 +531,22 @@ public class InventoryTableController implements Initializable {
         });
 
         equipmentTable.setItems(FXCollections.observableArrayList(equipmentRows));
-        setTypeFilter();
+/*        setTypeFilter();
         setConditionFilterCombo();
         setIsBorrowedFilterCombo();
         setSearchFilter();
-        setTotalCountLabel();
+        setTotalCountLabel();*/
+        InventoryTableController.equipmentRows = equipmentTable.getItems();
 
     }
 
-    @FXML
-    private void onlyDisplayLate() {
-        if (displayLateCheckBox.isSelected()) {
-
-        } else {
-
-        }
+    public static void addEquipment(Equipment e) {
+        Main.contextContainer.getInventoryManager().addEquipment(e);
+        EquipmentRow row = new EquipmentRow(e.getReference(), e.getClass().getSimpleName(),
+                e.getName(), e.getBrand(), e.getOwner().getName(), e.getCondition().toString(),
+                null,null, null, e.getLocation(), e
+        );
+        equipmentRows.add(row);
     }
 
     public TableView<EquipmentRow> getTableView() {
@@ -554,7 +561,7 @@ public class InventoryTableController implements Initializable {
         private String brand;
         private String owner;
         private String condition;
-        private String borrower;
+        private Borrower borrower;
         private String borrowReason;
         private Date returnDate;
         private Equipment.Location location;
@@ -588,7 +595,7 @@ public class InventoryTableController implements Initializable {
             return condition;
         }
 
-        public String getBorrower() {
+        public Borrower getBorrower() {
             return borrower;
         }
 
@@ -604,7 +611,7 @@ public class InventoryTableController implements Initializable {
             return location;
         }
 
-        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, String borrower, String borrowReason, Date returnDate, Equipment.Location location, Equipment equipment) {
+        public EquipmentRow(String id, String type, String name, String brand, String owner, String condition, Borrower borrower, String borrowReason, Date returnDate, Equipment.Location location, Equipment equipment) {
             this.id = id;
             this.type = type;
             this.name = name;

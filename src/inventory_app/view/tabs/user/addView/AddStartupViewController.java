@@ -81,7 +81,7 @@ public class AddStartupViewController implements Initializable {
 
     @FXML
     private boolean validateSIREN() {
-        return TextFieldValidator.validate(SIRENField, TextFieldValidator.FieldREGEX.SIREN);
+        return TextFieldValidator.validate(SIRENField, TextFieldValidator.FieldREGEX.SIREN_REGEX);
     }
 
     @FXML

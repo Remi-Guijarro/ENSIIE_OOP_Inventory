@@ -1,9 +1,7 @@
 package inventory_app.view.tabs.inventory.addView;
 
-import inventory_app.model.inventory.Startup;
-import inventory_app.model.users.Student;
-import inventory_app.model.users.Teacher;
-import inventory_app.view.tabs.user.addView.AddPeopleViewController;
+import inventory_app.model.inventory.equipements.DepthSensor;
+import inventory_app.model.inventory.equipements.Smartphone;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,7 +28,7 @@ public class addEquipmentViewController implements Initializable {
     private ComboBox<Class> equipmentComboBox;
 
     @FXML
-    private AnchorPane userForm;
+    private AnchorPane equipmentForm;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,7 +45,7 @@ public class addEquipmentViewController implements Initializable {
 
         populateEquipmentComboBox();
         displayNamesInCombo();
-        equipmentComboBox.setValue(Student.class);
+        equipmentComboBox.setValue(Smartphone.class);
         setComboListeners();
         displayForm();
     }
@@ -59,7 +57,7 @@ public class addEquipmentViewController implements Initializable {
     }
 
     private void populateEquipmentComboBox() {
-        equipmentComboBox.getItems().addAll(Student.class, Teacher.class,  Startup.class);
+        equipmentComboBox.getItems().addAll(DepthSensor.class, Smartphone.class);
     }
 
     private void displayNamesInCombo() {
@@ -79,7 +77,7 @@ public class addEquipmentViewController implements Initializable {
     }
 
     public void displayForm() {
-        userForm.getChildren().clear();
+        equipmentForm.getChildren().clear();
         switch (equipmentComboBox.getSelectionModel().getSelectedItem().getSimpleName()) {
             case "DepthSensor":
                 displayDepthSensorForm();
@@ -110,7 +108,7 @@ public class addEquipmentViewController implements Initializable {
     private void displaySmartphoneForm() {
         try {
             FXMLLoader loader = loadForm("addSmartphoneView.fxml");
-            AddSmartphoneViewController controller = (AddSmartphoneViewController) loader.getController();
+            //AddSmartphoneViewController controller = (AddSmartphoneViewController) loader.getController();
             //controller.setTypeLabelText("Add Teacher");
             //controller.hideGrade();
         } catch (IOException e) {
@@ -130,7 +128,7 @@ public class addEquipmentViewController implements Initializable {
     private FXMLLoader loadForm(String location) throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource(location));
         Parent root =  loader.load();
-        userForm.getChildren().add(root);
+        equipmentForm.getChildren().add(root);
         return loader;
     }
 

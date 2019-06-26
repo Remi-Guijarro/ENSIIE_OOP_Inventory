@@ -9,7 +9,8 @@ public class TextFieldValidator {
         NAME_REGEX("[a-zA-Z\\S-][a-zéèçA-ZÉÈÇ\\s-]+"),
         EMAIL_REGEX("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$"),
         PHONE_NUMBER_REGEX("^0([0-9]{9})$"),
-        SIREN("[0-9]{3}[ \\.\\-]?[0-9]{3}[ \\.\\-]?[0-9]{3}"),
+        SIREN_REGEX("[0-9]{3}[ \\.\\-]?[0-9]{3}[ \\.\\-]?[0-9]{3}"),
+        NUMBER_REGEX("\\d+(\\.\\d{1,2})?"),
         SOCIAL_SECURITY_NUMBER_FR_REGEX(
                 "^" +
                         "([1278])" +

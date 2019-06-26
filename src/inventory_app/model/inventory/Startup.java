@@ -16,7 +16,7 @@ public class Startup implements Borrower,Serializable {
     }
 
     /**
-     * @return SIREN  : of the company
+     * @return SIREN_REGEX  : of the company
      */
     public String getSIREN() {
         return id;
