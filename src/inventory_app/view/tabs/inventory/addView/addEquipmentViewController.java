@@ -1,7 +1,7 @@
 package inventory_app.view.tabs.inventory.addView;
 
-import inventory_app.model.inventory.equipements.DepthSensor;
 import inventory_app.model.inventory.equipements.Smartphone;
+import inventory_app.model.inventory.equipements.Tablet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -57,7 +57,7 @@ public class addEquipmentViewController implements Initializable {
     }
 
     private void populateEquipmentComboBox() {
-        equipmentComboBox.getItems().addAll(DepthSensor.class, Smartphone.class);
+        equipmentComboBox.getItems().addAll(Tablet.class, Smartphone.class);
     }
 
     private void displayNamesInCombo() {
@@ -80,7 +80,7 @@ public class addEquipmentViewController implements Initializable {
         equipmentForm.getChildren().clear();
         switch (equipmentComboBox.getSelectionModel().getSelectedItem().getSimpleName()) {
             case "DepthSensor":
-                displayDepthSensorForm();
+                displayTabletForm();
                 break;
             case "Smartphone":
                 displaySmartphoneForm();
@@ -95,14 +95,11 @@ public class addEquipmentViewController implements Initializable {
     }
 
     private void displayVRHeadsetForm() {
+        //TODO
     }
 
-    private void displayTabletForm() {
-        try {
-            loadForm("addStartupView.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void displayDepthSensorForm() {
+        //TODO
     }
 
     private void displaySmartphoneForm() {
@@ -116,10 +113,9 @@ public class addEquipmentViewController implements Initializable {
         }
     }
 
-    private void displayDepthSensorForm() {
+    private void displayTabletForm() {
         try {
-            FXMLLoader loader = loadForm("addDepthSensorView.fxml");
-            //((AddDepthSensorViewController) loader.getController());//.setTypeLabelText("Add Student");
+            FXMLLoader loader = loadForm("addTabletView.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
