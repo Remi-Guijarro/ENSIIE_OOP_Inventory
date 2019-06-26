@@ -33,15 +33,16 @@ public class Main extends Application{
     private Stage window;
 
     private static void startContext(){
-        Student studentA = new Student("0123456789","firstNameA","surnameA", "adresseA","1234567890","email@email.email",Student.Grade._2A);
-        Student studentB = new Student("0123456788","firstNameB","surnameB", "adresseB","1234557890","email2@email2.email",Student.Grade._1A);
-        Teacher teacher = new Teacher("0128484937","TeacherA","Teacher Surname","10 rue de l'exemple","0123654398","prof@mail.fr");
+        Student studentA = new Student("0123456789","Henry ","Bol", "13 rue de l'exemple","0123564387","email@email.fr",Student.Grade._2A);
+        Student studentB = new Student("0123456788","Alexandre","Le Grand", "56 rue de la guerre","02345763456","Alexandre.leGrand@gmail.fr",Student.Grade._1A);
+        Teacher teacher = new Teacher("0128484937","Emma","Clavier","10 rue de l'exemple","08346745329","emma.cla@gmail.fr");
         Incubator incubator1 = new Incubator("C20");
         Incubator incubator2 = new Incubator("THE BEST INCUBATOR");
-        Startup startup1 = new Startup("Tarbernak","345",incubator1);
-        Startup startup2 = new Startup("DebutHaut","97986876",incubator1);
+        Startup startup1 = new Startup("Natural Solutions","345",incubator1);
+        Startup startup2 = new Startup("ArianeWorks","97986876",incubator1);
         Startup startup3 = new Startup("Viser La Lune","897987987",incubator2);
         School school = new School("Ensiie");
+        School schoolR = new School("Ecole Random");
         Users b = new Users();
         b.addUser(studentA);
         b.addUser(studentB);
@@ -49,13 +50,10 @@ public class Main extends Application{
         b.addUser(startup2);
         b.addUser(startup3);
         b.addUser(teacher);
-        for(int i = 0 ; i < 10 ; i++){
-            b.addUser(new Student("01234567"+i,"firstName" +i,"surname" + i, "adresse" + i,"12345578" + i,"email2@email2.email" + i,Student.Grade._1A));
-        }
 
         Tablet tab =  new Tablet("Oxygen6","Apple",school,Calendar.getInstance().getTime(),399.0,Tablet.OS.LINUX,new int[]{1920,1080});
         tab.setLocation(Equipment.Location.ROOM_199);
-        Tablet tab2 =  new Tablet("Oxygen7","Apple",school,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
+        Tablet tab2 =  new Tablet("Oxygen7","Apple",schoolR,Calendar.getInstance().getTime(),499.0,Tablet.OS.LINUX,new int[]{1920,1080});
         tab2.setLocation(Equipment.Location.ROOM_266);
 
         Smartphone smartphone1 = new Smartphone("Iphone X","Apple",school,Calendar.getInstance().getTime(),1500,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,8);
@@ -63,9 +61,9 @@ public class Main extends Application{
         Smartphone smartphone2 = new Smartphone("Iphone XV","Apple",school,Calendar.getInstance().getTime(),15000,Equipment.Condition.GOOD,Smartphone.PHONE_OS.IOS,20);
         smartphone2.setLocation(Equipment.Location.ROOM_266);
 
-        DepthSensor sensor = new DepthSensor("RealSense", "Intel", school, Calendar.getInstance().getTime(), 224.67);
+        DepthSensor sensor = new DepthSensor("RealSense", "Intel", schoolR, Calendar.getInstance().getTime(), 224.67);
         sensor.setLocation(Equipment.Location.ROOM_301);
-        VRHeadset vrHeadset = new VRHeadset("HTC Vive","HTC",school,Calendar.getInstance().getTime(),670,Equipment.Condition.GOOD);
+        VRHeadset vrHeadset = new VRHeadset("HTC Vive","HTC",schoolR,Calendar.getInstance().getTime(),670,Equipment.Condition.GOOD);
         vrHeadset.setLocation(Equipment.Location.ROOM_301);
         inventory_app.model.inventory.InventoryManager inventoryManager = InventoryManager.getInstance();
         Inventory inventory = Inventory.getInstance();
@@ -77,7 +75,7 @@ public class Main extends Application{
             Tablet tablet = new Tablet("Oxygen" + i,"Apple",school,Calendar.getInstance().getTime(),499.0 * i + 50,condition,new int[]{1920,1080},Tablet.OS.LINUX);
             tablet.setLocation(Equipment.Location.ROOM_266);
             inventory.addEquipment(tablet);
-            Smartphone smartphone = new Smartphone("Iphone X" + i,"Apple",school,Calendar.getInstance().getTime(),1500 * i +100,condition,Smartphone.PHONE_OS.IOS,4 + i);
+            Smartphone smartphone = new Smartphone("Iphone X" + i,"Apple",schoolR,Calendar.getInstance().getTime(),1500 * i +100,condition,Smartphone.PHONE_OS.IOS,4 + i);
             smartphone.setLocation(Equipment.Location.ROOM_199);
             inventory.addEquipment(smartphone);
             DepthSensor depthSensor =  new DepthSensor("RealSense" + i, "Intel", school, Calendar.getInstance().getTime(), 224.67 + i,condition);
