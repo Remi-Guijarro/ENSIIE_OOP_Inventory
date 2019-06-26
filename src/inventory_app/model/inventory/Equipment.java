@@ -114,6 +114,14 @@ public abstract class Equipment implements Borrowable,Serializable {
         return purchasePrice;
     }
 
+    public static Map<String, Integer> getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(Map<String, Integer>lastId) {
+        Equipment.lastId = lastId;
+    }
+
     @Override
     public void setBorrowed(Date borrowDate, String reason, Borrower borrower) {
         BorrowingsList.getInstance().addBorrowedItem(this, borrowDate, reason, borrower);

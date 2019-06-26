@@ -121,6 +121,7 @@ public class Main extends Application{
         logger = Logger.getLogger(String.valueOf(Main.class));
         try{
             contextContainer =  database.load();
+            //contextContainer.computeStaticFields();
         }catch (IOException | ClassNotFoundException e){
             startContext();
             logger.log(Level.SEVERE,"Save not found.An error append during saves loading process. A template context is being imported");
