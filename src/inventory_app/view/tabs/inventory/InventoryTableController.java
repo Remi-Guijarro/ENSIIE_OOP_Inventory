@@ -5,10 +5,8 @@ import inventory_app.model.inventory.Borrowable;
 import inventory_app.model.inventory.Borrower;
 import inventory_app.model.inventory.Borrowing;
 import inventory_app.model.inventory.Equipment;
-import inventory_app.model.inventory.equipements.DepthSensor;
 import inventory_app.model.inventory.equipements.Smartphone;
 import inventory_app.model.inventory.equipements.Tablet;
-import inventory_app.model.inventory.equipements.VRHeadset;
 import inventory_app.view.tabs.inventory.addView.AddBorrowingViewController;
 import inventory_app.view.tabs.inventory.detailedView.EquipmentDetailedController;
 import inventory_app.view.tabs.inventory.filter.EquipmentAttributesFilterController;
@@ -479,7 +477,7 @@ public class InventoryTableController implements Initializable {
         MenuItem deleteItem = new MenuItem("Delete");
         deleteItem.setOnAction((ActionEvent) -> {
             EquipmentRow item = ((EquipmentRow)  equipmentTable.getSelectionModel().getSelectedItem());
-            Main.contextContainer.getInventoryManager().getAll().remove(item.getEquipment());
+            Main.contextContainer.getInventoryManager().removeEquipment(item.getEquipment());
             equipmentRows.remove(item);
             equipmentTable.refresh();
         });

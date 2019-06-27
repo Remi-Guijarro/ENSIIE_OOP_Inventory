@@ -135,4 +135,8 @@ public final class InventoryManager implements Serializable {
         }
         return count;
     }
+
+    public void removeEquipment(Equipment e) {
+        inventory.getEquipments().remove(e);
+    }
 }
