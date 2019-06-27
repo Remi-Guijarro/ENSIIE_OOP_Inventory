@@ -17,8 +17,17 @@ public class SerializeDatabase implements Savable, Loadable{
      */
     @Override
     public ContextContainer load() throws IOException, ClassNotFoundException {
-        //FileInputStream file = new FileInputStream(String.valueOf(this.getClass().getClassLoader().getResource("saves/save.ser")));
-        FileInputStream file = new FileInputStream("resources/saves/save.ser");
+        FileInputStream file = null;
+        // Two try/catch: quick fix serialization bug when running program from jar
+        try {
+            file = new FileInputStream(String.valueOf(this.getClass().getClassLoader().getResource("saves/save.ser")));
+        } catch (FileNotFoundException e) {
+            try {
+                file = new FileInputStream("resources/saves/save.ser");
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
         ObjectInputStream in = new ObjectInputStream(file);
         ContextContainer save = (ContextContainer)in.readObject();
         in.close();
@@ -33,8 +42,16 @@ public class SerializeDatabase implements Savable, Loadable{
     @Override
     public void save(ContextContainer contextContainer) {
         try {
-            //FileOutputStream file = new FileOutputStream(String.valueOf(this.getClass().getClassLoader().getResource("saves/save.ser")));
-            FileOutputStream file = new FileOutputStream("resources/saves/save.ser");
+            FileOutputStream file = null;
+            try {
+                file = new FileOutputStream(String.valueOf(this.getClass().getClassLoader().getResource("saves/save.ser")));
+            } catch (FileNotFoundException e) {
+                try {
+                    file = new FileOutputStream("resources/saves/save.ser");
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
             ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(contextContainer);
             out.close();
